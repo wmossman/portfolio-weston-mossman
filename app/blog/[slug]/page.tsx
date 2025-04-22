@@ -11,10 +11,12 @@ export async function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug)
+export async function generateMetadata(props) {
+  const { params } = await props;
+  const posts = await getBlogPosts();
+  const post = posts.find((post) => post.slug === params.slug);
   if (!post) {
-    return
+    return;
   }
 
   let {
