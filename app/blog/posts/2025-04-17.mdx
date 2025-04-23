@@ -1,40 +1,58 @@
 ---
-title: 'Day One: Hitting the Ground Running with Next.js'
+title: 'Day One: Rapid Portfolio Kickoff'
 publishedAt: '2025-04-17'
-summary: 'A rapid‑fire setup at a coffee shop, template selection, and DNS configuration let me go from zero to a local portfolio in two hours.'
+summary: 'Bootstrapped a Next.js portfolio template in two hours from a coffee shop with zero prior setup.'
 ---
 
-## Getting Started Quickly
+## Time Spent
 
-I kicked things off at 11th Hour Coffee—because where else does one set up a laptop? With a latte in hand and ChatGPT whispering best practices, I prioritized maintainability over premature experiments (sorry, Cloudflare Workers… for now).
+2 hours
 
-- **Template Choice**  
-  I grabbed the official Next.js portfolio & blog template from Vercel—instant boilerplate, minimal headaches.
-- **Two‑Hour Sprint**  
-  From a naked Mac with zero terminal setup to a localhost site on my custom domain (yes, it’s literally my name) in about two hours.
-- **ChatGPT Powered**  
-  Helped me decide routes and architecture without over‑engineering.
+## Story Points Completed
 
-## Next Steps
+~~0~~
 
-1. **Deploy to Cloudflare**  
-   Get the site live at westonmossman.com.
-2. **Deliverable Slices**  
-   Push a basic starter site to potential leads—styling and bells & whistles come later.
-3. **CMS & Blog**  
-   Plug in a CMS API, test new posts, and iterate on what’s easiest to manage.
+## Complexity per Hour
 
-### Analytics
+0 pts/hr
 
-- Define what success looks like before dropping in Google Analytics—or, you know, Plausible, Fathom, or whatever won’t make me lose sleep.
+## Key Learnings and Thoughts
 
-## Tech Stack Musings
+- ChatGPT accelerates initial architecture decisions.
+- Vercel’s Next.js starter provides reliable defaults.
+- Early MDX “two React versions” bug is a perfect AI-assisted debug case.
+- Prioritizing maintainability avoids future tech-debt traps.
 
-- **TypeScript**: That sweet spot between “I hope this works” and “I can’t believe it caught that bug at compile time.”
-- **React**: JSX feels like mixing HTML and JavaScript in a Ritual of Productivity™.
-- **Next.js**: Opinionated file-based routing, built‑in SSR, and a community that doesn’t shy away from sensible defaults.
+## Unfinished Tasks
 
-## Domain Name, DNS, Hosting
+- Deploy to Cloudflare and serve from `westonmossman.com`.
+- Add resume, experiences, photos and this blog.
+- Define analytics goals.
 
-- **westonmossman.com**: Still available—proof that not everyone cares about hoarding domain names.
-- **Cloudflare DNS & Hosting**: One dashboard to rule them all, with the bonus of playing later with Workers and Durable Objects.
+## Journal Gist
+
+In two hours at 11th Hour Coffee, I leveraged ChatGPT to accelerate architecture and set up a Vercel Next.js portfolio and blog template from a blank Mac to a live localhost domain pointing at westonmossman.com. I configured DNS, validated local routing, and identified an MDX “two React versions” bug that’s ideal for AI-assisted debugging. Next steps include deploying to Cloudflare, integrating a CMS via REST/Next.js, and defining analytics goals. This sprint showcases my ability to rapidly prototype a maintainable, high-quality web application with minimal setup overhead.
+
+## Field Journal
+
+- Step one: I set up my laptop at 11th Hour Coffee downtown, as one does, and got started.
+- I got started with the help of ChatGPT, which helped with early decision making for my use-case and goals. Focusing on maintainability and quick setup were a goal, without getting too embedded into a system that wouldn’t serve me or the app, like prematurely embedding the app into Cloudflare Workers which could increase setup time and reduce maintainability if I decide to go a different route, despite being some really cool technology. All a learning exploration.
+- To get going really quickly and minimize time spent on boilerplate, I used a portfolio & blog template in Next.js offered by Vercel, the org that authors and maintains Next.js.
+- With this support, I was able to go from a totally naked Mac computer without any previous terminal setup, to having DNS configured domain to my name (that also **is** my name), with a decent looking portfolio website running on localhost, all in about two hours.
+- Next steps are to get the app deployed to Cloudflare and served from westonmossman.com, then I will get a totally starter-app-styled portfolio out to some leads, custom styling and features can come later, useful deliverable slices every day! Will add my resume, some experiences, photos, and THIS blog that I’m currently writing in a Google Doc. From then on I can just use whatever blog functionality there is as I write it, which will also serve as a testing ground for what is as easy to manage as possible so I don’t get too deep into a system that kinda sucks.
+- Excited to get the blog on a CMS API and really dig deep into the REST/Next.js integration layer.
+
+- **Analytics**  
+  What are my analytics goals
+
+- **React, Next, TypeScript**
+
+  - TypeScript is a perfect blend between two worlds, the flexibility and isomorphic consistency, combined with development and build safeguards to prevent most issues. After a bit of setup it speeds up development a lot.
+  - React, I love JSX and find the whole ecosystem rather intuitive and physical. Functional components, hooks, and contexts are great ways to provide a very visually structured way to both organize and stitch together modular code for an entire webapp, with minimal need to refactor when you want to share components.
+  - Next.js, I like the opinionated decisions that the Next community has made both around config and around app layout. It’s a quick way to start up with SSR, file-based routes, clean cohesion between static pages and dynamic pages, and I also just plain wanted to get more familiar and have fun with Next.js for future projects, despite this portfolio and blog only NEEDING a CMS. If I were to implement a portfolio like this for somebody else, I would likely use a much simpler and lighter CMS + React combo.
+
+- **Domain name, DNS, hosting**
+  - Can’t go wrong with my full name.com
+  - Fortunately an imposter hadn’t come along and grabbed it yet
+  - Grabbed it from Cloudflare and registered DNS with Cloudflare as well
+  - Hosting on Cloudflare to keep it simple and connected, with the opportunity to test out Workers and Durable Objects for fun later down the line

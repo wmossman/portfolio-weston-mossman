@@ -1,0 +1,88 @@
+---
+title: 'Day Three: AI Augmentation & Workflow'
+publishedAt: '2025-04-22'
+summary: 'Tested AI coding agents, nailed time tracking, and planned future content with clear story points.'
+---
+
+## Time Spent
+
+5 hours
+
+## Story Points Completed
+
+~~26~~
+
+## Complexity per Hour
+
+5.2 pts/hr (going up!)
+
+## Key Learnings and Thoughts
+
+- RAG-enabled AI agents use up-to-date docs to improve suggestions.
+- AI excels at boilerplate and quick fixes but requires human code review.
+- Detailed time tracking (Toggl, WakaTime) safeguards forecasts and work-life balance.
+
+## Unfinished Tasks
+
+- Host preview build and share with leads.
+- Evaluate a project management tool if task load grows.
+- Define analytics goals.
+
+## Journal Gist
+
+Over five hours I integrated a RAG-enabled VSCode AI agent with Context7 to automate debugging of duplicate React installs, resolve MDX quirks, and generate Next/Previous blog navigation—completing 26 story points at 5.2 pts/hr. I instituted Toggl Track for precise, gamified time tracking and mapped all past projects in Miro with a tag taxonomy for efficient content planning. AI-assisted tasks included writing tests, rendering a resume PDF download, and refining blog content under careful human oversight to catch deprecated settings. Combining AI tooling, rigorous workflows, and systematic planning to deliver high-quality web features rapidly.
+
+## Field Journal
+
+- 3 day weekend and 11 year anniversary with my partner complete! Coffee on the table, laptop out, time to get implementing.
+- **AI thoughts**
+  - I plan to try out the new VSCode agent AI mode, where the AI has access to run commands, install things, test, etc.—like a really fast pair programmer that just needs some steady context and guidance from you as you support each other towards the solution.
+  - The main issue with these AI code tools is context, meaning that the training data for the model is almost always out of date. So I have found Context7, an MCP framework with TONS OF example cases in its extremely powerful documentation to provide the AI Agent I’m working with to reference for up-to-date solutions. This leads to a very powerful RAG-based code agent. RAG is the unfortunate acronym for Retrieval Augmented Generation, essentially an LLM that can gather significant amounts of data from outside its neural network to generate output.
+- **Time thoughts**
+  - Tracking actual time is crucial, for tracking agility and projecting timelines, as well as managing billable hours with contexts to send to clients, and to track the consulting value of a project.
+  - On top of this, time tracking can be gamified, helping keep focused, time-blocking different categories to make sure we don’t go off the deep end into a distraction, work too long and burn out, or forget about important life routines and work-life-balance ratios.
+  - I have found an app called Toggl Track that has some great tracking features, an awesome Android Widget (the fewer steps to use, the exponentially more likely I am to stick with it), as well as a browser extension. I will be using this for time tracking.
+  - If I want to get more granular with time tracking for my engineering projects, WakaTime plugin can measure time spent per language, while testing, etc.
+- **Portfolio content thoughts**
+  - I have done a LOT of projects with varying contexts and categories. I’ll want to splay them all out and think about tagging them for filtering. This could be done in Miro. I love Miro!
+- **Short brain dump for now**
+  - **Product Design**: TheHomy
+  - **Engineering projects**: Hippo react migration; Hippo Policy Sales Flow Product Presentation Service
+  - **Manufacturing projects**: Waste-negative enchanted 8’ tall tree for kids museum
+  - **Video projects**: Docuseries; Minidoc; Halloween video
+  - **Presentations**: Springboard 1 and 2
+  - **Workshops**: Convergence; Shadow Shares
+  - **Events & Exhibitions**: Circle Church: Northern Lights & Impermanence; MAH Frequency; Shaping Tomorrow
+  - **Designs**: Flyers; Swellcycle brochure
+  - **Org / Governance**: LLC Bylaws and formation; Collective Charter; Co-op bylaws; General plans
+- **Story points for tasks**
+  - Install vscode agent mode & Context7 – 5 story points
+  - Debug the multi-react issue with this agent – 5 story points
+  - Install Prettier (try out the agent with this as well) – 2 story points
+  - Try out letting Agent create next and previous buttons on the blogs – 3 story points
+  - Create tests – 3 story points
+  - Get my resume rendered on a page, with a download link – 5 story points
+  - Update the Blog content to be a bit more concise, a bit more organized, and include this rich text! – 3 story points
+  - Stretch: Host it and send it to somebody! – 8 story points
+  - **Total**: 26 story points (Stretch additional 8 story points)
+- **Future Plans**
+  - Looking at that section above, it’s starting to look like I need a project management app. I use Todoist personally, so I’ll give that a try if things get complicated enough. The goal is to get this up and running fast without doing too much integration in systems that I already have a lot of experience with and won’t need until the consulting business is up and running. For now, just managing tasks here works.
+- **Notes as I work**
+  - Grabbed a trial of Copilot Pro, configured for VSCode, installed all updates, installed Context7, followed a few tutorials, and we’re off to the races.
+  - Let’s try it out!
+  - Alright that was an awesome learning experience.
+  - Copilot agent with Context7 was pretty smart and really fast. It was great for quickly getting answers, installing packages, adding boilerplate, etc.
+  - Two issues I noticed:
+    1. Some of the Next config it added was deprecated. Not a huge issue, just asked it to fix the issue. But then it also deleted some of the config I added myself. Always code review your AI pair programmer. I bet I can get more clear about my request in the future, like “please check for and only modify erroneous config entries” or something similar.
+    2. While it was amazing at quickly running through dependencies to determine if there were multiple installations of React, it eventually told me “no there are not multiple installations of React” which meant that, if Copilot was right, the issue was something arcane. Being that this project was generated from a Vercel official template, this seemed unlikely. I looked myself and low and behold, in the Next MDX component it had it’s own imported React. Nice. So a quick look online sent me to a Github issue with the fix, some simple config hack.
+- **Blog AI try**
+  - I just tried describing a product change, with some technical guidance, to Copilot to see how it would do. The product change: a “Previous” and “Next” button on the blog renderer page. I described the expected output, gave it some hints on where to find examples, and suggested some corner cases, and hit go. And BAM! It did it. Grabbed the list of blogs, sorted it like I suggested, found the current blog, and then created two buttons on the page that routed forward and back, disabling the link when there was no blog in that direction.
+  - Checked the code and everything looks good, it even styled it with Tailwind.
+  - THIS is the eureka moment: I am now an incredibly empowered engineering manager with access to a super fast, super smart engineer that, when you are clear with what you want, can get simple things done pretty much exactly as you want.
+  - Software engineering comes down to determining exactly what you want from the product, and architecting a well-informed solution that is broken down into simple bite-sized tasks that rarely require all too much skill to do on their own. A human handling the product context, architecture, and oversight to make sure things fit together well, and an AI handling the bite sized pieces, is a great way to turbocharge development speed. Considering that you can also chat with the AI about architecture, tests, and tons of other things, the process of development has just become considerably more conversational and relevant, freeing up time for our brains to focus on the things that humans are best at, communicating with other humans, making creative decisions, and being accountable for what we create.
+- **Now to try tests**
+  - I am going to ask it to generate tests for the blog renderer, with test cases to make sure mdx renders with expected text, and that the routing buttons work as expected. Let’s see how it does.
+  - Not bad. The test cases needed some massaging to handle some bugs, but it came up with a few solid tests that did what I asked it to do. I actually fixed a test myself that rendered twice within the same test, which appended the component twice leading to multiples of each object showing up. In the process I realized “huh, I bet Copilot could have done this faster”. Next time! Old habits of, well, doing the thing, die hard I guess.
+- **Resume**
+  - Got the whole resume page functioning in like 10 minutes. Looks and functions great, and I’m learning about Next.js as I go by asking Copilot questions. Tests are written. On hour 5, so let’s transition to updating the blog content and getting things hosted, which may be a tomorrow thing.
+  - Time to commit this to the blog!
