@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { formatDate, getBlogPosts } from 'app/blog/utils';
 import { baseUrl } from 'app/sitemap';
+import Link from 'next/link';
 
 export async function generateStaticParams() {
   let posts = getBlogPosts();
@@ -54,7 +55,18 @@ export async function generateMetadata(props) {
 }
 
 export default function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
+  let allBlogs = getBlogPosts();
+  // Sort blogs by publishedAt descending (newest first)
+  allBlogs.sort((a, b) => {
+    if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
+      return -1;
+    }
+    return 1;
+  });
+  let currentIndex = allBlogs.findIndex((p) => p.slug === params.slug);
+  let prevPost = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
+  let nextPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
+  let post = allBlogs[currentIndex];
 
   if (!post) {
     notFound();
@@ -62,6 +74,27 @@ export default function Blog({ params }) {
 
   return (
     <section>
+      {/* Previous/Next navigation */}
+      <div className="flex justify-between items-center mb-6">
+        {prevPost ? (
+          <Link href={`/blog/${prevPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
+            <span aria-hidden="true">←</span> Previous
+          </Link>
+        ) : (
+          <span className="text-neutral-400 flex items-center gap-1 cursor-not-allowed select-none">
+            <span aria-hidden="true">←</span> Previous
+          </span>
+        )}
+        {nextPost ? (
+          <Link href={`/blog/${nextPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
+            Next <span aria-hidden="true">→</span>
+          </Link>
+        ) : (
+          <span className="text-neutral-400 flex items-center gap-1 cursor-not-allowed select-none">
+            Next <span aria-hidden="true">→</span>
+          </span>
+        )}
+      </div>
       <script
         type="application/ld+json"
         suppressHydrationWarning
