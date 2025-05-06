@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Project } from '../utils';
+import { Tag } from './Tag';
 
 function stringToColor(str: string) {
   // Simple hash to HSL color
@@ -20,6 +21,7 @@ export function ProjectCard({ project, onClick, asLink = true }: {
   const card = (
     <div
       className="bg-white dark:bg-neutral-900 rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer border border-neutral-200 dark:border-neutral-800"
+      style={{ height: 420 }}
       onClick={onClick}
       data-testid={`project-card-${project.slug}`}
     >
@@ -27,22 +29,17 @@ export function ProjectCard({ project, onClick, asLink = true }: {
         src={project.image}
         alt={project.title}
         width={400}
-        height={200}
-        className="rounded mb-2 object-cover w-full h-40"
+        height={186}
+        className="rounded mb-2 object-cover w-full"
+        style={{ height: 186, objectFit: 'cover' }}
       />
-      <h2 className="font-bold text-lg mb-1">{project.title}</h2>
-      <div className="flex flex-wrap gap-1 mb-2">
+      <h2 className="font-bold text-lg mb-1 line-clamp-2 min-h-[58px] max-h-[58px]">{project.title}</h2>
+      <div className="flex flex-wrap gap-1 mb-2 min-h-[58px] max-h-[58px] overflow-hidden" style={{ WebkitLineClamp: 2 }}>
         {project.tags.map(tag => (
-          <span
-            key={tag}
-            className="px-2 py-0.5 rounded-full text-xs font-medium"
-            style={{ background: stringToColor(tag), color: '#222' }}
-          >
-            {tag}
-          </span>
+          <Tag key={tag} tag={tag} />
         ))}
       </div>
-      <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-2">{project.shortDescription}</p>
+      <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-2 line-clamp-2 min-h-[58px] max-h-[58px]">{project.summary}</p>
     </div>
   );
   return asLink ? (

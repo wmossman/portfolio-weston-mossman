@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import yaml from 'js-yaml';
 
 export type MDXMetadata = {
   title: string;
@@ -15,30 +16,16 @@ export function parseFrontmatter(fileContent: string) {
   if (!match) return { metadata: {}, content: fileContent };
   let frontMatterBlock = match[1];
   let content = fileContent.replace(frontmatterRegex, '').trim();
-  let frontMatterLines = frontMatterBlock.trim().split('\n');
   let metadata: any = {};
-  let currentKey = '';
-  frontMatterLines.forEach((line) => {
-    if (/^\s+- /.test(line)) {
-      // YAML array item
-      if (currentKey) {
-        metadata[currentKey] = metadata[currentKey] || [];
-        metadata[currentKey].push(line.replace(/^\s+- /, '').trim());
-      }
-    } else {
-      let [key, ...valueArr] = line.split(': ');
-      let value = valueArr.join(': ').trim();
-      value = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
-      metadata[key.trim()] = value;
-      currentKey = key.trim();
-    }
-  });
-
-  // After parsing, ensure tags is always an array if present
+  try {
+    metadata = yaml.load(frontMatterBlock) || {};
+  } catch (e) {
+    metadata = {};
+  }
+  // Always ensure tags is an array if present
   if (metadata.tags && !Array.isArray(metadata.tags)) {
     metadata.tags = [metadata.tags];
   }
-
   return { metadata, content };
 }
 

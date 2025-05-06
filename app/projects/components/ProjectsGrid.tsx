@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ProjectCard, MoreComingCard } from './ProjectCard';
+import { Tag } from './Tag';
 
 function getAllTags(projects: any[]) {
   const tagSet = new Set<string>();
@@ -27,7 +28,7 @@ export default function ProjectsGrid({ projects }: { projects: any[] }) {
       : projects.filter(p => activeTags.every(tag => p.tags.includes(tag)));
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-8">
+    <main className="max-w-5xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Projects</h1>
       <div className="flex flex-wrap gap-2 mb-6">
         {tags.map(tag => {
@@ -35,18 +36,18 @@ export default function ProjectsGrid({ projects }: { projects: any[] }) {
           return (
             <button
               key={tag}
-              className={`px-3 py-1 rounded-full text-xs font-semibold border transition focus:outline-none ${
+              className={`px-3 py-1 rounded-full text-xs font-semibold border transition focus:outline-none flex items-center gap-1 ${
                 active
                   ? 'border-black dark:border-white scale-105'
                   : 'border-neutral-300 dark:border-neutral-700 opacity-70'
               }`}
-              style={{ background: stringToColor(tag), color: '#222' }}
+              style={{ background: 'transparent', borderColor: active ? undefined : undefined }}
               onClick={() =>
                 setActiveTags(active ? activeTags.filter(t => t !== tag) : [...activeTags, tag])
               }
               data-testid={`tag-${tag}`}
             >
-              {tag}
+              <Tag tag={tag} />
             </button>
           );
         })}

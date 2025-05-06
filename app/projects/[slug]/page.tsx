@@ -3,6 +3,7 @@ import { CustomMDX } from 'app/components/mdx';
 import { getMDXData } from 'app/components/mdx-utils';
 import Image from 'next/image';
 import path from 'path';
+import { Tag } from 'app/projects/components/Tag';
 
 export async function generateStaticParams() {
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
@@ -26,6 +27,13 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         />
       )}
       <h1 className="text-3xl font-bold mb-4">{metadata.title}</h1>
+      {metadata.tags && metadata.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1 mb-4">
+          {metadata.tags.map((tag: string) => (
+            <Tag key={tag} tag={tag} />
+          ))}
+        </div>
+      )}
       <div className="prose dark:prose-invert">
         <CustomMDX source={content} />
       </div>
