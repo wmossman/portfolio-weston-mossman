@@ -11,13 +11,9 @@ export default function Page() {
         width={500}
         height={500}
       />
-      <h1 className="mb-8 text-4xl font-semibold tracking-tighter">
-        {landingPageContent.myName}
-      </h1>
+      <h2 className="my-8 text-2xl">{landingPageContent.landingHook}</h2>
       <p className="mb-4">{landingPageContent.landingBlurb}</p>
-      <div className="my-8">
-        <h2 className="text-xl">{landingPageContent.landingCTA}</h2>
-      </div>
+      <h2 className="my-8 text-2xl">{landingPageContent.landingCTA}</h2>
     </section>
   );
 }
