@@ -30,8 +30,8 @@ export function ProjectCard({ project, onClick, asLink = true }: {
         alt={project.title}
         width={400}
         height={186}
-        className="rounded mb-2 object-cover w-full"
-        style={{ height: 186, objectFit: 'cover' }}
+        className="rounded mb-2 object-contain w-full"
+        style={{ height: 186, objectFit: 'contain' }}
       />
       <h2 className="font-bold text-lg mb-1 line-clamp-2 min-h-[58px] max-h-[58px]">{project.title}</h2>
       <div className="flex flex-wrap gap-1 mb-2 min-h-[58px] max-h-[58px] overflow-hidden" style={{ WebkitLineClamp: 2 }}>
@@ -55,7 +55,7 @@ export function MoreComingCard() {
         alt="More coming soon"
         width={400}
         height={200}
-        className="rounded mb-2 object-cover w-full h-40 opacity-50"
+        className="rounded mb-2 object-contain w-full h-40 opacity-50"
       />
       <h2 className="font-bold text-lg mb-1 text-neutral-400">More on the way!</h2>
     </div>

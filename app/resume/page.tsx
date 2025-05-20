@@ -3,7 +3,7 @@ export default function ResumePage() {
     <section>
       <h1 className="mb-8 text-4xl font-semibold tracking-tighter">Resume</h1>
       <img
-        src="/images/Weston Mossman Resume - Senior Full Stack Software Engineer & Creative Consultant.jpg"
+        src="/images/Weston Mossman Resume.webp"
         alt="Resume"
         style={{ width: '100%', height: 'auto', display: 'block', marginBottom: '2rem' }}
       />

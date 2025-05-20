@@ -13,7 +13,7 @@ describe('ResumePage', () => {
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute(
       'src',
-      '/images/Weston Mossman Resume - Senior Full Stack Software Engineer & Creative Consultant.jpg'
+      '/images/Weston Mossman Resume.webp'
     );
   });
 

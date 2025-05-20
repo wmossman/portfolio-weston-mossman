@@ -23,7 +23,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
           alt={metadata.title}
           width={800}
           height={400}
-          className="rounded mb-4 w-full h-64 object-cover"
+          className="rounded mb-4 w-full h-80 object-contain"
         />
       )}
       <h1 className="text-3xl font-bold mb-4">{metadata.title}</h1>
