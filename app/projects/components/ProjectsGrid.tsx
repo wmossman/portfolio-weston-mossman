@@ -36,12 +36,12 @@ export default function ProjectsGrid({ projects }: { projects: any[] }) {
           return (
             <button
               key={tag}
-              className={`px-3 py-1 rounded-full text-xs font-semibold border transition focus:outline-none flex items-center gap-1 ${
+              className={`px-3 py-1 rounded-full text-xs font-semibold transition focus:outline-none flex items-center gap-1 ${
                 active
-                  ? 'border-black dark:border-white scale-105'
-                  : 'border-neutral-300 dark:border-neutral-700 opacity-70'
+                  ? 'scale-105'
+                  : 'opacity-70'
               }`}
-              style={{ background: 'transparent', borderColor: active ? undefined : undefined }}
+              style={{ background: 'transparent' }}
               onClick={() =>
                 setActiveTags(active ? activeTags.filter(t => t !== tag) : [...activeTags, tag])
               }
