@@ -36,7 +36,7 @@ export default function ProjectsGrid({ projects }: { projects: any[] }) {
           return (
             <button
               key={tag}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition focus:outline-none flex items-center gap-1 ${
+              className={`cursor-pointer hover:opacity-100 px-3 py-1 rounded-full text-xs font-semibold transition focus:outline-none flex items-center gap-1 ${
                 active
                   ? 'scale-105'
                   : 'opacity-70'
