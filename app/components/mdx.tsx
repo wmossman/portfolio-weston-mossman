@@ -4,28 +4,6 @@ import { highlight } from 'sugar-high';
 import React from 'react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
-function Table({ data }) {
-  let headers = data.headers.map((header, index) => (
-    <th key={index}>{header}</th>
-  ));
-  let rows = data.rows.map((row, index) => (
-    <tr key={index}>
-      {row.map((cell, cellIndex) => (
-        <td key={cellIndex}>{cell}</td>
-      ))}
-    </tr>
-  ));
-
-  return (
-    <table>
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </table>
-  );
-}
-
 function CustomLink(props) {
   let href = props.href;
 
@@ -66,25 +44,29 @@ function slugify(str) {
 
 function createHeading(level) {
   const Heading = ({ children }) => {
-    let slug = slugify(children);
+    let slug = slugify(
+      typeof children === 'string' ? children : React.Children.toArray(children).map(child => (typeof child === 'string' ? child : '')).join(' ')
+    );
     return React.createElement(
       `h${level}`,
-      { id: slug },
-      [
-        React.createElement('a', {
-          href: `#${slug}`,
-          key: `link-${slug}`,
-          className: 'anchor',
-        }),
-      ],
-      children,
+      { id: slug, className: 'relative group' },
+      <>
+        <a href={`#${slug}`} className="anchor" />
+        {children}
+      </>
     );
   };
-
   Heading.displayName = `Heading${level}`;
-
   return Heading;
 }
+
+// Add standard table element overrides for MDX
+const Table = (props) => <table {...props} />;
+const THead = (props) => <thead {...props} />;
+const TBody = (props) => <tbody {...props} />;
+const TR = (props) => <tr {...props} />;
+const TH = (props) => <th {...props} />;
+const TD = (props) => <td {...props} />;
 
 let components = {
   h1: createHeading(1),
@@ -96,7 +78,12 @@ let components = {
   Image: RoundedImage,
   a: CustomLink,
   code: Code,
-  Table,
+  table: Table,
+  thead: THead,
+  tbody: TBody,
+  tr: TR,
+  th: TH,
+  td: TD,
 };
 
 export function CustomMDX(props) {
