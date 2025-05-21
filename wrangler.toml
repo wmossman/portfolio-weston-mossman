@@ -12,4 +12,4 @@ routes = [
 ]
 
 [build]
-command = "npm run build"
+command = "npm run cloudflare-build"
