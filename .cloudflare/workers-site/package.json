@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "portfolio-weston-mossman-cloudflare-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare worker for Weston Mossman's portfolio",
+  "main": "index.js",
+  "author": "Weston Mossman",
+  "license": "MIT",
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.3.0"
+  }
+}

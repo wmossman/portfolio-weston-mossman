@@ -1,0 +1,15 @@
+[site]
+bucket = ".next/standalone"
+entry-point = "."
+
+# Set compatibility flags for Next.js
+compatibility_date = "2023-11-09"
+compatibility_flags = ["nodejs_compat"]
+
+# Configure routing
+routes = [
+  { pattern = "/*", zone_name = "westonmossman.com" }
+]
+
+[build]
+command = "npm run build"
