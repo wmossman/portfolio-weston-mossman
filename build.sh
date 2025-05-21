@@ -75,25 +75,50 @@ if [ -d ".next/standalone" ]; then
         cp -r public/* .next/standalone/
     fi
     
-    # Create an index.js file to serve as an entry point for Cloudflare Pages
-    echo "Creating Cloudflare Pages entry point..."
-    cat > .next/standalone/index.js << 'EOL'
-// Cloudflare Pages entry point
-import { createServer } from 'node:http';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
-import next from 'next';
-import server from './server.js';
-
-// Start the server.js file that Next.js generates
-server;
-
-// Or use this as a basic handler
+    # Create an _worker.js file to serve as an entry point for Cloudflare Pages
+    echo "Creating Cloudflare Pages worker entry point..."
+    cat > .next/standalone/_worker.js << 'EOL'
+// Cloudflare Pages Worker for Next.js
 export default {
   async fetch(request, env, ctx) {
     try {
-      // Forward the request to the ASSETS environment binding
-      return await env.ASSETS.fetch(request);
+      // Get the URL and pathname
+      const url = new URL(request.url);
+      const pathname = url.pathname;
+      
+      // Special handling for static files
+      if (pathname.startsWith('/_next/static') || 
+          pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|webp|ico)$/)) {
+        // Serve from ASSETS
+        const response = await env.ASSETS.fetch(request);
+        if (response.status === 200) {
+          // Add cache header for static assets
+          const newResponse = new Response(response.body, response);
+          newResponse.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+          return newResponse;
+        }
+      }
+      
+      // For non-static paths
+      try {
+        // First try to get from ASSETS
+        const response = await env.ASSETS.fetch(request);
+        if (response.status === 200) {
+          return response;
+        }
+      } catch (error) {
+        console.error('Error fetching from ASSETS:', error);
+      }
+      
+      // If not found or error, redirect to the root HTML and let client-side routing handle it
+      if (pathname !== '/' && !pathname.endsWith('.html')) {
+        // Rewrite all other URLs to root index.html for client-side routing
+        const indexRequest = new Request(`${url.origin}/index.html`, request);
+        return await env.ASSETS.fetch(indexRequest);
+      }
+      
+      // If we've exhausted all options, return 404
+      return new Response('Not Found', { status: 404 });
     } catch (e) {
       return new Response(`Server Error: ${e.message}`, { status: 500 });
     }
