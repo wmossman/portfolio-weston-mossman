@@ -1,15 +1,17 @@
-[site]
-bucket = ".next/standalone"
-entry-point = "."
-
-# Set compatibility flags for Next.js
+# Configuration for Cloudflare Pages
+name = "portfolio-weston-mossman"
 compatibility_date = "2023-11-09"
 compatibility_flags = ["nodejs_compat"]
 
-# Configure routing
-routes = [
-  { pattern = "/*", zone_name = "westonmossman.com" }
-]
-
 [build]
-command = "npm run cloudflare-build"
+command = "bash ./build.sh"
+
+[site]
+bucket = ".next/standalone"
+
+# This is the key property for Cloudflare Pages
+pages_build_output_dir = ".next/standalone"
+
+[env.production]
+workers_dev = false
+route = "westonmossman.com/*"

@@ -55,12 +55,67 @@ npx --no-install next build
 echo "Preparing files for Cloudflare Pages..."
 if [ -d ".next/standalone" ]; then
     echo "Copying static files to standalone folder..."
+    mkdir -p .next/standalone/.next/static
     cp -r .next/static .next/standalone/.next/
+
+    # Ensure server.js is in the output directory
+    if [ -f ".next/standalone/server.js" ]; then
+        echo "server.js exists in standalone directory"
+    else
+        echo "Warning: server.js not found in standalone directory"
+        if [ -f ".next/server.js" ]; then
+            echo "Copying server.js from .next directory"
+            cp .next/server.js .next/standalone/
+        fi
+    fi
     
+    # Copy public directory contents
     if [ -d "public" ]; then
         echo "Copying public files to standalone folder..."
         cp -r public/* .next/standalone/
     fi
+    
+    # Create an index.js file to serve as an entry point for Cloudflare Pages
+    echo "Creating Cloudflare Pages entry point..."
+    cat > .next/standalone/index.js << 'EOL'
+// Cloudflare Pages entry point
+import { createServer } from 'node:http';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import next from 'next';
+import server from './server.js';
+
+// Start the server.js file that Next.js generates
+server;
+
+// Or use this as a basic handler
+export default {
+  async fetch(request, env, ctx) {
+    try {
+      // Forward the request to the ASSETS environment binding
+      return await env.ASSETS.fetch(request);
+    } catch (e) {
+      return new Response(`Server Error: ${e.message}`, { status: 500 });
+    }
+  }
+};
+EOL
+    
+    # Create a simple index.html as a fallback
+    echo "Creating fallback index.html..."
+    cat > .next/standalone/index.html << EOL
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0;url=/">
+  <title>Redirecting...</title>
+</head>
+<body>
+  <p>If you are not redirected automatically, follow this <a href="/">link</a>.</p>
+</body>
+</html>
+EOL
 else
     echo "Warning: .next/standalone directory not found"
 fi
