@@ -20,28 +20,8 @@ const nextConfig = {
   
   // Configure Cloudflare specific settings
   experimental: {
-    optimizeCss: true,
-    legacyBrowsers: false,
-  },
-  
-  // Static site generation
-  // Add rewrites to help with dynamic routes
-  async rewrites() {
-    return {
-      beforeFiles: [
-        // Rewrite /blog/[slug] to the correct path
-        {
-          source: '/blog/:slug*',
-          destination: '/blog/:slug*.html',
-        },
-        // Rewrite /projects/[slug] to the correct path
-        {
-          source: '/projects/:slug*',
-          destination: '/projects/:slug*.html',
-        },
-      ],
-    };
-  },
+    optimizeCss: true
+  }
 };
 
 module.exports = nextConfig;

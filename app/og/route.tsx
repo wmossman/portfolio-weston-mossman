@@ -1,5 +1,8 @@
 import { ImageResponse } from 'next/og';
 
+// For static export compatibility
+export const dynamic = 'force-static';
+
 export function GET(request: Request) {
   let url = new URL(request.url);
   let title = url.searchParams.get('title') || 'Next.js Portfolio Starter';
