@@ -1,11 +1,12 @@
 import { ImageResponse } from 'next/og';
 
-// For static export compatibility
-export const dynamic = 'force-static';
+// For static export, we can't use dynamic parameters
+// so we'll just use a default title
+export const dynamic = 'error';
 
-export function GET(request: Request) {
-  let url = new URL(request.url);
-  let title = url.searchParams.get('title') || 'Next.js Portfolio Starter';
+export function GET() {
+  // Using a fixed title for static export
+  let title = 'Weston Mossman Portfolio';
 
   return new ImageResponse(
     (

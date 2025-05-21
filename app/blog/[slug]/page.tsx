@@ -28,9 +28,8 @@ export async function generateMetadata(props: {params: Params}) {
     summary: description,
     image,
   } = post.metadata;
-  let ogImage = image
-    ? image
-    : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
+  // Use image if provided, otherwise use portfolio photo as default
+  let ogImage = image ? image : `${baseUrl}/images/portfolio-photo.jpg`;
 
   return {
     title,
@@ -111,7 +110,7 @@ export default async function Blog({ params }: { params: Params }) {
             description: post.metadata.summary,
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+              : `${baseUrl}/images/portfolio-photo.jpg`,
             url: `${baseUrl}/blog/${post.slug}`,
             author: {
               '@type': 'Person',

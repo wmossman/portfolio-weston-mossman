@@ -4,19 +4,24 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['next-mdx-remote'],
   
-  // Use 'standalone' for Cloudflare Pages - better compatibility with server components
-  output: 'standalone',
+  // Enable static exports for Cloudflare Pages static hosting
+  output: 'export',
   
-  // Optimize image loading
+  // Disable image optimization for static export
   images: {
-    formats: ['image/webp'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    unoptimized: true,
   },
+  
+  // Trailing slashes for better compatibility
+  trailingSlash: true,
+
+  // Add basePath configuration
+  basePath: '',
+  
+  // Configure Cloudflare specific settings
+  experimental: {
+    optimizeCss: true
+  }
 };
 
 module.exports = nextConfig;
