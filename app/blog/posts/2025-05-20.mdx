@@ -1,0 +1,40 @@
+---
+title: "Day Seven: Finishing Touches & Hosting Trials"
+publishedAt: "2025-05-20"
+summary: "Finalized polish, tackled hosting issues, and redefined AI agent interaction protocols for production-ready deployment."
+---
+
+## Time Spent
+6 hours
+
+## Outcomes & Reflections
+- Visual polish, font styling, image fallback components implemented.
+- Debugged complex Copilot hosting failure loops.
+- Reinforced best practices for AI prompt scope and feedback handling.
+
+## Unfinished Tasks
+- Refactor redundant Copilot output
+- Codify best practices for agent usage
+
+## Field Journal
+
+It’s time to finish this baby up and get it hosted!
+
+First things first, FONT. I love the Bauhaus Geo font, so I went with the closest Google font that is prepackaged with Next and likely cached on all modern devices: Montserrat. I think it looks great.
+
+And of course some general filling in of the gaps:
+- Quality of life updates for the projects page
+- Nicer, clearer filtering
+- Fit images instead of cutoffs
+- Quick landing page visual overhaul
+- Calendly link for meeting scheduling
+
+I created an ImageWithFallback so that the project entries that I haven’t added images to yet will still show SOMETHING. Used Pricedown, one of my favorite bold fonts from the classic Grand Theft Auto series.
+
+Did some small resume updates, now with more AI! No but seriously, my mentality has changed as this project has progressed. I am an engineering and product lead with a team of AI teammates doing research and implementation for me to both learn from and examine with a fine-toothed comb to safeguard architectural quality of this app.
+
+Getting the site hosted and served threw Copilot through a loop. Tons and tons of random build issues that the Agent wasn’t able to figure out, and it started to continuously iterate with no real direction, creating an alarming amount of redundant or useless code generated in a desperate attempt to fix things.
+
+Learning lesson here: when things get weird, stop the Agent, clear its memory, and reset it with new context. Ask it to look at the docs, the error, and what code is already there. Also, don’t forget to ask the agent to be diligent about removing or optimizing useless code, fixing conventions, and writing good failsafes and test cases.
+
+I am also learning a lot about how Next does its thing. Very opinionated and a pretty heavy amount of boilerplate config, but what seems to be a reliable and standard way to generate static/SSR webpages.

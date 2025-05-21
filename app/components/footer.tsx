@@ -19,7 +19,8 @@ const footerItems = [
   { label: 'LinkedIn', url: 'https://linkedin.com/in/westonmossman' },
   { label: 'GitHub', url: 'https://github.com/wmossman' },
   { label: 'Liminal', url: 'https://limi.space' },
-  { label: 'Email Me!', url: 'mailto:wmossmaneston@gmail.com' },
+  { label: 'Email Me', url: 'mailto:wmossmaneston@gmail.com' },
+  { label: 'Schedule a Chat', url: 'https://calendly.com/weston-limi/30min' },
 ];
 
 export default function Footer() {

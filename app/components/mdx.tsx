@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { highlight } from 'sugar-high';
 import React from 'react';
+import ImageWithFallback from 'app/components/ImageWithFallback';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 function CustomLink(props) {
@@ -23,7 +23,7 @@ function CustomLink(props) {
 }
 
 function RoundedImage(props) {
-  return <Image alt={props.alt} className="rounded-lg" {...props} />;
+  return <ImageWithFallback alt={props.alt} className="rounded-lg" {...props} />;
 }
 
 function Code({ children, ...props }) {

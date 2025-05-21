@@ -1,10 +1,14 @@
+import ImageWithFallback from 'app/components/ImageWithFallback';
+
 export default function ResumePage() {
   return (
     <section>
       <h1 className="mb-8 text-4xl font-semibold tracking-tighter">Resume</h1>
-      <img
+      <ImageWithFallback
         src="/images/Weston Mossman Resume.webp"
         alt="Resume"
+        width={800}
+        height={1100}
         style={{ width: '100%', height: 'auto', display: 'block', marginBottom: '2rem' }}
       />
       <a

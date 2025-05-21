@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Project } from '../utils';
 import { Tag } from './Tag';
+import ImageWithFallback from 'app/components/ImageWithFallback';
 
 function stringToColor(str: string) {
   // Simple hash to HSL color
@@ -25,7 +25,7 @@ export function ProjectCard({ project, onClick, asLink = true }: {
       onClick={onClick}
       data-testid={`project-card-${project.slug}`}
     >
-      <Image
+      <ImageWithFallback
         src={project.image}
         alt={project.title}
         width={400}
@@ -50,7 +50,7 @@ export function ProjectCard({ project, onClick, asLink = true }: {
 export function MoreComingCard() {
   return (
     <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg shadow p-4 flex flex-col items-center justify-center grayscale border border-dashed border-neutral-300 dark:border-neutral-700">
-      <Image
+      <ImageWithFallback
         src="/images/portfolio-photo.jpg"
         alt="More coming soon"
         width={400}

@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
 import { getMDXData } from 'app/components/mdx-utils';
-import Image from 'next/image';
 import path from 'path';
 import { Tag } from 'app/projects/components/Tag';
+import ImageWithFallback from 'app/components/ImageWithFallback';
 
 export function generateStaticParams() {
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
@@ -21,7 +21,7 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
       {metadata.image && (
-        <Image
+        <ImageWithFallback
           src={metadata.image}
           alt={metadata.title}
           width={800}

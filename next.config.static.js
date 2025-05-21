@@ -20,7 +20,6 @@ const nextConfig = {
   
   // Configure Cloudflare specific settings
   experimental: {
-    // optimizeCss disabled to fix build issues with critters module
   }
 };
 
