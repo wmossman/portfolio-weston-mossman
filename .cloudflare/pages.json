@@ -1,6 +1,6 @@
 {
   "build": {
-    "command": "bash ./build.sh",
+    "command": "npm run cloudflare-build",
     "environment": {
       "NODE_VERSION": "20.11.0"
     },
