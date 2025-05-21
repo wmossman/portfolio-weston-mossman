@@ -4,7 +4,7 @@ import { formatDate, getBlogPosts } from 'app/blog/utils';
 import { baseUrl } from 'app/sitemap';
 import Link from 'next/link';
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   let posts = getBlogPosts();
 
   return posts.map((post) => ({
@@ -12,9 +12,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata(props) {
-  const { params } = await props;
-  const posts = await getBlogPosts();
+type Params = Promise<{ slug: string }>;
+
+export async function generateMetadata(props: {params: Params}) {
+  const params = await props.params;
+  const posts = getBlogPosts();
   const post = posts.find((post) => post.slug === params.slug);
   if (!post) {
     return;
@@ -54,7 +56,8 @@ export async function generateMetadata(props) {
   };
 }
 
-export default function Blog({ params }) {
+export default async function Blog({ params }: { params: Params }) {
+  const resolvedParams = await params;
   let allBlogs = getBlogPosts();
   // Sort blogs by publishedAt descending (newest first)
   allBlogs.sort((a, b) => {
@@ -63,7 +66,7 @@ export default function Blog({ params }) {
     }
     return 1;
   });
-  let currentIndex = allBlogs.findIndex((p) => p.slug === params.slug);
+  let currentIndex = allBlogs.findIndex((p) => p.slug === resolvedParams.slug);
   let prevPost = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
   let nextPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
   let post = allBlogs[currentIndex];

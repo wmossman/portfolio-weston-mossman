@@ -5,14 +5,17 @@ import Image from 'next/image';
 import path from 'path';
 import { Tag } from 'app/projects/components/Tag';
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
+type Params = Promise<{ slug: string }>;
+
+export default async function ProjectDetailPage({ params }: { params: Params }) {
+  const resolvedParams = await params;
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
-  const project = projects.find((p) => p.slug === params.slug);
+  const project = projects.find((p) => p.slug === resolvedParams.slug);
   if (!project) return notFound();
   const { metadata, content } = project;
   return (

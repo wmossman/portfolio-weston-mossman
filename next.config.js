@@ -3,7 +3,20 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['next-mdx-remote'],
-  output: 'standalone', // Optimizes for Cloudflare Pages
+  
+  // Use 'standalone' for Cloudflare Pages - better compatibility with server components
+  output: 'standalone',
+  
+  // Optimize image loading
+  images: {
+    formats: ['image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
