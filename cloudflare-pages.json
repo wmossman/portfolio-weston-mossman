@@ -1,8 +1,8 @@
 {
   "name": "portfolio-weston-mossman",
   "build": {
-    "command": "bash ./build.sh",
-    "output_directory": ".next/standalone",
+    "command": "bash ./build-static.sh",
+    "output_directory": "out",
     "root_dir": "/",
     "environment": {
       "NODE_VERSION": "20.11.0"
