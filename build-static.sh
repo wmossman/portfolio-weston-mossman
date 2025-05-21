@@ -32,9 +32,14 @@ if [ -d "public" ]; then
   cp -r public/* out/
 fi
 
-# Create a basic _worker.js
-echo "Creating Cloudflare worker..."
-cat > out/_worker.js << 'EOL'
+# Copy the enhanced worker file
+echo "Copying enhanced Cloudflare worker..."
+cp public/enhanced-worker.js out/_worker.js
+
+# Create a backup _worker.js in case the enhanced one doesn't exist
+echo "Creating backup Cloudflare worker..."
+if [ ! -f "out/_worker.js" ]; then
+  cat > out/_worker.js << 'EOL'
 export default {
   async fetch(request, env, ctx) {
     try {
