@@ -100,5 +100,6 @@ export default {
   }
 }
 EOL
+fi
 
 echo "Build completed successfully!"
