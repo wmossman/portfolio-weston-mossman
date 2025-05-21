@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "cloudflare-build": "./build.sh",
+    "cloudflare-build": "bash ./build.sh",
     "start": "next start",
     "test": "jest",
     "test:watch": "jest --watch",

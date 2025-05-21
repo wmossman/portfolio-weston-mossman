@@ -1,0 +1,9 @@
+{
+  "build": {
+    "command": "bash ./build.sh",
+    "environment": {
+      "NODE_VERSION": "20.11.0"
+    },
+    "output_directory": ".next/standalone"
+  }
+}
