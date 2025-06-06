@@ -2,8 +2,8 @@ import landingPageContent from 'app/content/landing-page-content';
 import Link from 'next/link';
 
 const navItems = {
-  '/blog': {
-    name: 'Blog',
+  '/devblog': {
+    name: 'Devblog',
   },
   '/projects': {
     name: 'Projects',

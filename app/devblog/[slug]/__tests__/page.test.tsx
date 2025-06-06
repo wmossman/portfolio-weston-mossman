@@ -60,7 +60,7 @@ describe('Blog page', () => {
     // Previous should be disabled, Next should link to second-post
     expect(screen.getByText('Previous').closest('a')).toBeNull();
     const nextLink = screen.getByText('Next').closest('a');
-    expect(nextLink).toHaveAttribute('href', '/blog/second-post');
+    expect(nextLink).toHaveAttribute('href', '/devblog/second-post');
   });
 
   it('for recent post shows navigation buttons and they link to correct posts', () => {
@@ -68,7 +68,7 @@ describe('Blog page', () => {
     // Next should be disabled, Previous should link to first-post
     expect(screen.getByText('Next').closest('a')).toBeNull();
     const prevLink = screen.getByText('Previous').closest('a');
-    expect(prevLink).toHaveAttribute('href', '/blog/first-post');
+    expect(prevLink).toHaveAttribute('href', '/devblog/first-post');
   });
 
   it('renders notFound if post does not exist', () => {

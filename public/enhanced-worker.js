@@ -10,7 +10,7 @@ export default {
       let modifiedRequest = request;
       
       // Convert paths that might be dynamic routes to HTML files
-      if (pathname.startsWith('/blog/') && !pathname.endsWith('.html') && 
+      if (pathname.startsWith('/devblog/') && !pathname.endsWith('.html') && 
           !pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|webp|ico)$/)) {
         // For blog posts, try the HTML version
         const htmlUrl = new URL(`${pathname}.html`, url.origin);
@@ -87,7 +87,7 @@ export default {
       }
       
       // For nested paths, try to serve the main section page
-      // For example, /blog/something -> /blog.html
+      // For example, /devblog/something -> /devblog.html
       if (pathname.includes('/')) {
         const parts = pathname.split('/').filter(Boolean);
         if (parts.length > 0) {

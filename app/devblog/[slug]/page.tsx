@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/mdx';
-import { formatDate, getBlogPosts } from 'app/blog/utils';
+import { formatDate, getBlogPosts } from 'app/devblog/utils';
 import { baseUrl } from 'app/sitemap';
 import Link from 'next/link';
 
@@ -39,7 +39,7 @@ export async function generateMetadata(props: {params: Params}) {
       description,
       type: 'article',
       publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
+      url: `${baseUrl}/devblog/${post.slug}`,
       images: [
         {
           url: ogImage,
@@ -79,7 +79,7 @@ export default async function Blog({ params }: { params: Params }) {
       {/* Previous/Next navigation */}
       <div className="flex justify-between items-center mb-6">
         {prevPost ? (
-          <Link href={`/blog/${prevPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
+          <Link href={`/devblog/${prevPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
             <span aria-hidden="true">←</span> Previous
           </Link>
         ) : (
@@ -88,7 +88,7 @@ export default async function Blog({ params }: { params: Params }) {
           </span>
         )}
         {nextPost ? (
-          <Link href={`/blog/${nextPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
+          <Link href={`/devblog/${nextPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
             Next <span aria-hidden="true">→</span>
           </Link>
         ) : (
@@ -111,7 +111,7 @@ export default async function Blog({ params }: { params: Params }) {
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
               : `${baseUrl}/images/portfolio-photo.jpg`,
-            url: `${baseUrl}/blog/${post.slug}`,
+            url: `${baseUrl}/devblog/${post.slug}`,
             author: {
               '@type': 'Person',
               name: 'My Portfolio',

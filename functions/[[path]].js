@@ -55,7 +55,7 @@ export async function onRequest(context) {
     } else if (url.pathname.startsWith("/app")) {
       // This should go to our main Next.js app
       return await serveNextApp(context);
-    } else if (url.pathname.startsWith("/blog") || 
+    } else if (url.pathname.startsWith("/devblog") || 
                url.pathname.startsWith("/projects") || 
                url.pathname.startsWith("/resume")) {
       // Redirects for main sections
