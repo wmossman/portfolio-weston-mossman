@@ -25,7 +25,7 @@ export function BlogPosts() {
               <p className="text-text-link group-hover:text-accent-secondary w-[150px] tabular-nums">
                 {formatDate(post.metadata.publishedAt, false)}
               </p>
-              <p className="text-text-heading tracking-tight">
+              <p className="text-text-primary tracking-tight">
                 {post.metadata.title}
               </p>
             </div>

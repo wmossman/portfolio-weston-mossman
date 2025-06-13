@@ -41,7 +41,7 @@ export default function Footer() {
           </li>
         ))}
       </ul>
-      <p className="mt-8 text-text-link">
+      <p className="mt-8 text-text-primary">
         © {new Date().getFullYear()} Weston Mossman
       </p>
     </footer>
