@@ -1,4 +1,5 @@
 import { BlogPosts } from 'app/components/posts';
+import PageTitle from 'app/components/PageTitle';
 
 export const metadata = {
   title: 'Devblog',
@@ -8,7 +9,7 @@ export const metadata = {
 export default function Page() {
   return (
     <section>
-      <h1 className="font-semibold text-2xl mb-8 tracking-tighter text-text-heading">Devblog</h1>
+      <PageTitle>Devblog</PageTitle>
       <h3 className="text-xl my-12 text-text-primary">Total development time: 24 hours (3 workdays)</h3>
       <BlogPosts />
     </section>

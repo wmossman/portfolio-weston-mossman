@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ProjectCard, MoreComingCard } from './ProjectCard';
 import { Tag } from './Tag';
+import PageTitle from 'app/components/PageTitle';
 
 function getAllTags(projects: any[]) {
   const tagSet = new Set<string>();
@@ -28,8 +29,8 @@ export default function ProjectsGrid({ projects }: { projects: any[] }) {
       : projects.filter(p => activeTags.every(tag => p.tags.includes(tag)));
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-text-heading">Projects</h1>
+    <>
+      <PageTitle>Projects</PageTitle>
       
       {/* Under construction notification */}
       <div className="bg-accent-highlight/20 border-l-4 border-accent-highlight p-4 mb-8 rounded-lg">
@@ -78,6 +79,6 @@ export default function ProjectsGrid({ projects }: { projects: any[] }) {
         ))}
         <MoreComingCard />
       </div>
-    </main>
+    </>
   );
 }
