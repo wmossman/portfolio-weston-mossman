@@ -1,11 +1,33 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-soft-charcoal: #0F1717;
+  --color-light-charcoal: #1A1F1F;
+  --color-faded-turquoise: #84C3B2;
+  --color-light-faded-turquoise: #92E7D0;
+  --color-warm-tan: #D9B08C;
+  --color-bright-sand: #FFD0B0;
+  --color-pale-clay-white: #F2EFE9;
+  --color-soft-coral-pink: #E8C3C7;
+
+  --color-background-base: #0F1717;
+  --color-background-content: #1A1F1F;
+  --color-accent-primary: #84C3B2;
+  --color-accent-secondary: #92E7D0;
+  --color-accent-highlight: #FFD0B0;
+  --color-accent-decorative: #E8C3C7;
+  --color-text-primary: #FFD0B0;
+  --color-text-link: #84C3B2;
+  --color-text-heading: #F2EFE9;
+}
+
 ::selection {
   background-color: #47a3f3;
   color: #fefefe;
 }
 
 :root {
+  /* Syntax highlighting variables */
   --sh-class: #2d5e9d;
   --sh-identifier: #354150;
   --sh-sign: #8996a3;
@@ -49,11 +71,11 @@ html {
 }
 
 .prose a {
-  @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
+  @apply underline transition-all decoration-accent-secondary underline-offset-2 decoration-[0.1em] text-text-link;
 }
 
 .prose .anchor:after {
-  @apply text-neutral-300 dark:text-neutral-700;
+  @apply text-accent-secondary;
   content: '#';
 }
 
@@ -62,7 +84,7 @@ html {
 }
 
 .prose pre {
-  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
+  @apply bg-background-base rounded-lg overflow-x-auto border border-accent-secondary py-2 px-3 text-sm text-text-heading;
 }
 
 .prose code {
@@ -85,19 +107,19 @@ html {
 }
 
 .prose p {
-  @apply my-4 text-neutral-800 dark:text-neutral-200;
+  @apply my-4 text-text-primary;
 }
 
 .prose h1 {
-  @apply text-4xl font-medium tracking-tight mt-3 mb-1;
+  @apply text-4xl font-medium tracking-tight mt-3 mb-1 text-text-heading;
 }
 
 .prose h2 {
-  @apply text-xl font-medium tracking-tight mt-3 mb-1;
+  @apply text-xl font-medium tracking-tight mt-3 mb-1 text-text-heading;
 }
 
 .prose h3 {
-  @apply text-xl font-medium tracking-tight mt-3 mb-1;
+  @apply text-xl font-medium tracking-tight mt-3 mb-1 text-text-heading;
 }
 
 .prose h4 {
@@ -148,4 +170,9 @@ table {
 
 .title {
   text-wrap: balance;
+}
+
+/* Global transition for group hover effects */
+.group *[class*="group-hover:"] {
+  transition: color 200ms ease-in-out;
 }

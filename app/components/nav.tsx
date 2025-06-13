@@ -98,7 +98,7 @@ export function Navbar() {
                 <Link
                   key={path}
                   href={path}
-                  className="transition-all text-text-link hover:text-accent-primary flex align-middle relative py-1 px-2 m-1 text-lg font-medium"
+                  className="transition-all text-text-link hover:text-accent-secondary flex align-middle relative py-1 px-2 m-1 text-lg font-medium"
                 >
                   {name}
                 </Link>
@@ -109,7 +109,7 @@ export function Navbar() {
           {/* Mobile burger menu button */}
           <button
             ref={buttonRef}
-            className="md:hidden flex flex-col justify-center items-center w-8 h-8 relative focus:outline-none focus:ring-2 focus:ring-neutral-500 rounded"
+            className="md:hidden flex flex-col justify-center items-center w-8 h-8 relative focus:outline-none focus:ring-2 focus:ring-neutral-500 rounded cursor-pointer"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle navigation menu"
             aria-expanded={isMobileMenuOpen}
@@ -123,14 +123,14 @@ export function Navbar() {
           {isMobileMenuOpen && (
             <div
               ref={menuRef}
-              className="md:hidden absolute top-full right-0 mt-2 bg-background-content border border-accent-secondary rounded-lg shadow-lg z-50 min-w-[150px]"
+              className="md:hidden absolute top-full right-0 mt-2 bg-background-content rounded-lg shadow-lg z-50 min-w-[150px]"
             >
               {Object.entries(navItems).map(([path, { name }]) => {
                 return (
                   <Link
                     key={path}
                     href={path}
-                    className="block px-4 py-3 text-lg font-medium text-text-link hover:text-accent-primary transition-colors hover:bg-accent-decorative/10 first:rounded-t-lg last:rounded-b-lg"
+                    className="block px-4 py-3 text-lg font-medium text-text-link hover:text-accent-secondary transition-colors hover:bg-accent-decorative/10 first:rounded-t-lg last:rounded-b-lg"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {name}

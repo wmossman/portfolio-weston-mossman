@@ -79,7 +79,7 @@ export default async function Blog({ params }: { params: Params }) {
       {/* Previous/Next navigation */}
       <div className="flex justify-between items-center mb-6">
         {prevPost ? (
-          <Link href={`/devblog/${prevPost.slug}`} className="text-text-link hover:text-accent-primary hover:underline flex items-center gap-1">
+          <Link href={`/devblog/${prevPost.slug}`} className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1">
             <span aria-hidden="true">←</span> Previous
           </Link>
         ) : (
@@ -88,7 +88,7 @@ export default async function Blog({ params }: { params: Params }) {
           </span>
         )}
         {nextPost ? (
-          <Link href={`/devblog/${nextPost.slug}`} className="text-text-link hover:text-accent-primary hover:underline flex items-center gap-1">
+          <Link href={`/devblog/${nextPost.slug}`} className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1">
             Next <span aria-hidden="true">→</span>
           </Link>
         ) : (
@@ -119,15 +119,15 @@ export default async function Blog({ params }: { params: Params }) {
           }),
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter text-text-heading">
+      <h1 className="title font-semibold text-2xl tracking-tighter text-[color:var(--color-text-heading)]">
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-text-link">
+        <p className="text-sm text-[color:var(--color-text-link)]">
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
-      <article className="prose text-text-primary">
+      <article className="prose text-[color:var(--color-text-primary)]">
         <CustomMDX source={post.content} />
       </article>
     </section>

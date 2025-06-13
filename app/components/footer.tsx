@@ -30,7 +30,7 @@ export default function Footer() {
         {footerItems.map((footerItem) => (
           <li key={footerItem.url}>
             <a
-              className="flex items-center transition-all hover:text-accent-primary"
+              className="flex items-center transition-all hover:text-accent-secondary"
               rel="noopener noreferrer"
               target="_blank"
               href={footerItem.url}
