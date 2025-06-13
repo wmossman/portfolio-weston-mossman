@@ -129,13 +129,16 @@ export default function ResumePage() {
             </div>
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
-                Led Angular monolith → modern React/TypeScript/GraphQL micro-FE/BFF architecture, reducing TTI by 90%
+                Led Angular monolith → modern React/TypeScript/GraphQL
+                micro-FE/BFF architecture, reducing TTI by 90%
               </li>
               <li>
-                Led PM-controlled policy sales flow config & rendering system, 5x product agility, reduced dev hours & regressions
+                Led PM-controlled policy sales flow config & rendering system,
+                5x product agility, reduced dev hours & regressions
               </li>
               <li>
-                Led UI initiatives, hiring, templates, components, BDD, architecture, conventions, from startup through IPO
+                Led UI initiatives, hiring, templates, components, BDD,
+                architecture, conventions, from startup through IPO
               </li>
             </ul>
           </div>
@@ -155,7 +158,8 @@ export default function ResumePage() {
             </div>
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
-                Supported Search Results app Java → Node.js migration, spellcheck UX, flexbox, PWA, accessibility standards
+                Supported Search Results app Java → Node.js migration,
+                spellcheck UX, flexbox, PWA, accessibility standards
               </li>
             </ul>
           </div>
@@ -173,7 +177,8 @@ export default function ResumePage() {
             </div>
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
-                Supported Yahoo! Finance React/Fluxible migration, sticky nav, cross-browser styling, instrumentation, TDD
+                Supported Yahoo! Finance React/Fluxible migration, sticky nav,
+                cross-browser styling, instrumentation, TDD
               </li>
             </ul>
           </div>
@@ -193,7 +198,7 @@ export default function ResumePage() {
             </div>
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
-                Built Create Product Search Function using ES5, JQuery and
+                Built Search Function for 'Create' Product using ES5, JQuery and
                 Pyramid framework
               </li>
               <li>Implemented automated testing and CI/CD pipelines</li>
