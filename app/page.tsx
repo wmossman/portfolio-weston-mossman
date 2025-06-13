@@ -12,10 +12,10 @@ export default function Page() {
         width={500}
         height={500}
       />
-      <h2 className="my-8 text-2xl">{landingPageContent.landingHook}</h2>
-      <p className="mb-4">{landingPageContent.landingBlurb}</p>
+      <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.landingHook}</h2>
+      <p className="mb-4 text-text-primary">{landingPageContent.landingBlurb}</p>
       <a href="https://calendly.com/weston-limi/30min">
-        <h2 className="my-8 text-2xl underline">{landingPageContent.landingCTA}</h2>
+        <h2 className="my-8 text-2xl underline text-accent-primary hover:text-accent-highlight transition-colors">{landingPageContent.landingCTA}</h2>
       </a>
     </section>
   );

@@ -79,20 +79,20 @@ export default async function Blog({ params }: { params: Params }) {
       {/* Previous/Next navigation */}
       <div className="flex justify-between items-center mb-6">
         {prevPost ? (
-          <Link href={`/devblog/${prevPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
+          <Link href={`/devblog/${prevPost.slug}`} className="text-text-link hover:text-accent-primary hover:underline flex items-center gap-1">
             <span aria-hidden="true">←</span> Previous
           </Link>
         ) : (
-          <span className="text-neutral-400 flex items-center gap-1 cursor-not-allowed select-none">
+          <span className="text-text-link/50 flex items-center gap-1 cursor-not-allowed select-none">
             <span aria-hidden="true">←</span> Previous
           </span>
         )}
         {nextPost ? (
-          <Link href={`/devblog/${nextPost.slug}`} className="text-neutral-700 dark:text-neutral-300 hover:underline flex items-center gap-1">
+          <Link href={`/devblog/${nextPost.slug}`} className="text-text-link hover:text-accent-primary hover:underline flex items-center gap-1">
             Next <span aria-hidden="true">→</span>
           </Link>
         ) : (
-          <span className="text-neutral-400 flex items-center gap-1 cursor-not-allowed select-none">
+          <span className="text-text-link/50 flex items-center gap-1 cursor-not-allowed select-none">
             Next <span aria-hidden="true">→</span>
           </span>
         )}
@@ -119,15 +119,15 @@ export default async function Blog({ params }: { params: Params }) {
           }),
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="title font-semibold text-2xl tracking-tighter text-text-heading">
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="text-sm text-text-link">
           {formatDate(post.metadata.publishedAt)}
         </p>
       </div>
-      <article className="prose">
+      <article className="prose text-text-primary">
         <CustomMDX source={post.content} />
       </article>
     </section>

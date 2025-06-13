@@ -6,7 +6,7 @@ export function Tag({ tag }: { tag: string }) {
   if (!meta) {
     // fallback for unknown tags
     return (
-      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-200 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-600">
+      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-accent-secondary/20 text-text-heading border border-accent-secondary">
         {tag}
       </span>
     );

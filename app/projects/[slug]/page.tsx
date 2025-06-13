@@ -29,7 +29,7 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
           className="rounded mb-4 w-full h-80 object-contain"
         />
       )}
-      <h1 className="text-3xl font-bold mb-4">{metadata.title}</h1>
+      <h1 className="text-3xl font-bold mb-4 text-text-heading">{metadata.title}</h1>
       {metadata.tags && metadata.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-4">
           {metadata.tags.map((tag: string) => (
@@ -37,7 +37,7 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
           ))}
         </div>
       )}
-      <div className="prose dark:prose-invert">
+      <div className="prose dark:prose-invert text-text-primary">
         <CustomMDX source={content} />
       </div>
     </main>

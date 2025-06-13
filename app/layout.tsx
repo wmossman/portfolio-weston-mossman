@@ -55,7 +55,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={cx(
-        'text-black bg-white dark:text-white dark:bg-black antialiased',
+        'text-text-primary bg-background-content dark:text-text-heading dark:bg-background-base antialiased',
         monsterrat.className,
       )}
     >
