@@ -7,6 +7,7 @@
   --color-light-faded-turquoise: #92E7D0;
   --color-warm-tan: #D9B08C;
   --color-bright-sand: #FFD0B0;
+  --color-pale-sand: #CABAB0;
   --color-pale-clay-white: #F2EFE9;
   --color-soft-coral-pink: #E8C3C7;
 
@@ -16,7 +17,7 @@
   --color-accent-secondary: #92E7D0;
   --color-accent-highlight: #FFD0B0;
   --color-accent-decorative: #E8C3C7;
-  --color-text-primary: #FFD0B0;
+  --color-text-primary: #CABAB0;
   --color-text-link: #84C3B2;
   --color-text-heading: #F2EFE9;
 }

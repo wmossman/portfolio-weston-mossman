@@ -25,7 +25,7 @@ const footerItems = [
 
 export default function Footer() {
   return (
-    <footer className="mb-16">
+    <footer className="my-16">
       <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-text-link md:flex-row md:space-x-4 md:space-y-0">
         {footerItems.map((footerItem) => (
           <li key={footerItem.url}>
