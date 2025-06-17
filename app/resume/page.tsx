@@ -56,7 +56,7 @@ export default function ResumePage() {
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h4 className="text-lg font-bold text-text-heading">
-                  Creative Consultant
+                  Software, Sales, Partnerships & Creative Consultant
                 </h4>
                 <p className="text-light-faded-turquoise font-medium">
                   Freelance
@@ -67,18 +67,19 @@ export default function ResumePage() {
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
                 Provided creative direction and technical consulting for digital
-                & physical art and media projects
+                & physical art and media projects in the sustainability space
               </li>
               <li>
-                Developed custom software solutions for interactive
-                installations and performances
+                Identified and built relationships with key partners and clients
+                to drive mission-aligned business growth
               </li>
               <li>
-                Collaborated with artists and organizations to bring innovative
-                digital experiences to life
+                Collaborated with organizations, engineers and artists to bring
+                innovative products, experiences, and manufacturing projects to
+                life
               </li>
               <li>
-                Managed end-to-end project delivery from concept to sale to
+                Managed end-to-end project delivery from conception to sale to
                 deployment
               </li>
             </ul>
@@ -225,7 +226,7 @@ export default function ResumePage() {
                   </span>
                   <span className="text-text-primary ml-2">
                     React, Hooks, TypeScript, Next.js, JavaScript, ES6/ESM,
-                    HTML5, CSS3, Tailwind CSS, Storybook, Redux, Zustand
+                    HTML5, CSS3, Tailwind CSS, Storybook, Redux, Zustand, D3.js
                   </span>
                 </div>
                 <div>
@@ -303,7 +304,7 @@ export default function ResumePage() {
                     Interactive:
                   </span>
                   <span className="text-text-primary ml-2">
-                    WebGL, Three.js, Creative Coding, Installation Art
+                    TouchDesigner, Creative Coding, Installation Art
                   </span>
                 </div>
               </div>

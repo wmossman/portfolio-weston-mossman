@@ -74,9 +74,8 @@ export function Navbar() {
               height="55px"
               width="128px"
               viewBox="0 0 128 55"
-              className="w-full h-auto max-h-full"
+              className="w-full h-auto max-h-full max-w-[128px] min-w-[80px]"
               style={{
-                maxWidth: '128px',
                 maxHeight: '55px',
                 objectFit: 'contain'
               }}
