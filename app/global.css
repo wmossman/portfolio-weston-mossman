@@ -38,6 +38,27 @@
   --sh-jsxliterals: #6266d1;
   --sh-property: #e25a1c;
   --sh-entity: #e25a1c;
+
+  
+   --color-soft-charcoal: #0F1717;
+  --color-light-charcoal: #1A1F1F;
+  --color-faded-turquoise: #84C3B2;
+  --color-light-faded-turquoise: #92E7D0;
+  --color-warm-tan: #D9B08C;
+  --color-bright-sand: #FFD0B0;
+  --color-pale-sand: #D4C8BF;
+  --color-pale-clay-white: #F2EFE9;
+  --color-soft-coral-pink: #E8C3C7;
+
+  --color-background-base: #0F1717;
+  --color-background-content: #1A1F1F;
+  --color-accent-primary: #84C3B2;
+  --color-accent-secondary: #92E7D0;
+  --color-accent-highlight: #FFD0B0;
+  --color-accent-decorative: #E8C3C7;
+  --color-text-primary: #D4C8BF;
+  --color-text-link: #84C3B2;
+  --color-text-heading: #F2EFE9;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -176,4 +197,22 @@ table {
 /* Global transition for group hover effects */
 .group *[class*="group-hover:"] {
   transition: color 200ms ease-in-out;
+}
+
+/* Global drop shadow classes */
+.text-shadow-hero {
+  filter: drop-shadow(2px 2px 4px var(--color-light-charcoal)) 
+          drop-shadow(-2px -2px 4px var(--color-light-charcoal)) 
+          drop-shadow(2px -2px 4px var(--color-light-charcoal)) 
+          drop-shadow(-2px 2px 4px var(--color-light-charcoal)) 
+          drop-shadow(0 0 8px var(--color-light-charcoal)) 
+          drop-shadow(0 0 16px var(--color-light-charcoal));
+}
+
+.text-shadow-subtitle {
+  filter: drop-shadow(1px 1px 2px var(--color-light-charcoal)) 
+          drop-shadow(-1px -1px 2px var(--color-light-charcoal)) 
+          drop-shadow(1px -1px 2px var(--color-light-charcoal)) 
+          drop-shadow(-1px 1px 2px var(--color-light-charcoal)) 
+          drop-shadow(0 0 4px var(--color-light-charcoal));
 }

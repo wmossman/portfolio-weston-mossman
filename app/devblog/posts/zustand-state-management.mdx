@@ -1,0 +1,25 @@
+---
+title: "Day Seven: State Management & Copilot Friction"
+publishedAt: "2025-06-07"
+summary: "Explored Zustand for clean state management and evaluated Copilot's role in supporting vs. obstructing deep development work."
+---
+
+## Time Spent
+4 hours
+
+## Outcomes & Reflections
+- Zustand proved ideal for scalable, low-boilerplate state management.
+- Refined image component fallback with a clean UX approach.
+- Reflected on productive and distracting Copilot usage modes.
+
+## Unfinished Tasks
+- Configure Copilot usage toggling for deeper focus blocks.
+- Document Zustand store patterns for shared use.
+
+## Field Journal
+
+Zustand is a perfect middle ground between Redux and Context. The simplicity of Context with the structure to make unidirectional state changes easy without accidental side effects, all inside of a hook. It also allows many stores, and access to those stores and all actions from anywhere. While pure functional reducers are great for determinism and time travel, Redux’s complexity and mega store often leads to a scalability nightmare, slowing down implementation, making refactors daunting, and leading to hard to pinpoint bugs that often find their way to the boilerplate itself, defeating Redux’s purpose. 
+
+Jumping back into my code, I love the simplicity of the image component—on error it updates imgSrc state to the fallback, and React takes care of the rest. 
+
+Copilot autocomplete is both super helpful and also really annoying. I plan to find a happy medium between turning it off/on and leaving it on all the time suggesting random things in a rather distracting way (especially when I am trying to memorize something and not just regurgitate what it is suggesting when it is correct).

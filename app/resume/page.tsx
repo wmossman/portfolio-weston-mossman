@@ -304,7 +304,7 @@ export default function ResumePage() {
                     Interactive:
                   </span>
                   <span className="text-text-primary ml-2">
-                    TouchDesigner, Creative Coding, Installation Art
+                    TouchDesigner, Three.js, Creative Coding, Installation Art
                   </span>
                 </div>
               </div>

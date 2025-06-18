@@ -1,0 +1,46 @@
+---
+title: "Interactive Hero with Three.js"
+publishedAt: "2025-06-17"
+summary: "Designed and implemented a performant, animated 3D hero using primitives in Three.js to convey neural and renewable energy network metaphors."
+---
+
+## Time Spent
+6 hours
+
+## Outcomes & Reflections
+- Developed an interactive Three.js hero visualizing network nodes and energy flow.
+- Tuned performance and shader math, avoiding memory leaks or visual jank.
+- Simplified complex Copilot output through algorithmic guidance.
+- Reinforced visualization as metaphor for my working philosophy and values.
+
+## Unfinished Tasks
+- Bundle size analysis and optimization.
+- Productionize with testing and fallback logic.
+
+## Field Journal
+
+Squashed an annoying bug where the viewport rendered slightly zoomed only on mobile devices (not browser mobile view in devtools). Time to make a hero!
+
+Three.js! I have very little experience with Three.js, but know its capabilities, and have what I think is a great idea for an interactive 3D hero. A 3D space where nodes pop into existence, and connecting lines shoot from one node to another close node, slowly building a beautiful glowing network, with older nodes fading out before disappearing. It fits the vibe and design while also conveying what I value and how I work: building a resilient network through facilitating connections, grid decarbonization (each node is a battery or solar panel!), and neural networks!
+
+Now to get it going without the experience necessary while making sure the code is of high quality, performant, and minimal in bundle size. First of all, no models would be loaded, only primitives, particles, and post processing. Second, I would watch the algorithm to make sure that nodes and edges are deleted and that there are no memory leaks, that graph memory management and traversals are as minimal as possible, and that the code being written isn’t overly complex or redundant.
+
+As I collaborated with Copilot on getting the PRD into a solid working Three.js module, I proactively gave it tips on best practices, optimizations, and other goals. I noticed in attempting to make the mouse interactive camera shift have a tweening effect, Copilot created some weird code with confusing math and magic numbers. So I suggested that it think of a simpler approach: transform x and y relative to some imaginary x-y point, not the mouse. And this imaginary point moves towards the mouse with a tween effect when the mouse is inside of the frame. That way the code can be simple, and we don’t need any crazy math to calculate things, just a little point that follows the mouse.
+
+The shader was generating nodes beyond the viewport, which didn’t look good. I didn’t want to just shrink the whole shader, and I also sensed that creating some line-of-sight-only node generation would be costly and complex. So I suggested a small algorithm change where nodes were generated on a horizontal width that is a factor of viewport width, which worked great.
+
+To my surprise, Copilot did an awesome job with most of what I asked for, and created some well-commented and well-structured code. I had to do a few iterations for visual design quality, some optimizations, and general problems, but all-in-all this was a great experience.
+
+I learned about Three.js (Meshes! Materials! Passes!), created a really cool 3D interactive animation that conveyed my interests and values, and did so in a couple hours. Sweet! A great jumping off point to dive deep into Three.js.
+
+Next to bundle size! Trusty bundle size analyzer to the rescue.
+
+This package was a lifesaver at previous jobs as a FE Platform Engineer. Essentially, it shows you a visual representation of the relative sizes of your packages, which is great for quickly getting an idea of what is taking up the most space in your bundle. It also can generate output that is text, which can be diffed.
+
+Back at Hippo, I installed this in all projects and baked it into our new project generator. I added a build script and git PR hooks to warn us when a PR would significantly increase bundle size (requiring manager/architect approval to merge). Sometimes you don’t expect it, but a new package might be very large and/or might not treeshake well, and a small addition to the app might double the bundle size. No good.
+
+Also, the team set a non arbitrary maximum bundle size (some number below the average website size), which I could then show in each PR how close we were to that number, and if we went beyond it would show a big red BUNDLE TOO BIG warning. I didn’t want to block PRs, but at least show every single engineer and EM that we are beyond the limit we set and should do something about it. This worked, and we kept our bundle size down, something the company had been having issues with for years before I joined.
+
+So let’s do it with my app, and make sure Three.js hasn’t made our app huge, and check out existing packages while we’re at it.
+
+… But it’s late, this is a tomorrow job!
