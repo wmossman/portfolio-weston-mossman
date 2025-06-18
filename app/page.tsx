@@ -15,13 +15,13 @@ export default function Page() {
             <h1
               className="text-3xl sm:text-4xl md:text-6xl font-bold text-text-heading opacity-95 mb-2 md:mb-4 tracking-wide text-shadow-hero"
               style={{
-                lineHeight: '0.6em',
+                transform: 'scaleY(0.97)',
               }}
             >
               Weston Mossman
             </h1>
             <p className="text-sm sm:text-lg md:text-xl text-text-primary opacity-80 max-w-4xl mx-auto text-shadow-subtitle">
-              Building connections via experiences and technology
+              Building generative connections <br/>via experiences and technology
             </p>
           </div>
         </div>
