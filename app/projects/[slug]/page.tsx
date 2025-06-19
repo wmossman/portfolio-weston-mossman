@@ -4,6 +4,7 @@ import { getMDXData } from 'app/components/mdx-utils';
 import path from 'path';
 import { Tag } from 'app/projects/components/Tag';
 import ImageWithFallback from 'app/components/ImageWithFallback';
+import BackButton from 'app/components/BackButton';
 
 export function generateStaticParams() {
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
@@ -20,6 +21,8 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
   const { metadata, content } = project;
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
+      <BackButton href="/projects" label="Back to projects" />
+      
       {metadata.image && (
         <ImageWithFallback
           src={metadata.image}

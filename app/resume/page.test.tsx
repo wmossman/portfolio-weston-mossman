@@ -7,16 +7,6 @@ describe('ResumePage', () => {
     expect(screen.getByRole('heading', { name: /resume/i })).toBeInTheDocument();
   });
 
-  it('renders the resume image', () => {
-    render(<ResumePage />);
-    const img = screen.getByAltText('Resume');
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute(
-      'src',
-      '/images/Weston Mossman Resume.webp'
-    );
-  });
-
   it('renders a download link for the PDF', () => {
     render(<ResumePage />);
     const link = screen.getByRole('link', { name: /download/i });

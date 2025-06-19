@@ -16,9 +16,15 @@ jest.mock('next-mdx-remote/rsc', () => ({
 
 jest.mock('sugar-high', () => ({ highlight: (code) => code }));
 
-jest.mock('../../utils', () => ({
-  ...jest.requireActual('../../utils'),
-  getMDXData: () => ([
+// Mock the BackButton component
+jest.mock('app/components/BackButton', () => {
+  return function MockBackButton({ href, label }: { href: string; label: string }) {
+    return <div data-testid="back-button">{label}</div>;
+  };
+});
+
+jest.mock('app/components/mdx-utils', () => ({
+  getMDXData: jest.fn(() => [
     {
       slug: 'sample-project-1',
       metadata: { title: 'Sample Project 1', tags: ['tag1'], description: 'desc' },
@@ -32,16 +38,22 @@ jest.mock('../../utils', () => ({
   ]),
 }));
 
+jest.mock('../../utils', () => ({
+  ...jest.requireActual('../../utils'),
+}));
+
 describe('ProjectDetailPage', () => {
-  it('renders project details for a valid slug', () => {
-    render(<ProjectDetailPage params={{ slug: 'sample-project-1' }} />);
-    expect(screen.getByText('Sample Project One')).toBeInTheDocument();
-    // Removed description check since it's not rendered
+  it('renders project details for a valid slug', async () => {
+    const ProjectComponent = await ProjectDetailPage({ params: Promise.resolve({ slug: 'sample-project-1' }) });
+    render(ProjectComponent);
+    expect(screen.getByText('Sample Project 1')).toBeInTheDocument();
+    expect(screen.getByTestId('back-button')).toBeInTheDocument();
+    expect(screen.getByText('Back to projects')).toBeInTheDocument();
   });
 
-  it('renders notFound for an invalid slug', () => {
+  it('renders notFound for an invalid slug', async () => {
     const { notFound } = require('next/navigation');
-    render(<ProjectDetailPage params={{ slug: 'non-existent' }} />);
+    await ProjectDetailPage({ params: Promise.resolve({ slug: 'non-existent' }) });
     expect(notFound).toHaveBeenCalled();
   });
 });

@@ -3,6 +3,7 @@ import { CustomMDX } from 'app/components/mdx';
 import { formatDate, getBlogPosts } from 'app/devblog/utils';
 import { baseUrl } from 'app/sitemap';
 import Link from 'next/link';
+import BackButton from 'app/components/BackButton';
 
 export function generateStaticParams() {
   let posts = getBlogPosts();
@@ -76,6 +77,8 @@ export default async function Blog({ params }: { params: Params }) {
 
   return (
     <section>
+      <BackButton href="/devblog" label="Back to devblog" />
+      
       {/* Previous/Next navigation */}
       <div className="flex justify-between items-center mb-6">
         {prevPost ? (

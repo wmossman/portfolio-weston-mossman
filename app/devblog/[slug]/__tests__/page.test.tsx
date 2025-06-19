@@ -48,32 +48,36 @@ describe('Blog page', () => {
     require('../../utils').getBlogPosts.mockReturnValue([...mockPosts]);
   });
 
-  it('renders MDX content and title', () => {
-    render(<Blog params={{ slug: 'first-post' }} />);
+  it('renders MDX content and title', async () => {
+    const BlogComponent = await Blog({ params: Promise.resolve({ slug: 'first-post' }) });
+    render(BlogComponent);
     expect(screen.getByText('First Post')).toBeInTheDocument();
     expect(screen.getByText('Hello from first post')).toBeInTheDocument();
     expect(screen.getByText('Formatted: 2025-04-17')).toBeInTheDocument();
+    expect(screen.getByText('Back to devblog')).toBeInTheDocument();
   });
 
-  it('for old postshows navigation buttons and they link to correct posts', () => {
-    render(<Blog params={{ slug: 'first-post' }} />);
+  it('for old post shows navigation buttons and they link to correct posts', async () => {
+    const BlogComponent = await Blog({ params: Promise.resolve({ slug: 'first-post' }) });
+    render(BlogComponent);
     // Previous should be disabled, Next should link to second-post
     expect(screen.getByText('Previous').closest('a')).toBeNull();
     const nextLink = screen.getByText('Next').closest('a');
     expect(nextLink).toHaveAttribute('href', '/devblog/second-post');
   });
 
-  it('for recent post shows navigation buttons and they link to correct posts', () => {
-    render(<Blog params={{ slug: 'second-post' }} />);
+  it('for recent post shows navigation buttons and they link to correct posts', async () => {
+    const BlogComponent = await Blog({ params: Promise.resolve({ slug: 'second-post' }) });
+    render(BlogComponent);
     // Next should be disabled, Previous should link to first-post
     expect(screen.getByText('Next').closest('a')).toBeNull();
     const prevLink = screen.getByText('Previous').closest('a');
     expect(prevLink).toHaveAttribute('href', '/devblog/first-post');
   });
 
-  it('renders notFound if post does not exist', () => {
+  it('renders notFound if post does not exist', async () => {
     const { notFound } = require('next/navigation');
-    expect(() => render(<Blog params={{ slug: 'non-existent' }} />)).toThrow('notFound');
+    await expect(() => Blog({ params: Promise.resolve({ slug: 'non-existent' }) })).rejects.toThrow('notFound');
     expect(notFound).toHaveBeenCalled();
   });
 });
