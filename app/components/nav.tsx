@@ -64,10 +64,10 @@ export function Navbar() {
           <Link
             href="/"
             className="hover:opacity-80 transition flex-1 mr-4 min-w-0 max-h-16"
-            style={{ 
+            style={{
               display: 'flex',
               alignItems: 'center',
-              height: 'fit-content'
+              height: 'fit-content',
             }}
           >
             <svg
@@ -77,7 +77,7 @@ export function Navbar() {
               className="w-full h-auto max-h-full max-w-[128px] min-w-[80px]"
               style={{
                 maxHeight: '55px',
-                objectFit: 'contain'
+                objectFit: 'contain',
               }}
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -113,9 +113,15 @@ export function Navbar() {
             aria-label="Toggle navigation menu"
             aria-expanded={isMobileMenuOpen}
           >
-            <div className={`w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-            <div className={`w-6 h-0.5 bg-current transition-all duration-300 mt-1 ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
-            <div className={`w-6 h-0.5 bg-current transition-all duration-300 mt-1 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+            <div
+              className={`w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+            />
+            <div
+              className={`w-6 h-0.5 bg-current transition-all duration-300 mt-1 ${isMobileMenuOpen ? 'opacity-0' : ''}`}
+            />
+            <div
+              className={`w-6 h-0.5 bg-current transition-all duration-300 mt-1 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+            />
           </button>
 
           {/* Mobile dropdown menu */}

@@ -28,7 +28,8 @@ const colorClasses: Record<ButtonColor, string> = {
   primary: 'bg-accent-primary text-background-base hover:bg-accent-secondary',
   secondary: 'bg-accent-secondary text-background-base hover:bg-accent-primary',
   highlight: 'bg-accent-highlight text-background-base hover:bg-accent-primary',
-  decorative: 'bg-accent-decorative text-background-base hover:bg-accent-primary',
+  decorative:
+    'bg-accent-decorative text-background-base hover:bg-accent-primary',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -51,12 +52,14 @@ export default function Button({
   rel,
   ...rest
 }: ButtonProps) {
-  const baseClasses = 'inline-flex items-center justify-center rounded-lg font-medium transition-colors cursor-pointer';
+  const baseClasses =
+    'inline-flex items-center justify-center rounded-lg font-medium transition-colors cursor-pointer';
   const colorClass = colorClasses[color];
   const sizeClass = sizeClasses[size];
   const disabledClass = disabled ? 'opacity-50 cursor-not-allowed' : '';
-  
-  const combinedClasses = `${baseClasses} ${colorClass} ${sizeClass} ${disabledClass} ${className}`.trim();
+
+  const combinedClasses =
+    `${baseClasses} ${colorClass} ${sizeClass} ${disabledClass} ${className}`.trim();
 
   // If URL is provided, render as a link
   if (url) {

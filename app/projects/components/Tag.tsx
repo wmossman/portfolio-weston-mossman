@@ -14,7 +14,11 @@ export function Tag({ tag }: { tag: string }) {
   return (
     <span
       className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border h-[24px]"
-      style={{ background: meta.color + '22', color: '#FFF', borderColor: meta.color }}
+      style={{
+        background: meta.color + '22',
+        color: '#FFF',
+        borderColor: meta.color,
+      }}
       title={meta.label}
     >
       <span>{meta.emoji}</span>

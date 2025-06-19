@@ -13,7 +13,11 @@ export function generateStaticParams() {
 
 type Params = Promise<{ slug: string }>;
 
-export default async function ProjectDetailPage({ params }: { params: Params }) {
+export default async function ProjectDetailPage({
+  params,
+}: {
+  params: Params;
+}) {
   const resolvedParams = await params;
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
   const project = projects.find((p) => p.slug === resolvedParams.slug);
@@ -22,7 +26,7 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
       <BackButton href="/projects" label="Back to projects" />
-      
+
       {metadata.image && (
         <ImageWithFallback
           src={metadata.image}
@@ -32,7 +36,9 @@ export default async function ProjectDetailPage({ params }: { params: Params }) 
           className="rounded mb-4 w-full h-80 object-contain"
         />
       )}
-      <h1 className="text-3xl font-bold mb-4 text-[color:var(--color-text-heading)]">{metadata.title}</h1>
+      <h1 className="text-3xl font-bold mb-4 text-[color:var(--color-text-heading)]">
+        {metadata.title}
+      </h1>
       {metadata.tags && metadata.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-4">
           {metadata.tags.map((tag: string) => (

@@ -21,7 +21,8 @@ export default function Page() {
               Weston Mossman
             </h1>
             <p className="text-sm sm:text-lg md:text-xl text-text-primary opacity-80 max-w-4xl mx-auto text-shadow-subtitle">
-              Building generative connections <br/>via experiences and technology
+              Building generative connections <br />
+              via experiences and technology
             </p>
           </div>
         </div>

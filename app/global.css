@@ -1,25 +1,25 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-soft-charcoal: #0F1717;
-  --color-light-charcoal: #1A1F1F;
-  --color-faded-turquoise: #84C3B2;
-  --color-light-faded-turquoise: #92E7D0;
-  --color-warm-tan: #D9B08C;
-  --color-bright-sand: #FFD0B0;
-  --color-pale-sand: #D4C8BF;
-  --color-pale-clay-white: #F2EFE9;
-  --color-soft-coral-pink: #E8C3C7;
+  --color-soft-charcoal: #0f1717;
+  --color-light-charcoal: #1a1f1f;
+  --color-faded-turquoise: #84c3b2;
+  --color-light-faded-turquoise: #92e7d0;
+  --color-warm-tan: #d9b08c;
+  --color-bright-sand: #ffd0b0;
+  --color-pale-sand: #d4c8bf;
+  --color-pale-clay-white: #f2efe9;
+  --color-soft-coral-pink: #e8c3c7;
 
-  --color-background-base: #0F1717;
-  --color-background-content: #1A1F1F;
-  --color-accent-primary: #84C3B2;
-  --color-accent-secondary: #92E7D0;
-  --color-accent-highlight: #FFD0B0;
-  --color-accent-decorative: #E8C3C7;
-  --color-text-primary: #D4C8BF;
-  --color-text-link: #84C3B2;
-  --color-text-heading: #F2EFE9;
+  --color-background-base: #0f1717;
+  --color-background-content: #1a1f1f;
+  --color-accent-primary: #84c3b2;
+  --color-accent-secondary: #92e7d0;
+  --color-accent-highlight: #ffd0b0;
+  --color-accent-decorative: #e8c3c7;
+  --color-text-primary: #d4c8bf;
+  --color-text-link: #84c3b2;
+  --color-text-heading: #f2efe9;
 }
 
 ::selection {
@@ -39,26 +39,25 @@
   --sh-property: #e25a1c;
   --sh-entity: #e25a1c;
 
-  
-   --color-soft-charcoal: #0F1717;
-  --color-light-charcoal: #1A1F1F;
-  --color-faded-turquoise: #84C3B2;
-  --color-light-faded-turquoise: #92E7D0;
-  --color-warm-tan: #D9B08C;
-  --color-bright-sand: #FFD0B0;
-  --color-pale-sand: #D4C8BF;
-  --color-pale-clay-white: #F2EFE9;
-  --color-soft-coral-pink: #E8C3C7;
+  --color-soft-charcoal: #0f1717;
+  --color-light-charcoal: #1a1f1f;
+  --color-faded-turquoise: #84c3b2;
+  --color-light-faded-turquoise: #92e7d0;
+  --color-warm-tan: #d9b08c;
+  --color-bright-sand: #ffd0b0;
+  --color-pale-sand: #d4c8bf;
+  --color-pale-clay-white: #f2efe9;
+  --color-soft-coral-pink: #e8c3c7;
 
-  --color-background-base: #0F1717;
-  --color-background-content: #1A1F1F;
-  --color-accent-primary: #84C3B2;
-  --color-accent-secondary: #92E7D0;
-  --color-accent-highlight: #FFD0B0;
-  --color-accent-decorative: #E8C3C7;
-  --color-text-primary: #D4C8BF;
-  --color-text-link: #84C3B2;
-  --color-text-heading: #F2EFE9;
+  --color-background-base: #0f1717;
+  --color-background-content: #1a1f1f;
+  --color-accent-primary: #84c3b2;
+  --color-accent-secondary: #92e7d0;
+  --color-accent-highlight: #ffd0b0;
+  --color-accent-decorative: #e8c3c7;
+  --color-text-primary: #d4c8bf;
+  --color-text-link: #84c3b2;
+  --color-text-heading: #f2efe9;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -208,7 +207,11 @@ table {
 }
 
 .prose thead th {
-  background-color: color-mix(in srgb, var(--color-accent-secondary) 20%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-accent-secondary) 20%,
+    transparent
+  );
   padding: 0.75rem 1rem;
   text-align: left;
   font-weight: 600;
@@ -224,8 +227,10 @@ table {
 .prose tbody td {
   padding: 0.75rem 1rem;
   color: var(--color-text-primary);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-accent-secondary) 30%, transparent);
-  border-right: 1px solid color-mix(in srgb, var(--color-accent-secondary) 30%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-accent-secondary) 30%, transparent);
+  border-right: 1px solid
+    color-mix(in srgb, var(--color-accent-secondary) 30%, transparent);
 }
 
 .prose tbody td:last-child {
@@ -237,11 +242,19 @@ table {
 }
 
 .prose tbody tr:hover {
-  background-color: color-mix(in srgb, var(--color-accent-secondary) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-accent-secondary) 10%,
+    transparent
+  );
 }
 
 .prose tbody tr:hover {
-  background-color: color-mix(in srgb, var(--color-accent-secondary) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-accent-secondary) 10%,
+    transparent
+  );
 }
 
 .title {
@@ -249,24 +262,24 @@ table {
 }
 
 /* Global transition for group hover effects */
-.group *[class*="group-hover:"] {
+.group *[class*='group-hover:'] {
   transition: color 200ms ease-in-out;
 }
 
 /* Global drop shadow classes */
 .text-shadow-hero {
-  filter: drop-shadow(2px 2px 4px var(--color-light-charcoal)) 
-          drop-shadow(-2px -2px 4px var(--color-light-charcoal)) 
-          drop-shadow(2px -2px 4px var(--color-light-charcoal)) 
-          drop-shadow(-2px 2px 4px var(--color-light-charcoal)) 
-          drop-shadow(0 0 8px var(--color-light-charcoal)) 
-          drop-shadow(0 0 16px var(--color-light-charcoal));
+  filter: drop-shadow(2px 2px 4px var(--color-light-charcoal))
+    drop-shadow(-2px -2px 4px var(--color-light-charcoal))
+    drop-shadow(2px -2px 4px var(--color-light-charcoal))
+    drop-shadow(-2px 2px 4px var(--color-light-charcoal))
+    drop-shadow(0 0 8px var(--color-light-charcoal))
+    drop-shadow(0 0 16px var(--color-light-charcoal));
 }
 
 .text-shadow-subtitle {
-  filter: drop-shadow(1px 1px 2px var(--color-light-charcoal)) 
-          drop-shadow(-1px -1px 2px var(--color-light-charcoal)) 
-          drop-shadow(1px -1px 2px var(--color-light-charcoal)) 
-          drop-shadow(-1px 1px 2px var(--color-light-charcoal)) 
-          drop-shadow(0 0 4px var(--color-light-charcoal));
+  filter: drop-shadow(1px 1px 2px var(--color-light-charcoal))
+    drop-shadow(-1px -1px 2px var(--color-light-charcoal))
+    drop-shadow(1px -1px 2px var(--color-light-charcoal))
+    drop-shadow(-1px 1px 2px var(--color-light-charcoal))
+    drop-shadow(0 0 4px var(--color-light-charcoal));
 }

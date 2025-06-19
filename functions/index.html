@@ -1,88 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weston Mossman - Portfolio</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 {
-      margin-top: 40px;
-      font-size: 32px;
-    }
-    p {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
-    a {
-      color: #0070f3;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .loading {
-      display: inline-block;
-      position: relative;
-      width: 80px;
-      height: 80px;
-    }
-    .loading div {
-      box-sizing: border-box;
-      display: block;
-      position: absolute;
-      width: 64px;
-      height: 64px;
-      margin: 8px;
-      border: 8px solid #0070f3;
-      border-radius: 50%;
-      animation: loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-      border-color: #0070f3 transparent transparent transparent;
-    }
-    .loading div:nth-child(1) {
-      animation-delay: -0.45s;
-    }
-    .loading div:nth-child(2) {
-      animation-delay: -0.3s;
-    }
-    .loading div:nth-child(3) {
-      animation-delay: -0.15s;
-    }
-    @keyframes loading {
-      0% {
-        transform: rotate(0deg);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weston Mossman - Portfolio</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+          Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
       }
-      100% {
-        transform: rotate(360deg);
+      h1 {
+        margin-top: 40px;
+        font-size: 32px;
       }
-    }
-  </style>
-  <script>
-    // Prevent infinite redirects by checking if we've already tried to redirect
-    if (!window.location.search.includes('attempted=true')) {
-      window.location.href = '/app?attempted=true';
-    }
-  </script>
-</head>
-<body>
-  <h1>Weston Mossman Portfolio</h1>
-  <div class="loading"><div></div><div></div><div></div><div></div></div>
-  <p>Loading portfolio...</p>
-  <p>If you are not redirected automatically, <a href="/app">click here to go to the portfolio</a>.</p>
-  
-  <script>
-    // Try direct navigation after a short delay
-    setTimeout(() => {
-      window.location.href = '/app';
-    }, 2000);
-  </script>
-</body>
+      p {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+      a {
+        color: #0070f3;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .loading {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+      .loading div {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border: 8px solid #0070f3;
+        border-radius: 50%;
+        animation: loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-color: #0070f3 transparent transparent transparent;
+      }
+      .loading div:nth-child(1) {
+        animation-delay: -0.45s;
+      }
+      .loading div:nth-child(2) {
+        animation-delay: -0.3s;
+      }
+      .loading div:nth-child(3) {
+        animation-delay: -0.15s;
+      }
+      @keyframes loading {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <script>
+      // Prevent infinite redirects by checking if we've already tried to redirect
+      if (!window.location.search.includes('attempted=true')) {
+        window.location.href = '/app?attempted=true';
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Weston Mossman Portfolio</h1>
+    <div class="loading">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <p>Loading portfolio...</p>
+    <p>
+      If you are not redirected automatically,
+      <a href="/app">click here to go to the portfolio</a>.
+    </p>
+
+    <script>
+      // Try direct navigation after a short delay
+      setTimeout(() => {
+        window.location.href = '/app';
+      }, 2000);
+    </script>
+  </body>
 </html>

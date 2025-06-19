@@ -23,7 +23,9 @@ function CustomLink(props) {
 }
 
 function RoundedImage(props) {
-  return <ImageWithFallback alt={props.alt} className="rounded-lg" {...props} />;
+  return (
+    <ImageWithFallback alt={props.alt} className="rounded-lg" {...props} />
+  );
 }
 
 function Code({ children, ...props }) {
@@ -45,7 +47,11 @@ function slugify(str) {
 function createHeading(level) {
   const Heading = ({ children }) => {
     let slug = slugify(
-      typeof children === 'string' ? children : React.Children.toArray(children).map(child => (typeof child === 'string' ? child : '')).join(' ')
+      typeof children === 'string'
+        ? children
+        : React.Children.toArray(children)
+            .map((child) => (typeof child === 'string' ? child : ''))
+            .join(' '),
     );
     return React.createElement(
       `h${level}`,
@@ -53,7 +59,7 @@ function createHeading(level) {
       <>
         <a href={`#${slug}`} className="anchor" />
         {children}
-      </>
+      </>,
     );
   };
   Heading.displayName = `Heading${level}`;

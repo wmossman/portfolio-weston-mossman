@@ -58,7 +58,7 @@ export function formatDate(date: string, includeRelative = false) {
   if (!date) {
     return 'No date';
   }
-  
+
   let currentDate = new Date();
   if (!date.includes('T')) {
     date = `${date}T00:00:00`;

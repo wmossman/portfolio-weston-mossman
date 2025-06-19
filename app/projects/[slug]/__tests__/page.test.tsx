@@ -18,7 +18,13 @@ jest.mock('sugar-high', () => ({ highlight: (code) => code }));
 
 // Mock the BackButton component
 jest.mock('app/components/BackButton', () => {
-  return function MockBackButton({ href, label }: { href: string; label: string }) {
+  return function MockBackButton({
+    href,
+    label,
+  }: {
+    href: string;
+    label: string;
+  }) {
     return <div data-testid="back-button">{label}</div>;
   };
 });
@@ -27,12 +33,20 @@ jest.mock('app/components/mdx-utils', () => ({
   getMDXData: jest.fn(() => [
     {
       slug: 'sample-project-1',
-      metadata: { title: 'Sample Project 1', tags: ['tag1'], description: 'desc' },
+      metadata: {
+        title: 'Sample Project 1',
+        tags: ['tag1'],
+        description: 'desc',
+      },
       content: 'Sample content',
     },
     {
       slug: 'sample-project-2',
-      metadata: { title: 'Sample Project 2', tags: ['tag2'], description: 'desc' },
+      metadata: {
+        title: 'Sample Project 2',
+        tags: ['tag2'],
+        description: 'desc',
+      },
       content: 'Sample content',
     },
   ]),
@@ -44,7 +58,9 @@ jest.mock('../../utils', () => ({
 
 describe('ProjectDetailPage', () => {
   it('renders project details for a valid slug', async () => {
-    const ProjectComponent = await ProjectDetailPage({ params: Promise.resolve({ slug: 'sample-project-1' }) });
+    const ProjectComponent = await ProjectDetailPage({
+      params: Promise.resolve({ slug: 'sample-project-1' }),
+    });
     render(ProjectComponent);
     expect(screen.getByText('Sample Project 1')).toBeInTheDocument();
     expect(screen.getByTestId('back-button')).toBeInTheDocument();
@@ -53,7 +69,9 @@ describe('ProjectDetailPage', () => {
 
   it('renders notFound for an invalid slug', async () => {
     const { notFound } = require('next/navigation');
-    await ProjectDetailPage({ params: Promise.resolve({ slug: 'non-existent' }) });
+    await ProjectDetailPage({
+      params: Promise.resolve({ slug: 'non-existent' }),
+    });
     expect(notFound).toHaveBeenCalled();
   });
 });

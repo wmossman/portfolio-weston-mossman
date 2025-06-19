@@ -6,7 +6,9 @@ import Blog from '../page';
 
 // Mock next/navigation's notFound at the top before imports that use it
 jest.mock('next/navigation', () => ({
-  notFound: jest.fn(() => { throw new Error('notFound'); }),
+  notFound: jest.fn(() => {
+    throw new Error('notFound');
+  }),
 }));
 
 // Mock getBlogPosts and formatDate
@@ -49,7 +51,9 @@ describe('Blog page', () => {
   });
 
   it('renders MDX content and title', async () => {
-    const BlogComponent = await Blog({ params: Promise.resolve({ slug: 'first-post' }) });
+    const BlogComponent = await Blog({
+      params: Promise.resolve({ slug: 'first-post' }),
+    });
     render(BlogComponent);
     expect(screen.getByText('First Post')).toBeInTheDocument();
     expect(screen.getByText('Hello from first post')).toBeInTheDocument();
@@ -58,7 +62,9 @@ describe('Blog page', () => {
   });
 
   it('for old post shows navigation buttons and they link to correct posts', async () => {
-    const BlogComponent = await Blog({ params: Promise.resolve({ slug: 'first-post' }) });
+    const BlogComponent = await Blog({
+      params: Promise.resolve({ slug: 'first-post' }),
+    });
     render(BlogComponent);
     // Previous should be disabled, Next should link to second-post
     expect(screen.getByText('Previous').closest('a')).toBeNull();
@@ -67,7 +73,9 @@ describe('Blog page', () => {
   });
 
   it('for recent post shows navigation buttons and they link to correct posts', async () => {
-    const BlogComponent = await Blog({ params: Promise.resolve({ slug: 'second-post' }) });
+    const BlogComponent = await Blog({
+      params: Promise.resolve({ slug: 'second-post' }),
+    });
     render(BlogComponent);
     // Next should be disabled, Previous should link to first-post
     expect(screen.getByText('Next').closest('a')).toBeNull();
@@ -77,7 +85,9 @@ describe('Blog page', () => {
 
   it('renders notFound if post does not exist', async () => {
     const { notFound } = require('next/navigation');
-    await expect(() => Blog({ params: Promise.resolve({ slug: 'non-existent' }) })).rejects.toThrow('notFound');
+    await expect(() =>
+      Blog({ params: Promise.resolve({ slug: 'non-existent' }) }),
+    ).rejects.toThrow('notFound');
     expect(notFound).toHaveBeenCalled();
   });
 });

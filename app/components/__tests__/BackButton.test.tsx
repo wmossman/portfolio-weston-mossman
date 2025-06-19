@@ -5,7 +5,7 @@ import BackButton from '../BackButton';
 describe('BackButton Component', () => {
   it('renders with default label', () => {
     render(<BackButton href="/projects" />);
-    
+
     const link = screen.getByRole('link');
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/projects');
@@ -14,7 +14,7 @@ describe('BackButton Component', () => {
 
   it('renders with custom label', () => {
     render(<BackButton href="/devblog" label="Back to devblog" />);
-    
+
     const link = screen.getByRole('link');
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/devblog');
@@ -23,7 +23,7 @@ describe('BackButton Component', () => {
 
   it('applies default styling classes', () => {
     render(<BackButton href="/projects" />);
-    
+
     const link = screen.getByRole('link');
     expect(link).toHaveClass('text-text-link');
     expect(link).toHaveClass('hover:text-accent-secondary');
@@ -37,17 +37,17 @@ describe('BackButton Component', () => {
 
   it('applies custom className', () => {
     render(<BackButton href="/projects" className="custom-class" />);
-    
+
     const link = screen.getByRole('link');
     expect(link).toHaveClass('custom-class');
   });
 
   it('contains left arrow caret', () => {
     render(<BackButton href="/projects" />);
-    
+
     // Check that the arrow caret is present
     expect(screen.getByText('‹')).toBeInTheDocument();
-    
+
     // Check aria-hidden attribute on the arrow
     const arrow = screen.getByText('‹');
     expect(arrow).toHaveAttribute('aria-hidden', 'true');
@@ -55,11 +55,11 @@ describe('BackButton Component', () => {
 
   it('structures elements correctly', () => {
     render(<BackButton href="/projects" label="Back to projects" />);
-    
+
     const link = screen.getByRole('link');
     const arrow = screen.getByText('‹');
     const text = screen.getByText('Back to projects');
-    
+
     // Both arrow and text should be inside the link
     expect(link).toContainElement(arrow);
     expect(link).toContainElement(text);

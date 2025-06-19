@@ -13,7 +13,11 @@ function stringToColor(str: string) {
   return `hsl(${h}, 70%, 70%)`;
 }
 
-export function ProjectCard({ project, onClick, asLink = true }: {
+export function ProjectCard({
+  project,
+  onClick,
+  asLink = true,
+}: {
   project: Project;
   onClick?: () => void;
   asLink?: boolean;
@@ -33,18 +37,23 @@ export function ProjectCard({ project, onClick, asLink = true }: {
         className="rounded mb-2 object-contain w-full"
         style={{ height: 186, objectFit: 'contain' }}
       />
-      <h2 className="font-bold text-lg mb-1 line-clamp-2 min-h-[58px] max-h-[58px] text-text-heading">{project.title}</h2>
-      <div className="flex flex-wrap gap-1 mb-2 min-h-[58px] max-h-[58px] overflow-hidden" style={{ WebkitLineClamp: 2 }}>
-        {project.tags.map(tag => (
+      <h2 className="font-bold text-lg mb-1 line-clamp-2 min-h-[58px] max-h-[58px] text-text-heading">
+        {project.title}
+      </h2>
+      <div
+        className="flex flex-wrap gap-1 mb-2 min-h-[58px] max-h-[58px] overflow-hidden"
+        style={{ WebkitLineClamp: 2 }}
+      >
+        {project.tags.map((tag) => (
           <Tag key={tag} tag={tag} />
         ))}
       </div>
-      <p className="text-sm text-text-primary mb-2 line-clamp-2 min-h-[58px] max-h-[58px]">{project.summary}</p>
+      <p className="text-sm text-text-primary mb-2 line-clamp-2 min-h-[58px] max-h-[58px]">
+        {project.summary}
+      </p>
     </div>
   );
-  return asLink ? (
-    <Link href={`/projects/${project.slug}`}>{card}</Link>
-  ) : card;
+  return asLink ? <Link href={`/projects/${project.slug}`}>{card}</Link> : card;
 }
 
 export function MoreComingCard() {
@@ -57,7 +66,9 @@ export function MoreComingCard() {
         height={200}
         className="rounded mb-2 object-contain w-full h-40 opacity-50"
       />
-      <h2 className="font-bold text-lg mb-1 text-text-link">More on the way!</h2>
+      <h2 className="font-bold text-lg mb-1 text-text-link">
+        More on the way!
+      </h2>
     </div>
   );
 }

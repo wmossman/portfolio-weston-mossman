@@ -31,7 +31,11 @@ describe('Button Component', () => {
   });
 
   it('handles download attribute for links', () => {
-    render(<Button url="/file.pdf" download>Download PDF</Button>);
+    render(
+      <Button url="/file.pdf" download>
+        Download PDF
+      </Button>,
+    );
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('download');
   });
@@ -51,9 +55,13 @@ describe('Button Component', () => {
 
   it('handles external links with target and rel attributes', () => {
     render(
-      <Button url="https://external.com" target="_blank" rel="noopener noreferrer">
+      <Button
+        url="https://external.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         External Link
-      </Button>
+      </Button>,
     );
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('target', '_blank');

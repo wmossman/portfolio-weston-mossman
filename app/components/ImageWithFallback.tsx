@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import Image, { ImageProps } from 'next/image';
@@ -8,10 +8,10 @@ interface ImageWithFallbackProps extends Omit<ImageProps, 'src'> {
   fallbackSrc?: string;
 }
 
-const ImageWithFallback = ({ 
-  src, 
-  fallbackSrc = '/images/portfolio-fallback.jpg', 
-  ...rest 
+const ImageWithFallback = ({
+  src,
+  fallbackSrc = '/images/portfolio-fallback.jpg',
+  ...rest
 }: ImageWithFallbackProps) => {
   const [imgSrc, setImgSrc] = useState(src);
 

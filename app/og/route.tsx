@@ -10,9 +10,15 @@ export function GET() {
 
   return new ImageResponse(
     (
-      <div tw="flex flex-col w-full h-full items-center justify-center" style={{ backgroundColor: 'var(--color-background-content)' }}>
+      <div
+        tw="flex flex-col w-full h-full items-center justify-center"
+        style={{ backgroundColor: 'var(--color-background-content)' }}
+      >
         <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
-          <h2 tw="flex flex-col text-4xl font-bold tracking-tight text-left" style={{ color: 'var(--color-background-base)' }}>
+          <h2
+            tw="flex flex-col text-4xl font-bold tracking-tight text-left"
+            style={{ color: 'var(--color-background-base)' }}
+          >
             {title}
           </h2>
         </div>

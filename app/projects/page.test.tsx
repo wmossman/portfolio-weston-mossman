@@ -15,7 +15,7 @@ const mockProjects: Project[] = [
     tags: ['React', 'TypeScript'],
     summary: 'This is the first sample project for testing',
     image: '/images/projects/sample1.jpg',
-    date: '2025-01-01'
+    date: '2025-01-01',
   },
   {
     slug: 'another-project',
@@ -23,14 +23,14 @@ const mockProjects: Project[] = [
     tags: ['Next.js', 'TailwindCSS'],
     summary: 'This is another project for testing purposes',
     image: '/images/projects/sample2.jpg',
-    date: '2025-01-02'
-  }
+    date: '2025-01-02',
+  },
 ];
 
 describe('ProjectsGrid', () => {
   it('renders projects', () => {
     render(<ProjectsGrid projects={mockProjects} />);
-    
+
     expect(screen.getByText('Sample Project One')).toBeInTheDocument();
     expect(screen.getByText('Another Project')).toBeInTheDocument();
     expect(screen.getByText('More on the way!')).toBeInTheDocument();

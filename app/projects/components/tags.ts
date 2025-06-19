@@ -68,4 +68,4 @@ export const TAGS = {
 } as const;
 
 export type TagKey = keyof typeof TAGS;
-export type TagMeta = typeof TAGS[TagKey];
+export type TagMeta = (typeof TAGS)[TagKey];

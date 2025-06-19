@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 type Params = Promise<{ slug: string }>;
 
-export async function generateMetadata(props: {params: Params}) {
+export async function generateMetadata(props: { params: Params }) {
   const params = await props.params;
   const posts = getBlogPosts();
   const post = posts.find((post) => post.slug === params.slug);
@@ -67,7 +67,8 @@ export default async function Blog({ params }: { params: Params }) {
     return 1;
   });
   let currentIndex = allBlogs.findIndex((p) => p.slug === resolvedParams.slug);
-  let prevPost = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
+  let prevPost =
+    currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
   let nextPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
   let post = allBlogs[currentIndex];
 
@@ -78,11 +79,14 @@ export default async function Blog({ params }: { params: Params }) {
   return (
     <section>
       <BackButton href="/devblog" label="Back to devblog" />
-      
+
       {/* Previous/Next navigation */}
       <div className="flex justify-between items-center mb-6">
         {prevPost ? (
-          <Link href={`/devblog/${prevPost.slug}`} className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1">
+          <Link
+            href={`/devblog/${prevPost.slug}`}
+            className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1"
+          >
             <span aria-hidden="true">←</span> Previous
           </Link>
         ) : (
@@ -91,7 +95,10 @@ export default async function Blog({ params }: { params: Params }) {
           </span>
         )}
         {nextPost ? (
-          <Link href={`/devblog/${nextPost.slug}`} className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1">
+          <Link
+            href={`/devblog/${nextPost.slug}`}
+            className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1"
+          >
             Next <span aria-hidden="true">→</span>
           </Link>
         ) : (
