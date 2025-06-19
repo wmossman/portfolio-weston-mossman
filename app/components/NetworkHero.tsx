@@ -643,21 +643,15 @@ const NetworkHero = () => {
         let spawnScale = 1;
         if (node.isSpawning) {
           const spawnAge = currentTime - node.spawnStartTime;
-          const coreDuration = 400; // 400ms duration to match CSS
+          const coreDuration = 500; // 400ms duration to match CSS
           const particleDuration = 800; // Twice as long as core duration for particles
-          const glowDuration = 3000; // 3 seconds for glow fade-in
-          const totalDuration = Math.max(particleDuration, glowDuration); // Use particle duration for total
+          const totalDuration = Math.max(particleDuration, coreDuration); // Use particle duration for total
           
           if (spawnAge < totalDuration) {
-            // Simple 0-100% scale animation with cubic-bezier(.47,1.64,.41,.8)
+            // 0-100% scale using ease-in quadratic
             if (spawnAge < coreDuration) {
-              const t = Math.min(spawnAge / coreDuration, 1);
-              // Cubic bezier (.47,1.64,.41,.8) approximation
-              const p0 = 0, p1 = 0.47, p2 = 0.41, p3 = 1;
-              const cp1 = 1.64, cp2 = 0.8;
+              const easedT = Math.min(Math.pow(spawnAge/coreDuration, 3), 1);
               
-              // Simplified cubic bezier calculation for easing
-              const easedT = t * t * (3 - 2 * t); // smooth step for approximation
               spawnScale = easedT; // Simple 0 to 1 scale
             }
             
