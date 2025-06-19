@@ -3,7 +3,6 @@ import { highlight } from 'sugar-high';
 import React from 'react';
 import ImageWithFallback from 'app/components/ImageWithFallback';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import CustomTable, { MarkdownTable } from 'app/components/Table';
 
 function CustomLink(props) {
   let href = props.href;
@@ -80,8 +79,6 @@ let components = {
   a: CustomLink,
   code: Code,
   table: Table,
-  Table: CustomTable,
-  MarkdownTable: MarkdownTable,
   thead: THead,
   tbody: TBody,
   tr: TR,
