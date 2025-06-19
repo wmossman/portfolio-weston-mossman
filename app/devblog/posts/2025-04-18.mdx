@@ -19,15 +19,21 @@ summary: 'Prioritized experiments that double as real features, began template c
 ## Key Learnings and Thoughts
 
 Turning simple demos into real features multiplies impact, and it's fun.
+
 Fibonacci complexity pointing beats guessing time estimates.
+
 Clear MVP scope prevents scope creep and keeps sprints focused.
 
 ## Unfinished Tasks
 
 TESTS!
+
 Finalize template customization: constants, content folder, centralized links.
+
 Complete resume, blog integration, story, and projects portfolio.
+
 Define analytics goals.
+
 Debug the MDX React version conflict.
 
 ## Journal Gist
@@ -40,42 +46,70 @@ I’ve been thinking of product vision for this app and weighing it against tech
 ### **Some ideas**
 
 **An AI chatbot** trained on my voice, my experience, and my offerings, that captures leads.
+
 Gemini or ChatGPT integration
+
 Flex processing of conversations to generate leads with actionables
+
 DynamoDB
+
 **Visitor High Five** (that I just came up with while writing that sentence).
+
 One high five per day
+
 Simple backend
+
 GQL – AWS AppSync
+
 DynamoDB
+
 **Simple HTML Canvas Game**
+
 Something relevant to the mission, maybe an optional page routing feature, drop something into a box and you get sent to that page.
+
 **Feedback & Testimonials Carousel**
+
 FE Only
+
 **Sticky left nav** that pops out and animates some kind of bounce
+
 Images and objects on the page oscillate at some random number at the end of the animation, like they are reacting to physics
 
 ### **Defining Base necessities (in priority order)**
 
   1. Landing page with images and links
+
   2. Resume
+
   3. Blog with this info
+
   4. Story
+
   5. Projects portfolio
+
   6. …All other nifty features
 
 ### **Work planned**
 
 Converting the template into my own
+
 Turning all of the magic numbers into constants – 1 story point
+
 Creating a content folder for text instead of inline, and writing my own content. – 2 story points
+
 Links, etc – 1 story point
+
 Landing page with images and links – 2 story points
 
 ### **Note on story points**
-  We’ve all seen story points, but how we rate our stories varies wildly. I have had great success with complexity pointing, where instead of thinking about how much time something will take (something we are incredibly inaccurate at guessing), we rate something based on complexity. This is something that ends up being far more accurate, stays consistent regardless of experience level, and can provide some great insights. After a few sprints comparing complexity vs actual time spent, you can aggregate the data and see the average agility of the entire team, individual members, etc. From that average, you can then compare the delta from average time per complexity vs actual time for a particular task, or a category of tasks, which help with fine-tuning complexity projection, on top of tipping us off to which types of tasks could use some engineering to promote efficiency, and a metric to measure the success of that.  
+  We’ve all seen story points, but how we rate our stories varies wildly. I have had great success with complexity pointing, where instead of thinking about how much time something will take (something we are incredibly inaccurate at guessing), we rate something based on complexity. This is something that ends up being far more accurate, stays consistent regardless of experience level, and can provide some great insights. After a few sprints comparing complexity vs actual time spent, you can aggregate the data and see the average agility of the entire team, individual members, etc. From that average, you can then compare the delta from average time per complexity vs actual time for a particular task, or a category of tasks, which help with fine-tuning complexity projection, on top of tipping us off to which types of tasks could use some engineering to promote efficiency, and a metric to measure the success of that.
+
   The counting metric for complexity pointing is relative, where the average story is around 5 points. Here’s the trick, instead of counting by one, we count up the Fibonacci sequence. This way, we don’t spend an exorbitant amount of time thinking about specific complexity amounts as the numbers increase, and instead drop them into buckets based on an informed estimate. So it goes 1, 2, 3, 5, 8, 13, 21… BUT, here is another great feature of this kind of pointing: as soon as we hit 21, that is our signal to split the task into two or three subtasks that add up to roughly 21. This way we can think more clearly about breaking complexity into chunks, prioritizing elements, getting it into the pipeline sooner, and in some cases, splitting the work across multiple engineers.
+
 The site is looking great, I’ve been learning more and more about Next.js (and I love the out-of-the-box features so far), and the coffee shop I’m at is starting to get VERY loud and crowded.
+
 I just hit a bug in the blog page, the classic “looks like you are using two different versions of React”. Seen this before. A sub-element is rendering with an older version of React so the hooks/context/rendering logic doesn’t link up. Odd that it’s happening in an official Next.js template project, but since it’s only happening in the blog page (not the list of blogs, the actual blog renderer), my assumption is that the issue lies in one of the dependencies for the MDX rendering component. Will look into the node modules and check for ANOTHER React, or an inline React somewhere, might require some debug sleuthing.
+
 But something crossed my mind, this is the kind of thing that can be rather tedious and mechanical, but complex enough that it takes some digging, referencing, and creativity, which sounds like a perfect test case for modern AI coding tools!
+
 Let’s get into this next workday, signing off for now!

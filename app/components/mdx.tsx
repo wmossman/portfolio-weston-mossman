@@ -3,6 +3,7 @@ import { highlight } from 'sugar-high';
 import React from 'react';
 import ImageWithFallback from 'app/components/ImageWithFallback';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import CustomTable, { MarkdownTable } from 'app/components/Table';
 
 function CustomLink(props) {
   let href = props.href;
@@ -60,7 +61,7 @@ function createHeading(level) {
   return Heading;
 }
 
-// Add standard table element overrides for MDX
+// Simple table components that work with prose styling
 const Table = (props) => <table {...props} />;
 const THead = (props) => <thead {...props} />;
 const TBody = (props) => <tbody {...props} />;
@@ -79,6 +80,8 @@ let components = {
   a: CustomLink,
   code: Code,
   table: Table,
+  Table: CustomTable,
+  MarkdownTable: MarkdownTable,
   thead: THead,
   tbody: TBody,
   tr: TR,

@@ -54,6 +54,11 @@ export function getBlogPosts() {
 }
 
 export function formatDate(date: string, includeRelative = false) {
+  // Guard clause for undefined or null dates
+  if (!date) {
+    return 'No date';
+  }
+  
   let currentDate = new Date();
   if (!date.includes('T')) {
     date = `${date}T00:00:00`;

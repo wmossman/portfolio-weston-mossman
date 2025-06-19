@@ -78,6 +78,14 @@ html {
   white-space: pre-wrap;
 }
 
+.prose {
+  white-space: normal;
+}
+
+.prose pre {
+  white-space: pre-wrap;
+}
+
 .prose .anchor {
   @apply absolute invisible no-underline;
 
@@ -184,10 +192,56 @@ input[type='email'] {
 }
 
 table {
-  display: block;
-  max-width: fit-content;
-  overflow-x: auto;
-  white-space: pre-wrap;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose table {
+  display: table;
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  border: 1px solid var(--color-accent-secondary);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.prose thead th {
+  background-color: color-mix(in srgb, var(--color-accent-secondary) 20%, transparent);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-heading);
+  border-bottom: 1px solid var(--color-accent-secondary);
+  border-right: 1px solid var(--color-accent-secondary);
+}
+
+.prose thead th:last-child {
+  border-right: none;
+}
+
+.prose tbody td {
+  padding: 0.75rem 1rem;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-accent-secondary) 30%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--color-accent-secondary) 30%, transparent);
+}
+
+.prose tbody td:last-child {
+  border-right: none;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr:hover {
+  background-color: color-mix(in srgb, var(--color-accent-secondary) 10%, transparent);
+}
+
+.prose tbody tr:hover {
+  background-color: color-mix(in srgb, var(--color-accent-secondary) 10%, transparent);
 }
 
 .title {
