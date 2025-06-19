@@ -1,0 +1,62 @@
+---
+title: 'Curtailment Curtailer: Duck-Curve Depth Simulator'
+publishedAt: '2025-06-15'
+summary: 'Short PRD for an interactive tool that quantifies curtailment, and shows battery-enabled profit & CO₂ savings per battery size.'
+---
+
+I was pretty excited by the project idea the other day with Todd, and have been having great conversations with local solar/battery grid decarbonization friends. My project plan has shifted from a battery price map to something more useful: **an interactive CAISO SP15 ideal charge time engine, revenue calculator, and curtailment dissipation reduction system.**
+
+I'll start with mock data and just focus on the charge time optimiser and the graphs, then expand from there into real data, ML, user-impacted price and curtailment, and decarbonization calculator.
+
+Here is a short PRD of what I am planning:
+
+## Purpose
+
+Build a concise demo that proves how grid-scale batteries turn “duck-curve” oversupply into revenue and avoided emissions.  
+The tool doubles as a practice project and a realistic and useful conversation starter.
+
+## Goals
+
+- Predict next-day duck-curve depth (MW and hour).
+- Visualise optimal battery charge window, avoided curtailment (MWh / kg CO₂).
+- Display net cost / revenue vs. naïve average-price charging.
+- Learn about curtailment, refresh D3, and have fun!
+
+## Scope
+
+### In
+
+- Hourly LMP (mock first, real data later) for SP15.
+- Greedy optimiser (upgradeable to MILP).
+- Three synced D3 graphs (forecast, curtailment, cost).
+
+### Out
+
+- Real-time updates or multi-node expansion.
+- Ancillary-services co-optimisation.
+- UI for battery degradation cost (future phase).
+
+## Deliverables
+
+1. **Graph A – Forecast** – LMP line, battery charge line, curtailment band.
+2. **Graph B – Curtailment Dissipation** – energy lost with / without battery.
+3. **Graph C – Net Cost** – cost / revenue vs. average-price baseline.
+
+## Data Sources
+
+- CAISO OASIS DAM & RTM LMP (XML).
+- CAISO net-demand & fuel-mix for carbon factor.
+- Mock CSVs to unblock front-end work and as fallback.
+
+## Architecture
+
+Hourly CAISO data (or mock CSV) flows through a Next.js API route.
+
+An optimiser computes the charge schedule, and the results feed three D3 graphs rendered in the client.
+
+## Phases & Timeline
+
+- **Day 5** – Mock data, greedy charge time optimiser, three D3 graphs at `/simulator/curtailment`.
+- **Day 10** – CAISO fetch API + RTK Query wiring.
+- **Day 15** – LightGBM year-long ML regression preprocess, swap in forecasted duck-curve depth.
+- **Expansions** – Upgrade to MILP optimiser, implement variable grid price that increases in response to high charge speed, show carbon-factor overlays.
