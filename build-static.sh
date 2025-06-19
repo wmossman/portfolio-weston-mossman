@@ -12,12 +12,7 @@ fi
 
 # Build static export instead of server components
 echo "Building static export..."
-cp next.config.static.js next.config.js.bak
-cp next.config.js next.config.js.original
-cp next.config.static.js next.config.js
 npx next build
-cp next.config.js.original next.config.js
-rm next.config.js.bak
 
 # Copy necessary files to the output directory
 echo "Copying static files..."

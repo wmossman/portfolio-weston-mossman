@@ -20,7 +20,7 @@ const nextConfig = {
   
   // Configure Cloudflare specific settings
   experimental: {
-    optimizeCss: true
+    optimizeCss: false
   }
 };
 
