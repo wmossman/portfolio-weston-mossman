@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { Navbar } from '../nav';
+import { Navbar } from '../Nav';
 
 // Mock Next.js Link component
 jest.mock('next/link', () => {

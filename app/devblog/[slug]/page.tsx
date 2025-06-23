@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { CustomMDX } from 'app/components/mdx';
+import { CustomMDX } from 'app/components/MDX';
 import { formatDate, getBlogPosts } from 'app/devblog/utils';
 import { baseUrl } from 'app/sitemap';
 import Link from 'next/link';

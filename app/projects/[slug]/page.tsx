@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { CustomMDX } from 'app/components/mdx';
+import { CustomMDX } from 'app/components/MDX';
 import { getMDXData } from 'app/components/mdx-utils';
 import path from 'path';
 import { Tag } from 'app/projects/components/Tag';
