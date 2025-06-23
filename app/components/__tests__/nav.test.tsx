@@ -22,10 +22,14 @@ describe('Portfolio Site Navigation', () => {
 
       // When: They look for navigation options
       // Then: All main sections should be clearly accessible
-      expect(screen.getByRole('link', { name: /devblog/i })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /projects/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('link', { name: /devblog/i }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('link', { name: /projects/i }),
+      ).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /resume/i })).toBeInTheDocument();
-      
+
       // And the logo should link back to home
       const homeLink = screen.getByRole('link', { name: '' }); // Logo link has no text
       expect(homeLink).toHaveAttribute('href', '/');
@@ -37,16 +41,20 @@ describe('Portfolio Site Navigation', () => {
       const user = userEvent.setup();
 
       // When: They interact with the mobile menu button
-      const menuButton = screen.getByRole('button', { name: /toggle navigation menu/i });
+      const menuButton = screen.getByRole('button', {
+        name: /toggle navigation menu/i,
+      });
       expect(menuButton).toBeInTheDocument();
       expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-      
+
       await user.click(menuButton);
 
       // Then: Menu should be marked as expanded and navigation options should become accessible
       expect(menuButton).toHaveAttribute('aria-expanded', 'true');
       expect(screen.getAllByRole('link', { name: /devblog/i })).toHaveLength(2); // Desktop + mobile
-      expect(screen.getAllByRole('link', { name: /projects/i })).toHaveLength(2); // Desktop + mobile  
+      expect(screen.getAllByRole('link', { name: /projects/i })).toHaveLength(
+        2,
+      ); // Desktop + mobile
       expect(screen.getAllByRole('link', { name: /resume/i })).toHaveLength(2); // Desktop + mobile
     });
 
@@ -55,9 +63,11 @@ describe('Portfolio Site Navigation', () => {
       render(<Navbar />);
       const user = userEvent.setup();
 
-      const menuButton = screen.getByRole('button', { name: /toggle navigation menu/i });
+      const menuButton = screen.getByRole('button', {
+        name: /toggle navigation menu/i,
+      });
       await user.click(menuButton);
-      
+
       // Verify menu is open
       expect(menuButton).toHaveAttribute('aria-expanded', 'true');
 
@@ -75,7 +85,9 @@ describe('Portfolio Site Navigation', () => {
       render(<Navbar />);
       const user = userEvent.setup();
 
-      const menuButton = screen.getByRole('button', { name: /toggle navigation menu/i });
+      const menuButton = screen.getByRole('button', {
+        name: /toggle navigation menu/i,
+      });
       await user.click(menuButton);
 
       // When: They press the Escape key
@@ -92,16 +104,20 @@ describe('Portfolio Site Navigation', () => {
       render(<Navbar />);
       const user = userEvent.setup();
 
-      const menuButton = screen.getByRole('button', { name: /toggle navigation menu/i });
+      const menuButton = screen.getByRole('button', {
+        name: /toggle navigation menu/i,
+      });
       await user.click(menuButton);
       expect(menuButton).toHaveAttribute('aria-expanded', 'true');
 
       // When: They click on a navigation link (find the mobile version)
-      const allProjectsLinks = screen.getAllByRole('link', { name: /projects/i });
-      const mobileProjectsLink = allProjectsLinks.find(link => 
-        link.closest('.md\\:hidden')
-      ) || allProjectsLinks[1]; // Fallback to second link which should be mobile
-      
+      const allProjectsLinks = screen.getAllByRole('link', {
+        name: /projects/i,
+      });
+      const mobileProjectsLink =
+        allProjectsLinks.find((link) => link.closest('.md\\:hidden')) ||
+        allProjectsLinks[1]; // Fallback to second link which should be mobile
+
       await user.click(mobileProjectsLink);
 
       // Then: The menu should close automatically to avoid confusion
@@ -118,10 +134,15 @@ describe('Portfolio Site Navigation', () => {
       // Then: Navigation should be semantically structured
       const nav = screen.getByRole('navigation');
       expect(nav).toBeInTheDocument();
-      
-      const menuButton = screen.getByRole('button', { name: /toggle navigation menu/i });
+
+      const menuButton = screen.getByRole('button', {
+        name: /toggle navigation menu/i,
+      });
       expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-      expect(menuButton).toHaveAttribute('aria-label', 'Toggle navigation menu');
+      expect(menuButton).toHaveAttribute(
+        'aria-label',
+        'Toggle navigation menu',
+      );
     });
   });
 });

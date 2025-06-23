@@ -14,6 +14,7 @@ This proof-of-concept adds a sortable, filterable Projects feature at `/projects
 ### Adding a project
 
 1. Create a new MDX file in `app/projects/content/your-slug.mdx` with frontmatter:
+
    ```mdx
    ---
    title: My Project Title
@@ -27,6 +28,7 @@ This proof-of-concept adds a sortable, filterable Projects feature at `/projects
 
    Project description here.
    ```
+
 2. Add a new entry to the `projects` array in `app/projects/utils.ts` referencing your MDX file and metadata.
 
 ### Features

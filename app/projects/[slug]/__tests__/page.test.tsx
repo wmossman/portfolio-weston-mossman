@@ -75,12 +75,12 @@ describe('Individual Project Exploration', () => {
     it('should handle gracefully when project does not exist', async () => {
       // Given: A visitor tries to access a non-existent project URL
       const { notFound } = require('next/navigation');
-      
+
       // When: They navigate to an invalid project slug
       await ProjectDetailPage({
         params: Promise.resolve({ slug: 'non-existent' }),
       });
-      
+
       // Then: The system should handle this gracefully with a 404 response
       expect(notFound).toHaveBeenCalled();
     });

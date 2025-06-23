@@ -20,12 +20,14 @@ describe('Image Display with Graceful Degradation', () => {
           alt="Test project screenshot"
           width={400}
           height={300}
-        />
+        />,
       );
 
       // When: The image loads without issues
-      const image = screen.getByRole('img', { name: /test project screenshot/i });
-      
+      const image = screen.getByRole('img', {
+        name: /test project screenshot/i,
+      });
+
       // Then: Users should see the intended image
       expect(image).toBeInTheDocument();
       expect(image).toHaveAttribute('src', '/images/test-image.jpg');
@@ -39,14 +41,14 @@ describe('Image Display with Graceful Degradation', () => {
           alt="Project showcase"
           width={400}
           height={300}
-        />
+        />,
       );
 
       const image = screen.getByRole('img', { name: /project showcase/i });
-      
+
       // When: The primary image fails to load
       fireEvent.error(image);
-      
+
       // Then: Users should see a fallback image instead of broken content
       expect(image).toHaveAttribute('src', '/images/portfolio-fallback.jpg');
     });
@@ -60,14 +62,14 @@ describe('Image Display with Graceful Degradation', () => {
           alt="Custom content"
           width={400}
           height={300}
-        />
+        />,
       );
 
       const image = screen.getByRole('img', { name: /custom content/i });
-      
+
       // When: The primary image fails and custom fallback is specified
       fireEvent.error(image);
-      
+
       // Then: Users should see the context-appropriate fallback image
       expect(image).toHaveAttribute('src', '/images/custom-fallback.jpg');
     });

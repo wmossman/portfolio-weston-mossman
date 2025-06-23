@@ -6,7 +6,7 @@ describe('Professional Resume Access', () => {
     it('should display the resume page with clear identification', () => {
       // Given: A visitor navigates to the resume section
       render(<ResumePage />);
-      
+
       // When: The page loads
       // Then: They should see clear identification of the resume content
       expect(
@@ -17,10 +17,10 @@ describe('Professional Resume Access', () => {
     it('should provide downloadable PDF access for offline viewing', () => {
       // Given: A visitor wants to download the resume for offline use
       render(<ResumePage />);
-      
+
       // When: They look for download options
       const downloadLink = screen.getByRole('link', { name: /download/i });
-      
+
       // Then: A properly configured download link should be available
       expect(downloadLink).toBeInTheDocument();
       expect(downloadLink).toHaveAttribute(

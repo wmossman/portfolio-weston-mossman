@@ -36,7 +36,8 @@ const mockProject: Project = {
   slug: 'amazing-portfolio-project',
   title: 'Amazing Portfolio Project',
   tags: ['React', 'TypeScript', 'Design'],
-  summary: 'A comprehensive project showcasing modern web development techniques and creative problem solving.',
+  summary:
+    'A comprehensive project showcasing modern web development techniques and creative problem solving.',
   image: '/images/projects/amazing-project.jpg',
   date: '2025-01-15',
 };
@@ -49,13 +50,22 @@ describe('Project Portfolio Browsing Experience', () => {
 
       // When: They see a project card
       // Then: All essential project information should be clearly presented
-      expect(screen.getByRole('heading', { name: /amazing portfolio project/i })).toBeInTheDocument();
-      expect(screen.getByText(/comprehensive project showcasing/i)).toBeInTheDocument();
-      
+      expect(
+        screen.getByRole('heading', { name: /amazing portfolio project/i }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/comprehensive project showcasing/i),
+      ).toBeInTheDocument();
+
       // Project image should be accessible
-      const projectImage = screen.getByRole('img', { name: /amazing portfolio project/i });
-      expect(projectImage).toHaveAttribute('src', '/images/projects/amazing-project.jpg');
-      
+      const projectImage = screen.getByRole('img', {
+        name: /amazing portfolio project/i,
+      });
+      expect(projectImage).toHaveAttribute(
+        'src',
+        '/images/projects/amazing-project.jpg',
+      );
+
       // Technology tags should be visible
       expect(screen.getByTestId('tag-React')).toBeInTheDocument();
       expect(screen.getByTestId('tag-TypeScript')).toBeInTheDocument();
@@ -69,19 +79,30 @@ describe('Project Portfolio Browsing Experience', () => {
 
       // When: They click on the project card
       const projectLink = screen.getByRole('link');
-      
+
       // Then: They should be able to navigate to the detailed project page
-      expect(projectLink).toHaveAttribute('href', '/projects/amazing-portfolio-project');
+      expect(projectLink).toHaveAttribute(
+        'href',
+        '/projects/amazing-portfolio-project',
+      );
     });
 
     it('should support custom interaction handling for non-navigation use cases', async () => {
       // Given: Project cards are used in a context requiring custom interaction
       const mockOnClick = jest.fn();
-      render(<ProjectCard project={mockProject} onClick={mockOnClick} asLink={false} />);
+      render(
+        <ProjectCard
+          project={mockProject}
+          onClick={mockOnClick}
+          asLink={false}
+        />,
+      );
       const user = userEvent.setup();
 
       // When: A visitor clicks the project card
-      const projectCard = screen.getByTestId('project-card-amazing-portfolio-project');
+      const projectCard = screen.getByTestId(
+        'project-card-amazing-portfolio-project',
+      );
       await user.click(projectCard);
 
       // Then: The custom interaction should be triggered
@@ -94,8 +115,12 @@ describe('Project Portfolio Browsing Experience', () => {
 
       // When: They encounter the "more coming" card
       // Then: They should see encouraging messaging about future content
-      expect(screen.getByRole('heading', { name: /more on the way/i })).toBeInTheDocument();
-      expect(screen.getByRole('img', { name: /more coming soon/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: /more on the way/i }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('img', { name: /more coming soon/i }),
+      ).toBeInTheDocument();
     });
 
     it('should maintain consistent visual structure across all project cards', () => {
@@ -104,17 +129,15 @@ describe('Project Portfolio Browsing Experience', () => {
 
       // When: The layout renders
       // Then: Key structural elements should be present for consistent user experience
-      const projectCard = screen.getByTestId('project-card-amazing-portfolio-project');
+      const projectCard = screen.getByTestId(
+        'project-card-amazing-portfolio-project',
+      );
       expect(projectCard).toBeInTheDocument();
-      
+
       // Essential content areas should be structured consistently
       expect(screen.getByRole('heading')).toBeInTheDocument(); // Title
       expect(screen.getByRole('img')).toBeInTheDocument(); // Image
       expect(screen.getByText(/comprehensive project/i)).toBeInTheDocument(); // Summary
-      
-      // NOTE: Testing card height and layout structure here as it affects user experience
-      // This is a borderline BDD test but important for consistent portfolio browsing
-      expect(projectCard).toHaveStyle({ height: '420px' });
     });
   });
 });

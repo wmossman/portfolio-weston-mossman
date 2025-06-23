@@ -97,7 +97,7 @@ describe('Development Blog Reading Experience', () => {
     it('should handle gracefully when blog post does not exist', async () => {
       // Given: A reader tries to access a non-existent blog post URL
       const { notFound } = require('next/navigation');
-      
+
       // When: They navigate to an invalid blog post slug
       // Then: The system should handle this gracefully with a 404 response
       await expect(() =>
