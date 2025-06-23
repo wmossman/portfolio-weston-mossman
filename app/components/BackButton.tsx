@@ -14,7 +14,7 @@ export default function BackButton({
   return (
     <Link
       href={href}
-      className={`text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1 mb-6 transition-colors ${className}`}
+      className={`text-text-link hover:text-accent-secondary flex items-center gap-1 mb-6 transition-colors ${className}`}
     >
       <span aria-hidden="true">‹</span>
       <span>{label}</span>
