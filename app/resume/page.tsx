@@ -24,21 +24,21 @@ export default function ResumePage() {
           <div className="flex flex-wrap justify-center gap-4 text-sm text-text-primary">
             <a
               href="mailto:weston@westonmossman.com"
-              className="text-faded-turquoise hover:underline hover:text-light-faded-turquoise"
+              className="text-faded-turquoise hover:text-light-faded-turquoise"
             >
               weston@westonmossman.com
             </a>
             <span>•</span>
             <a
               href="https://linkedin.com/in/westonmossman"
-              className="text-faded-turquoise hover:underline hover:text-light-faded-turquoise"
+              className="text-faded-turquoise hover:text-light-faded-turquoise"
             >
               LinkedIn
             </a>
             <span>•</span>
             <a
               href="https://github.com/wmossman"
-              className="text-faded-turquoise hover:underline hover:text-light-faded-turquoise"
+              className="text-faded-turquoise hover:text-light-faded-turquoise"
             >
               GitHub
             </a>

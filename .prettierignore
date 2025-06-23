@@ -1,0 +1,6 @@
+.cloudflare/
+.next/
+.swc/
+node_modules/
+out/
+pnpm-lock.yaml

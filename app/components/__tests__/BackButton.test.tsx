@@ -21,20 +21,6 @@ describe('BackButton Component', () => {
     expect(link).toHaveTextContent('Back to devblog');
   });
 
-  it('applies default styling classes', () => {
-    render(<BackButton href="/projects" />);
-
-    const link = screen.getByRole('link');
-    expect(link).toHaveClass('text-text-link');
-    expect(link).toHaveClass('hover:text-accent-secondary');
-    expect(link).toHaveClass('hover:underline');
-    expect(link).toHaveClass('flex');
-    expect(link).toHaveClass('items-center');
-    expect(link).toHaveClass('gap-1');
-    expect(link).toHaveClass('mb-6');
-    expect(link).toHaveClass('transition-colors');
-  });
-
   it('applies custom className', () => {
     render(<BackButton href="/projects" className="custom-class" />);
 

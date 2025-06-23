@@ -85,7 +85,7 @@ export default async function Blog({ params }: { params: Params }) {
         {prevPost ? (
           <Link
             href={`/devblog/${prevPost.slug}`}
-            className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1"
+            className="text-text-link hover:text-accent-secondary flex items-center gap-1"
           >
             <span aria-hidden="true">←</span> Previous
           </Link>
@@ -97,7 +97,7 @@ export default async function Blog({ params }: { params: Params }) {
         {nextPost ? (
           <Link
             href={`/devblog/${nextPost.slug}`}
-            className="text-text-link hover:text-accent-secondary hover:underline flex items-center gap-1"
+            className="text-text-link hover:text-accent-secondary flex items-center gap-1"
           >
             Next <span aria-hidden="true">→</span>
           </Link>
