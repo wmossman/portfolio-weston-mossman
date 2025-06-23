@@ -45,49 +45,65 @@ jest.mock('app/components/mdx', () => ({
   CustomMDX: ({ source }: { source: string }) => <div>{source}</div>,
 }));
 
-describe('Blog page', () => {
+describe('Development Blog Reading Experience', () => {
   beforeEach(() => {
     require('../../utils').getBlogPosts.mockReturnValue([...mockPosts]);
   });
 
-  it('renders MDX content and title', async () => {
-    const BlogComponent = await Blog({
-      params: Promise.resolve({ slug: 'first-post' }),
-    });
-    render(BlogComponent);
-    expect(screen.getByText('First Post')).toBeInTheDocument();
-    expect(screen.getByText('Hello from first post')).toBeInTheDocument();
-    expect(screen.getByText('Formatted: 2025-04-17')).toBeInTheDocument();
-    expect(screen.getByText('Back to devblog')).toBeInTheDocument();
-  });
+  describe('when readers want to explore development insights', () => {
+    it('should display complete blog post with metadata for reader engagement', async () => {
+      // Given: A reader clicks on a blog post to read development insights
+      const BlogComponent = await Blog({
+        params: Promise.resolve({ slug: 'first-post' }),
+      });
+      render(BlogComponent);
 
-  it('for old post shows navigation buttons and they link to correct posts', async () => {
-    const BlogComponent = await Blog({
-      params: Promise.resolve({ slug: 'first-post' }),
+      // When: The blog post loads
+      // Then: They should see the title, content, publication date, and navigation back
+      expect(screen.getByText('First Post')).toBeInTheDocument();
+      expect(screen.getByText('Hello from first post')).toBeInTheDocument();
+      expect(screen.getByText('Formatted: 2025-04-17')).toBeInTheDocument();
+      expect(screen.getByText('Back to devblog')).toBeInTheDocument();
     });
-    render(BlogComponent);
-    // Previous should be disabled, Next should link to second-post
-    expect(screen.getByText('Previous').closest('a')).toBeNull();
-    const nextLink = screen.getByText('Next').closest('a');
-    expect(nextLink).toHaveAttribute('href', '/devblog/second-post');
-  });
 
-  it('for recent post shows navigation buttons and they link to correct posts', async () => {
-    const BlogComponent = await Blog({
-      params: Promise.resolve({ slug: 'second-post' }),
+    it('should enable chronological navigation through older blog posts', async () => {
+      // Given: A reader is viewing the first (oldest) blog post
+      const BlogComponent = await Blog({
+        params: Promise.resolve({ slug: 'first-post' }),
+      });
+      render(BlogComponent);
+
+      // When: They look for navigation to newer posts
+      // Then: Previous should be unavailable, Next should lead to newer content
+      expect(screen.getByText('Previous').closest('a')).toBeNull();
+      const nextLink = screen.getByText('Next').closest('a');
+      expect(nextLink).toHaveAttribute('href', '/devblog/second-post');
     });
-    render(BlogComponent);
-    // Next should be disabled, Previous should link to first-post
-    expect(screen.getByText('Next').closest('a')).toBeNull();
-    const prevLink = screen.getByText('Previous').closest('a');
-    expect(prevLink).toHaveAttribute('href', '/devblog/first-post');
-  });
 
-  it('renders notFound if post does not exist', async () => {
-    const { notFound } = require('next/navigation');
-    await expect(() =>
-      Blog({ params: Promise.resolve({ slug: 'non-existent' }) }),
-    ).rejects.toThrow('notFound');
-    expect(notFound).toHaveBeenCalled();
+    it('should enable chronological navigation through recent blog posts', async () => {
+      // Given: A reader is viewing the most recent blog post
+      const BlogComponent = await Blog({
+        params: Promise.resolve({ slug: 'second-post' }),
+      });
+      render(BlogComponent);
+
+      // When: They look for navigation to older posts
+      // Then: Next should be unavailable, Previous should lead to older content
+      expect(screen.getByText('Next').closest('a')).toBeNull();
+      const prevLink = screen.getByText('Previous').closest('a');
+      expect(prevLink).toHaveAttribute('href', '/devblog/first-post');
+    });
+
+    it('should handle gracefully when blog post does not exist', async () => {
+      // Given: A reader tries to access a non-existent blog post URL
+      const { notFound } = require('next/navigation');
+      
+      // When: They navigate to an invalid blog post slug
+      // Then: The system should handle this gracefully with a 404 response
+      await expect(() =>
+        Blog({ params: Promise.resolve({ slug: 'non-existent' }) }),
+      ).rejects.toThrow('notFound');
+      expect(notFound).toHaveBeenCalled();
+    });
   });
 });

@@ -27,12 +27,25 @@ const mockProjects: Project[] = [
   },
 ];
 
-describe('ProjectsGrid', () => {
-  it('renders projects', () => {
-    render(<ProjectsGrid projects={mockProjects} />);
+describe('Project Portfolio Browsing', () => {
+  describe('when visitors explore the project portfolio', () => {
+    it('should display all available projects for user browsing', () => {
+      // Given: A visitor wants to browse available projects
+      render(<ProjectsGrid projects={mockProjects} />);
 
-    expect(screen.getByText('Sample Project One')).toBeInTheDocument();
-    expect(screen.getByText('Another Project')).toBeInTheDocument();
-    expect(screen.getByText('More on the way!')).toBeInTheDocument();
+      // When: The projects grid loads
+      // Then: All project titles should be visible for user selection
+      expect(screen.getByText('Sample Project One')).toBeInTheDocument();
+      expect(screen.getByText('Another Project')).toBeInTheDocument();
+    });
+
+    it('should encourage future engagement with upcoming content teaser', () => {
+      // Given: A visitor has browsed through available projects
+      render(<ProjectsGrid projects={mockProjects} />);
+
+      // When: They reach the end of the current project list
+      // Then: They should see encouragement about future content
+      expect(screen.getByText('More on the way!')).toBeInTheDocument();
+    });
   });
 });
