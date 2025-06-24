@@ -59,6 +59,7 @@ export default [
     // Ignore certain files that might cause issues
     ignores: [
       'node_modules/**',
+      '.husky/**',
       '.next/**',
       'out/**',
       '.env',

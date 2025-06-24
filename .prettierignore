@@ -1,4 +1,5 @@
 .cloudflare/
+.husky/
 .next/
 .swc/
 node_modules/
