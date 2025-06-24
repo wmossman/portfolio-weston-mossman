@@ -6,12 +6,12 @@ export const baseUrl = 'https://westonmossman.com';
 export const dynamic = 'force-static';
 
 export default async function sitemap() {
-  let blogs = getBlogPosts().map((post) => ({
+  const blogs = getBlogPosts().map((post) => ({
     url: `${baseUrl}/devblog/${post.slug}`,
     lastModified: post.metadata.publishedAt,
   }));
 
-  let routes = ['', '/devblog'].map((route) => ({
+  const routes = ['', '/devblog'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }));

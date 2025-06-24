@@ -6,7 +6,7 @@ export const dynamic = 'error';
 
 export function GET() {
   // Using a fixed title for static export
-  let title = 'Weston Mossman Portfolio';
+  const title = 'Weston Mossman Portfolio';
 
   return new ImageResponse(
     (

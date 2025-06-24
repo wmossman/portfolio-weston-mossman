@@ -5,7 +5,7 @@ import ImageWithFallback from 'app/components/ImageWithFallback';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 function CustomLink(props) {
-  let href = props.href;
+  const href = props.href;
 
   if (href.startsWith('/')) {
     return (
@@ -29,7 +29,7 @@ function RoundedImage(props) {
 }
 
 function Code({ children, ...props }) {
-  let codeHTML = highlight(children);
+  const codeHTML = highlight(children);
   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
 }
 
@@ -46,7 +46,7 @@ function slugify(str) {
 
 function createHeading(level) {
   const Heading = ({ children }) => {
-    let slug = slugify(
+    const slug = slugify(
       typeof children === 'string'
         ? children
         : React.Children.toArray(children)
@@ -74,7 +74,7 @@ const TR = (props) => <tr {...props} />;
 const TH = (props) => <th {...props} />;
 const TD = (props) => <td {...props} />;
 
-let components = {
+const components = {
   h1: createHeading(1),
   h2: createHeading(2),
   h3: createHeading(3),

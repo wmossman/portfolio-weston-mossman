@@ -6,7 +6,7 @@ import Link from 'next/link';
 import BackButton from 'app/components/BackButton';
 
 export function generateStaticParams() {
-  let posts = getBlogPosts();
+  const posts = getBlogPosts();
 
   return posts.map((post) => ({
     slug: post.slug,
@@ -23,14 +23,14 @@ export async function generateMetadata(props: { params: Params }) {
     return;
   }
 
-  let {
+  const {
     title,
     publishedAt: publishedTime,
     summary: description,
     image,
   } = post.metadata;
   // Use image if provided, otherwise use portfolio photo as default
-  let ogImage = image ? image : `${baseUrl}/images/portfolio-photo.jpg`;
+  const ogImage = image ? image : `${baseUrl}/images/portfolio-photo.jpg`;
 
   return {
     title,
@@ -58,7 +58,7 @@ export async function generateMetadata(props: { params: Params }) {
 
 export default async function Blog({ params }: { params: Params }) {
   const resolvedParams = await params;
-  let allBlogs = getBlogPosts();
+  const allBlogs = getBlogPosts();
   // Sort blogs by publishedAt descending (newest first)
   allBlogs.sort((a, b) => {
     if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
@@ -66,11 +66,13 @@ export default async function Blog({ params }: { params: Params }) {
     }
     return 1;
   });
-  let currentIndex = allBlogs.findIndex((p) => p.slug === resolvedParams.slug);
-  let prevPost =
+  const currentIndex = allBlogs.findIndex(
+    (p) => p.slug === resolvedParams.slug,
+  );
+  const prevPost =
     currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
-  let nextPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
-  let post = allBlogs[currentIndex];
+  const nextPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
+  const post = allBlogs[currentIndex];
 
   if (!post) {
     notFound();

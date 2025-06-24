@@ -11,11 +11,11 @@ export type MDXMetadata = {
 };
 
 export function parseFrontmatter(fileContent: string) {
-  let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
-  let match = frontmatterRegex.exec(fileContent);
+  const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
+  const match = frontmatterRegex.exec(fileContent);
   if (!match) return { metadata: {}, content: fileContent };
-  let frontMatterBlock = match[1];
-  let content = fileContent.replace(frontmatterRegex, '').trim();
+  const frontMatterBlock = match[1];
+  const content = fileContent.replace(frontmatterRegex, '').trim();
   let metadata: any = {};
   try {
     metadata = yaml.load(frontMatterBlock) || {};
@@ -34,15 +34,15 @@ export function getMDXFiles(dir: string) {
 }
 
 export function readMDXFile(filePath: string) {
-  let rawContent = fs.readFileSync(filePath, 'utf-8');
+  const rawContent = fs.readFileSync(filePath, 'utf-8');
   return parseFrontmatter(rawContent);
 }
 
 export function getMDXData(dir: string) {
-  let mdxFiles = getMDXFiles(dir);
+  const mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
-    let { metadata, content } = readMDXFile(path.join(dir, file));
-    let slug = path.basename(file, path.extname(file));
+    const { metadata, content } = readMDXFile(path.join(dir, file));
+    const slug = path.basename(file, path.extname(file));
     return {
       metadata,
       slug,

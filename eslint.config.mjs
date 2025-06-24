@@ -2,51 +2,70 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
-import json from '@eslint/json';
-import markdown from '@eslint/markdown';
-import css from '@eslint/css';
-import { defineConfig } from 'eslint/config';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
-export default defineConfig([
+export default [
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    plugins: { js },
-    extends: ['js/recommended'],
+    plugins: {
+      react: pluginReact,
+      'react-hooks': pluginReactHooks,
+    },
+    languageOptions: {
+      globals: { 
+        ...globals.browser, 
+        ...globals.node 
+      },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    rules: {
+      ...pluginReact.configs.recommended.rules,
+      ...pluginReactHooks.configs.recommended.rules,
+      // Next.js specific rules - disable React import requirement
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+      // Override problematic rules
+      'react/display-name': 'off',
+      'react/prop-types': 'off',
+      'react/no-unknown-property': ['error', { ignore: ['tw'] }],
+      'react/no-unescaped-entities': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { 
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_'
+      }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-require-imports': 'warn',
+    },
   },
+  eslintPluginPrettierRecommended,
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    languageOptions: { globals: { ...globals.browser, ...globals.node } },
+    // Ignore certain files that might cause issues
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'dist/**',
+      'build/**',
+      '.cloudflare/**',
+      'functions/**',
+      'pages/**',
+      'public/**',
+      '*.config.js',
+      '*.config.mjs',
+    ],
   },
-  tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
-  {
-    files: ['**/*.json'],
-    plugins: { json },
-    language: 'json/json',
-    extends: ['json/recommended'],
-  },
-  {
-    files: ['**/*.jsonc'],
-    plugins: { json },
-    language: 'json/jsonc',
-    extends: ['json/recommended'],
-  },
-  {
-    files: ['**/*.json5'],
-    plugins: { json },
-    language: 'json/json5',
-    extends: ['json/recommended'],
-  },
-  {
-    files: ['**/*.md'],
-    plugins: { markdown },
-    language: 'markdown/gfm',
-    extends: ['markdown/recommended'],
-  },
-  {
-    files: ['**/*.css'],
-    plugins: { css },
-    language: 'css/css',
-    extends: ['css/recommended'],
-  },
-]);
+];
