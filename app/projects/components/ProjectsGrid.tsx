@@ -4,14 +4,15 @@ import { useState } from 'react';
 import { ProjectCard, MoreComingCard } from './ProjectCard';
 import { Tag } from './Tag';
 import PageTitle from 'app/components/PageTitle';
+import { Project } from '../utils';
 
-function getAllTags(projects: any[]) {
+function getAllTags(projects: Project[]) {
   const tagSet = new Set<string>();
   projects.forEach((p) => p.tags.forEach((tag: string) => tagSet.add(tag)));
   return Array.from(tagSet).sort();
 }
 
-function stringToColor(str: string) {
+function _stringToColor(str: string) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -20,7 +21,7 @@ function stringToColor(str: string) {
   return `hsl(${h}, 70%, 70%)`;
 }
 
-export default function ProjectsGrid({ projects }: { projects: any[] }) {
+export default function ProjectsGrid({ projects }: { projects: Project[] }) {
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const tags = getAllTags(projects);
   const filtered =

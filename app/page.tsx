@@ -1,4 +1,3 @@
-import { BlogPosts } from 'app/components/posts';
 import landingPageContent from 'app/content/landing-page-content';
 import ImageWithFallback from 'app/components/ImageWithFallback';
 import Button from 'app/components/Button';

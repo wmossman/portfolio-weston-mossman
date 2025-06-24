@@ -16,10 +16,10 @@ export function parseFrontmatter(fileContent: string) {
   if (!match) return { metadata: {}, content: fileContent };
   const frontMatterBlock = match[1];
   const content = fileContent.replace(frontmatterRegex, '').trim();
-  let metadata: any = {};
+  let metadata: Record<string, unknown> = {};
   try {
-    metadata = yaml.load(frontMatterBlock) || {};
-  } catch (e) {
+    metadata = (yaml.load(frontMatterBlock) as Record<string, unknown>) || {};
+  } catch {
     metadata = {};
   }
   // Always ensure tags is an array if present

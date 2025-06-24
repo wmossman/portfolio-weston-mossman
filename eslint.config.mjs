@@ -50,6 +50,8 @@ export default [
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-require-imports': 'warn',
+      // Disable Next.js rules that aren't available
+      '@next/next/no-img-element': 'off',
     },
   },
   eslintPluginPrettierRecommended,
@@ -58,6 +60,8 @@ export default [
     ignores: [
       'node_modules/**',
       '.next/**',
+      'out/**',
+      '.env',
       'dist/**',
       'build/**',
       '.cloudflare/**',

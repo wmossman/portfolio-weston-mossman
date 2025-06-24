@@ -39,9 +39,9 @@ const NetworkHero = () => {
   const animationIdRef = useRef<number>();
   const mouseRef = useRef({ x: 0, y: 0 });
   const trackingPointRef = useRef({ x: 0, y: 0, vx: 0, vy: 0 }); // Invisible point with velocity
-  const cameraTargetRef = useRef({ x: 0, y: 0 });
-  const cameraPositionRef = useRef({ x: 0, y: 0 });
-  const cameraSmoothedRef = useRef({ x: 0, y: 0 });
+  const _cameraTargetRef = useRef({ x: 0, y: 0 });
+  const _cameraPositionRef = useRef({ x: 0, y: 0 });
+  const _cameraSmoothedRef = useRef({ x: 0, y: 0 });
   const composerRef = useRef<EffectComposer | null>(null);
   const contextLossHandlerRef = useRef<((event: Event) => void) | null>(null);
   const contextRestoreHandlerRef = useRef<(() => void) | null>(null);
@@ -178,14 +178,14 @@ const NetworkHero = () => {
     });
 
     // Enhanced line material with increased thickness (1.6x more from current)
-    const lineMaterial = new THREE.LineBasicMaterial({
+    const _lineMaterial = new THREE.LineBasicMaterial({
       color: warmTan,
       transparent: true,
       opacity: 0.8,
       linewidth: 6.4, // Increased 1.6x from 4 to 6.4
     });
 
-    const lineGlowMaterial = new THREE.LineBasicMaterial({
+    const _lineGlowMaterial = new THREE.LineBasicMaterial({
       color: fadedTurquoise,
       transparent: true,
       opacity: 0.3,
@@ -729,7 +729,7 @@ const NetworkHero = () => {
       // Update node glow based on connection count with pulsing effect
       nodesRef.current.forEach((node) => {
         const connectionCount = node.connections.length;
-        const glowIntensity = Math.min(connectionCount / 8, 1); // Updated for max 8 connections
+        const _glowIntensity = Math.min(connectionCount / 8, 1); // Updated for max 8 connections
 
         // Handle spawn animation with simple 0-100% scale
         let spawnScale = 1;
@@ -797,7 +797,7 @@ const NetworkHero = () => {
         // Add pulsing effect (much slower and based on node creation time to prevent restart)
         const baseTime = currentTime - node.createdAt; // Use node's age for consistent timing
         const pulseSpeed = 0.0004; // 1/5 of original speed (was 0.002 base)
-        const pulse = (Math.sin(baseTime * pulseSpeed) + 1) / 2;
+        const _pulse = (Math.sin(baseTime * pulseSpeed) + 1) / 2;
 
         // Check if node is fading out
         let nodeFadeMultiplier = 1;
@@ -1052,6 +1052,10 @@ const NetworkHero = () => {
 
     // Cleanup
     return () => {
+      // Store the mount element reference for cleanup to avoid stale closure
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const mountElement = mountRef.current;
+
       // Clear any pending initialization timeout
       if (initializationTimeoutRef.current) {
         clearTimeout(initializationTimeoutRef.current);
@@ -1065,8 +1069,8 @@ const NetworkHero = () => {
 
       window.removeEventListener('resize', handleResize);
 
-      if (mountRef.current) {
-        mountRef.current.removeEventListener('mousemove', handleMouseMove);
+      if (mountElement) {
+        mountElement.removeEventListener('mousemove', handleMouseMove);
       }
 
       // Clean up Three.js objects in proper order
@@ -1156,12 +1160,9 @@ const NetworkHero = () => {
           gl.getExtension('WEBGL_lose_context')!.loseContext();
         }
 
-        if (
-          mountRef.current &&
-          renderer.domElement.parentNode === mountRef.current
-        ) {
+        if (mountElement && renderer.domElement.parentNode === mountElement) {
           try {
-            mountRef.current.removeChild(renderer.domElement);
+            mountElement.removeChild(renderer.domElement);
           } catch (error) {
             console.warn('Error removing canvas element:', error);
           }

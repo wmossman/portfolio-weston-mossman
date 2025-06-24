@@ -3,7 +3,7 @@ import { Project } from '../utils';
 import { Tag } from './Tag';
 import ImageWithFallback from 'app/components/ImageWithFallback';
 
-function stringToColor(str: string) {
+function _stringToColor(str: string) {
   // Simple hash to HSL color
   let hash = 0;
   for (let i = 0; i < str.length; i++) {

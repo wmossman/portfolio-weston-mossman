@@ -1,5 +1,4 @@
 // Project data model and loader for MDX content
-import fs from 'fs';
 import path from 'path';
 import { getMDXData } from 'app/components/mdx-utils';
 

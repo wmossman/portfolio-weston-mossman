@@ -1,7 +1,6 @@
 // __tests__/page.test.tsx
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Blog from '../page';
 
 // Mock next/navigation's notFound at the top before imports that use it
@@ -47,7 +46,10 @@ jest.mock('app/components/mdx', () => ({
 
 describe('Development Blog Reading Experience', () => {
   beforeEach(() => {
-    require('../../utils').getBlogPosts.mockReturnValue([...mockPosts]);
+    const utils = jest.requireActual('../../utils') as {
+      getBlogPosts: jest.Mock;
+    };
+    utils.getBlogPosts.mockReturnValue([...mockPosts]);
   });
 
   describe('when readers want to explore development insights', () => {
@@ -96,7 +98,7 @@ describe('Development Blog Reading Experience', () => {
 
     it('should handle gracefully when blog post does not exist', async () => {
       // Given: A reader tries to access a non-existent blog post URL
-      const { notFound } = require('next/navigation');
+      const { notFound } = await import('next/navigation');
 
       // When: They navigate to an invalid blog post slug
       // Then: The system should handle this gracefully with a 404 response

@@ -1,9 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import ProjectsPage from '../page';
+import { render, screen } from '@testing-library/react';
 import ProjectDetailPage from '../page';
-import { projects } from '../../utils';
 import '@testing-library/jest-dom';
-import { useRouter, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(() => ({ push: jest.fn() })),
@@ -19,10 +17,10 @@ jest.mock('sugar-high', () => ({ highlight: (code) => code }));
 // Mock the BackButton component
 jest.mock('app/components/BackButton', () => {
   return function MockBackButton({
-    href,
+    _href,
     label,
   }: {
-    href: string;
+    _href: string;
     label: string;
   }) {
     return <div data-testid="back-button">{label}</div>;
@@ -74,7 +72,6 @@ describe('Individual Project Exploration', () => {
 
     it('should handle gracefully when project does not exist', async () => {
       // Given: A visitor tries to access a non-existent project URL
-      const { notFound } = require('next/navigation');
 
       // When: They navigate to an invalid project slug
       await ProjectDetailPage({

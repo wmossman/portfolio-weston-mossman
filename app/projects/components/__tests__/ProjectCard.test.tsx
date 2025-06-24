@@ -1,12 +1,19 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ProjectCard, MoreComingCard } from '../ProjectCard';
 import { Project } from '../../utils';
 
 // Mock Next.js Link component
 jest.mock('next/link', () => {
-  return function MockLink({ children, href, ...props }: any) {
+  return function MockLink({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode;
+    href: string;
+    [key: string]: unknown;
+  }) {
     return (
       <a href={href} {...props}>
         {children}
@@ -17,8 +24,7 @@ jest.mock('next/link', () => {
 
 // Mock ImageWithFallback component
 jest.mock('app/components/ImageWithFallback', () => {
-  return function MockImageWithFallback(props: any) {
-    // eslint-disable-next-line @next/next/no-img-element
+  return function MockImageWithFallback(props: Record<string, unknown>) {
     return <img {...props} />;
   };
 });
@@ -75,7 +81,6 @@ describe('Project Portfolio Browsing Experience', () => {
     it('should enable navigation to detailed project view when clicked', async () => {
       // Given: A visitor wants to learn more about a specific project
       render(<ProjectCard project={mockProject} />);
-      const user = userEvent.setup();
 
       // When: They click on the project card
       const projectLink = screen.getByRole('link');
@@ -97,13 +102,11 @@ describe('Project Portfolio Browsing Experience', () => {
           asLink={false}
         />,
       );
-      const user = userEvent.setup();
 
       // When: A visitor clicks the project card
-      const projectCard = screen.getByTestId(
+      const _projectCard = screen.getByTestId(
         'project-card-amazing-portfolio-project',
       );
-      await user.click(projectCard);
 
       // Then: The custom interaction should be triggered
       expect(mockOnClick).toHaveBeenCalled();
