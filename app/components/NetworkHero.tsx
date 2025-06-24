@@ -810,15 +810,16 @@ const NetworkHero = () => {
 
         // Core node material opacity control with subtle brightness and pulse effects
         const nodeMaterial = node.mesh.material as THREE.MeshBasicMaterial;
-        
+
         // Subtle brightness increase based on connections (8% max increase)
-        const brightnessMultiplier = 1 + (glowIntensity * 0.08);
-        
+        const brightnessMultiplier = 1 + glowIntensity * 0.08;
+
         // Very subtle pulse effect (3% max variation)
-        const pulseMultiplier = 1 - (pulse * 0.05);
-        
+        const pulseMultiplier = 1 - pulse * 0.05;
+
         // Combine all effects for opacity
-        const finalOpacity = 0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
+        const finalOpacity =
+          0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
         nodeMaterial.opacity = Math.min(finalOpacity, 1.0); // Clamp to max 1.0
 
         // Update opacity of all connected edges based on this node's fade state
