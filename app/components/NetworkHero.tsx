@@ -170,7 +170,7 @@ const NetworkHero = () => {
     pointLight.position.set(10, 10, 10);
     scene.add(pointLight);
 
-    // Single node material with high bloom - turquoise colored (using MeshBasicMaterial to avoid lighting issues)
+    // Single node material with high bloom - turquoise colored (using MeshBasicMaterial for consistent bloom)
     const nodeMaterial = new THREE.MeshBasicMaterial({
       color: new THREE.Color('#84C3B2'), // Turquoise color
       transparent: true,
@@ -729,7 +729,7 @@ const NetworkHero = () => {
       // Update node glow based on connection count with pulsing effect
       nodesRef.current.forEach((node) => {
         const connectionCount = node.connections.length;
-        const _glowIntensity = Math.min(connectionCount / 8, 1); // Updated for max 8 connections
+        const glowIntensity = Math.min(connectionCount / 8, 1); // Updated for max 8 connections
 
         // Handle spawn animation with simple 0-100% scale
         let spawnScale = 1;
@@ -794,10 +794,10 @@ const NetworkHero = () => {
           }
         }
 
-        // Add pulsing effect (much slower and based on node creation time to prevent restart)
+        // Add pulsing effect (very slow and subtle, based on node creation time to prevent restart)
         const baseTime = currentTime - node.createdAt; // Use node's age for consistent timing
-        const pulseSpeed = 0.0004; // 1/5 of original speed (was 0.002 base)
-        const _pulse = (Math.sin(baseTime * pulseSpeed) + 1) / 2;
+        const pulseSpeed = 0.012;
+        const pulse = (Math.sin(baseTime * pulseSpeed) + 1) / 2;
 
         // Check if node is fading out
         let nodeFadeMultiplier = 1;
@@ -808,9 +808,18 @@ const NetworkHero = () => {
           nodeFadeMultiplier = 1 - fadeProgress;
         }
 
-        // Core node material opacity control
-        (node.mesh.material as THREE.MeshBasicMaterial).opacity =
-          0.9 * nodeFadeMultiplier;
+        // Core node material opacity control with subtle brightness and pulse effects
+        const nodeMaterial = node.mesh.material as THREE.MeshBasicMaterial;
+        
+        // Subtle brightness increase based on connections (8% max increase)
+        const brightnessMultiplier = 1 + (glowIntensity * 0.08);
+        
+        // Very subtle pulse effect (3% max variation)
+        const pulseMultiplier = 1 - (pulse * 0.05);
+        
+        // Combine all effects for opacity
+        const finalOpacity = 0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
+        nodeMaterial.opacity = Math.min(finalOpacity, 1.0); // Clamp to max 1.0
 
         // Update opacity of all connected edges based on this node's fade state
         node.connections.forEach((connection) => {
