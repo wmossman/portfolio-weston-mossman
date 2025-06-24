@@ -11,7 +11,7 @@ export default function Page() {
     <section>
       <PageTitle>Devblog</PageTitle>
       <h3 className="text-xl my-12 text-text-heading">
-        Total development time: 24 hours (3 workdays)
+        Follow along with my latest projects, experiments, and thoughts
       </h3>
       <BlogPosts />
     </section>

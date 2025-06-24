@@ -56,7 +56,7 @@ export default function Button({
     'inline-flex items-center justify-center rounded-lg font-medium transition-colors cursor-pointer';
   const colorClass = colorClasses[color];
   const sizeClass = sizeClasses[size];
-  const disabledClass = disabled ? 'opacity-50 cursor-not-allowed' : '';
+  const disabledClass = disabled ? 'opacity-50 cursor-default' : '';
 
   const combinedClasses =
     `${baseClasses} ${colorClass} ${sizeClass} ${disabledClass} ${className}`.trim();

@@ -90,7 +90,7 @@ export default async function Blog({ params }: { params: Params }) {
             <span aria-hidden="true">←</span> Previous
           </Link>
         ) : (
-          <span className="text-text-link/50 flex items-center gap-1 cursor-not-allowed select-none">
+          <span className="text-text-link/50 flex items-center gap-1 cursor-default select-none">
             <span aria-hidden="true">←</span> Previous
           </span>
         )}
@@ -102,7 +102,7 @@ export default async function Blog({ params }: { params: Params }) {
             Next <span aria-hidden="true">→</span>
           </Link>
         ) : (
-          <span className="text-text-link/50 flex items-center gap-1 cursor-not-allowed select-none">
+          <span className="text-text-link/50 flex items-center gap-1 cursor-default select-none">
             Next <span aria-hidden="true">→</span>
           </span>
         )}
