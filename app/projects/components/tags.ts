@@ -1,5 +1,10 @@
 // Tag metadata for all projects
 export const TAGS = {
+  Ongoing: {
+    label: 'Ongoing',
+    emoji: '🛠️',
+    color: '#FF7F50', // coral
+  },
   Climate: {
     label: 'Climate',
     emoji: '🌱',
@@ -49,11 +54,6 @@ export const TAGS = {
     label: 'Consulting',
     emoji: '🧑‍💼',
     color: '#00B8A9', // consulting teal
-  },
-  Speaking: {
-    label: 'Speaking',
-    emoji: '🎤',
-    color: '#FF7F50', // coral
   },
   Advising: {
     label: 'Advising',

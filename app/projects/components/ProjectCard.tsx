@@ -24,7 +24,7 @@ export function ProjectCard({
 }) {
   const card = (
     <div
-      className="bg-background-content border border-accent-secondary rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
+      className="bg-background-content rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
       style={{ height: 420 }}
       onClick={onClick}
       data-testid={`project-card-${project.slug}`}
@@ -58,7 +58,7 @@ export function ProjectCard({
 
 export function MoreComingCard() {
   return (
-    <div className="bg-accent-decorative/10 rounded-lg shadow p-4 flex flex-col items-center justify-center grayscale border border-dashed border-accent-secondary">
+    <div className="bg-accent-decorative/10 rounded-lg shadow p-4 flex flex-col items-center justify-center grayscale">
       <ImageWithFallback
         src="/images/portfolio-photo.jpg"
         alt="More coming soon"
