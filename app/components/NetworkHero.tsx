@@ -20,14 +20,48 @@ interface NetworkNode {
 interface NetworkConnection {
   from: NetworkNode;
   to: NetworkNode;
-  line: THREE.Object3D; // Changed from THREE.Line to THREE.Object3D to support both lines and meshes
-  glowLine: THREE.Object3D; // Changed from THREE.Line to THREE.Object3D
+  line: THREE.Object3D;
+  glowLine: THREE.Object3D;
   createdAt: number;
   opacity: number;
   isAnimating: boolean;
   animationProgress: number;
   leadingParticle?: THREE.Group;
 }
+
+// Constants
+const COLORS = {
+  background: '#0F1717',
+  brightSand: '#FFD0B0',
+  warmTan: '#D9B08C',
+  fadedTurquoise: '#84C3B2',
+  white: '#FFFFFF',
+} as const;
+
+const TIMING = {
+  nodeCreationInterval: 600,
+  connectionAttemptInterval: 150,
+  spawnCoreDuration: 500,
+  spawnParticleDuration: 800,
+  nodeMaxAge: 25000,
+  nodeFadeDuration: 12500,
+} as const;
+
+const LIMITS = {
+  maxConnections: 160,
+  maxNodes: 50,
+  maxConnectionsPerNode: 8,
+  particleCount: 60,
+  burstParticleCount: 60,
+} as const;
+
+const SIZES = {
+  nodeRadius: 0.2,
+  tubeRadius: 0.024,
+  glowTubeMultiplier: 4.0,
+  particleSize: 0.02,
+  burstParticleSize: 0.06,
+} as const;
 
 const NetworkHero = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -38,10 +72,7 @@ const NetworkHero = () => {
   const connectionsRef = useRef<NetworkConnection[]>([]);
   const animationIdRef = useRef<number>();
   const mouseRef = useRef({ x: 0, y: 0 });
-  const trackingPointRef = useRef({ x: 0, y: 0, vx: 0, vy: 0 }); // Invisible point with velocity
-  const _cameraTargetRef = useRef({ x: 0, y: 0 });
-  const _cameraPositionRef = useRef({ x: 0, y: 0 });
-  const _cameraSmoothedRef = useRef({ x: 0, y: 0 });
+  const trackingPointRef = useRef({ x: 0, y: 0, vx: 0, vy: 0 });
   const composerRef = useRef<EffectComposer | null>(null);
   const contextLossHandlerRef = useRef<((event: Event) => void) | null>(null);
   const contextRestoreHandlerRef = useRef<(() => void) | null>(null);
@@ -73,20 +104,20 @@ const NetworkHero = () => {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#0F1717'); // --color-soft-charcoal
+    scene.background = new THREE.Color(COLORS.background);
     sceneRef.current = scene;
 
-    // Camera setup with reduced FOV to prevent edge warping
+    // Camera setup
     const camera = new THREE.PerspectiveCamera(
-      66.5, // Reduced FOV to 70% (95 * 0.7 = 66.5) to reduce edge warping
+      66.5,
       mountRef.current.clientWidth / mountRef.current.clientHeight,
       0.1,
       1000,
     );
-    camera.position.z = 25; // Zoomed out to compensate for narrower FOV
+    camera.position.z = 25;
     cameraRef.current = camera;
 
-    // Renderer setup with enhanced settings
+    // Renderer setup
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -99,7 +130,6 @@ const NetworkHero = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    // Enable post-processing for blur effects
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     // Ensure container is empty before appending
@@ -136,16 +166,16 @@ const NetworkHero = () => {
       handleContextRestore,
     );
 
-    // Set up bloom post-processing with BloomEffect
+    // Set up bloom post-processing
     const composer = new EffectComposer(renderer);
     composerRef.current = composer;
     const renderPass = new RenderPass(scene, camera);
 
     const bloomEffect = new BloomEffect({
-      intensity: 7.0, // Further increased for stronger bloom on cylinders
-      luminanceThreshold: 0.01, // Even lower threshold to catch more emissive material
-      luminanceSmoothing: 0.95, // Very smooth transitions
-      height: 1024, // Higher resolution for crisp bloom
+      intensity: 7.0,
+      luminanceThreshold: 0.01,
+      luminanceSmoothing: 0.95,
+      height: 1024,
     });
 
     const effectPass = new EffectPass(camera, bloomEffect);
@@ -153,77 +183,68 @@ const NetworkHero = () => {
     composer.addPass(renderPass);
     composer.addPass(effectPass);
 
-    // Colors from your palette
-    const brightSand = new THREE.Color('#FFD0B0'); // --color-bright-sand
-    const warmTan = new THREE.Color('#D9B08C'); // --color-warm-tan
-    const fadedTurquoise = new THREE.Color('#84C3B2'); // --color-faded-turquoise
-
-    // Add ambient lighting for depth
-    const ambientLight = new THREE.AmbientLight(fadedTurquoise, 0.4);
+    // Lighting setup
+    const ambientLight = new THREE.AmbientLight(COLORS.fadedTurquoise, 0.4);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(
-      new THREE.Color('#FFFFFF'),
-      0.6,
-      50,
-    ); // Changed to neutral white
+    const pointLight = new THREE.PointLight(COLORS.white, 0.6, 50);
     pointLight.position.set(10, 10, 10);
     scene.add(pointLight);
 
-    // Single node material with high bloom - turquoise colored (using MeshBasicMaterial for consistent bloom)
-    const nodeMaterial = new THREE.MeshBasicMaterial({
-      color: new THREE.Color('#84C3B2'), // Turquoise color
-      transparent: true,
-      opacity: 0.9,
-    });
+    // Material creation utilities
+    const createNodeMaterial = () =>
+      new THREE.MeshBasicMaterial({
+        color: new THREE.Color(COLORS.fadedTurquoise),
+        transparent: true,
+        opacity: 0.9,
+      });
 
-    // Enhanced line material with increased thickness (1.6x more from current)
-    const _lineMaterial = new THREE.LineBasicMaterial({
-      color: warmTan,
-      transparent: true,
-      opacity: 0.8,
-      linewidth: 6.4, // Increased 1.6x from 4 to 6.4
-    });
+    const createTubeMaterial = (color: string) =>
+      new THREE.MeshStandardMaterial({
+        color: new THREE.Color(color),
+        transparent: true,
+        opacity: 1.0,
+        emissive: new THREE.Color(color),
+        emissiveIntensity: 0.8,
+        roughness: 0.0,
+        metalness: 0.1,
+      });
 
-    const _lineGlowMaterial = new THREE.LineBasicMaterial({
-      color: fadedTurquoise,
-      transparent: true,
-      opacity: 0.3,
-      linewidth: 19.2, // Increased 1.6x from 12 to 19.2
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    });
+    const createGlowTubeMaterial = (color: string) =>
+      new THREE.MeshStandardMaterial({
+        color: new THREE.Color(color),
+        transparent: true,
+        opacity: 0.25,
+        emissive: new THREE.Color(color),
+        emissiveIntensity: 0.8,
+        roughness: 0.0,
+        metalness: 0.0,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
 
-    // Single node geometry - reduced to 80% size
-    const nodeGeometry = new THREE.SphereGeometry(0.2, 12, 12); // Reduced from 0.25 to 0.2 (80%)
+    // Geometries
+    const nodeGeometry = new THREE.SphereGeometry(SIZES.nodeRadius, 12, 12);
 
     // Helper functions
     const createNode = (position: THREE.Vector3): NetworkNode => {
-      // Create single node mesh with high bloom material
-      const nodeMesh = new THREE.Mesh(nodeGeometry, nodeMaterial.clone());
-
+      const nodeMesh = new THREE.Mesh(nodeGeometry, createNodeMaterial());
       nodeMesh.position.copy(position);
-
-      // Start node at zero scale for spawn animation
       nodeMesh.scale.setScalar(0);
-
       scene.add(nodeMesh);
 
-      // Create spawn particle burst (5x more particles in a sphere)
-      const burstParticleCount = 60; // Increased from 12 to 60 (5x)
+      // Create spawn particle burst
       const burstGeometry = new THREE.BufferGeometry();
-      const burstPositions = new Float32Array(burstParticleCount * 3);
-      const burstVelocities = new Float32Array(burstParticleCount * 3);
+      const burstPositions = new Float32Array(LIMITS.burstParticleCount * 3);
+      const burstVelocities = new Float32Array(LIMITS.burstParticleCount * 3);
 
-      // Initialize particles at the node position with spherical distribution
-      for (let i = 0; i < burstParticleCount; i++) {
+      for (let i = 0; i < LIMITS.burstParticleCount; i++) {
         burstPositions[i * 3] = position.x;
         burstPositions[i * 3 + 1] = position.y;
         burstPositions[i * 3 + 2] = position.z;
 
-        // Spherical distribution instead of circular
-        const phi = Math.acos(2 * Math.random() - 1); // Polar angle
-        const theta = 2 * Math.PI * Math.random(); // Azimuthal angle
+        const phi = Math.acos(2 * Math.random() - 1);
+        const theta = 2 * Math.PI * Math.random();
         const speed = 0.8 + Math.random() * 0.4;
 
         burstVelocities[i * 3] = Math.sin(phi) * Math.cos(theta) * speed;
@@ -241,8 +262,8 @@ const NetworkHero = () => {
       );
 
       const burstMaterial = new THREE.PointsMaterial({
-        color: new THREE.Color('#84C3B2'), // Create new color instance for fadedTurquoise
-        size: 0.06, // Reduced to half size (0.12 * 0.5 = 0.06)
+        color: new THREE.Color(COLORS.fadedTurquoise),
+        size: SIZES.burstParticleSize,
         transparent: true,
         opacity: 1.0,
         blending: THREE.AdditiveBlending,
@@ -269,60 +290,43 @@ const NetworkHero = () => {
       from: NetworkNode,
       to: NetworkNode,
     ): NetworkConnection => {
-      // Calculate connection properties
       const distance = from.position.distanceTo(to.position);
-      const lineColor = distance < 4 ? brightSand : warmTan;
+      const lineColor = distance < 4 ? COLORS.brightSand : COLORS.warmTan;
 
-      // Create tube geometry for smooth, bloom-friendly edges
       const direction = new THREE.Vector3().subVectors(
         to.position,
         from.position,
       );
       const connectionLength = direction.length();
 
-      // Create main connection tube (thicker for better bloom)
-      const tubeRadius = 0.024; // Increased by 1.6x from 0.015 for better bloom coverage
-      const tubeSegments = Math.max(12, Math.floor(connectionLength * 6)); // Even higher resolution
+      // Create main connection tube
+      const tubeSegments = Math.max(12, Math.floor(connectionLength * 6));
       const tubeGeometry = new THREE.CylinderGeometry(
-        tubeRadius,
-        tubeRadius,
+        SIZES.tubeRadius,
+        SIZES.tubeRadius,
         connectionLength,
         8,
         tubeSegments,
       );
 
-      // Create material for main tube with brighter, more vivid colors for better bloom
-      const tubeMaterial = new THREE.MeshStandardMaterial({
-        color: lineColor,
-        transparent: true,
-        opacity: 1.0, // Full opacity for brighter appearance
-        emissive: lineColor,
-        emissiveIntensity: 0.8, // Increased from 0.2 for much more bloom
-        roughness: 0.0, // Smoother for better light reflection
-        metalness: 0.1,
-      });
-
+      const tubeMaterial = createTubeMaterial(lineColor);
       const tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
 
-      // Position and orient the tube to start at source node
-      // Use existing direction vector and position tube at source, growing toward destination
+      // Position and orient the tube
       const tubeDirection = direction.clone().normalize();
-
-      // Position tube at source node + half length offset along direction
       const halfLength = connectionLength / 2;
       const tubeStartPosition = from.position
         .clone()
         .add(tubeDirection.clone().multiplyScalar(halfLength));
+
       tubeMesh.position.copy(tubeStartPosition);
       tubeMesh.lookAt(to.position);
-      tubeMesh.rotateX(Math.PI / 2); // Adjust orientation for cylinder
-
-      // Initially scale to zero for animation (will grow from source toward destination)
-      tubeMesh.scale.set(1, 0, 1); // Scale Y (length) to 0 for drawing animation
+      tubeMesh.rotateX(Math.PI / 2);
+      tubeMesh.scale.set(1, 0, 1);
       scene.add(tubeMesh);
 
-      // Create glow tube (larger and more transparent)
-      const glowTubeRadius = tubeRadius * 4.0; // Increased glow radius for better bloom spread
+      // Create glow tube
+      const glowTubeRadius = SIZES.tubeRadius * SIZES.glowTubeMultiplier;
       const glowTubeGeometry = new THREE.CylinderGeometry(
         glowTubeRadius,
         glowTubeRadius,
@@ -330,30 +334,21 @@ const NetworkHero = () => {
         8,
         tubeSegments,
       );
-      const glowTubeMaterial = new THREE.MeshStandardMaterial({
-        color: lineColor,
-        transparent: true,
-        opacity: 0.25, // Increased opacity for more visible glow
-        emissive: lineColor,
-        emissiveIntensity: 0.8, // Much higher emissive for stronger bloom effect
-        roughness: 0.0,
-        metalness: 0.0,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      });
 
+      const glowTubeMaterial = createGlowTubeMaterial(lineColor);
       const glowTubeMesh = new THREE.Mesh(glowTubeGeometry, glowTubeMaterial);
-      glowTubeMesh.position.copy(tubeStartPosition); // Use same position as main tube
+
+      glowTubeMesh.position.copy(tubeStartPosition);
       glowTubeMesh.lookAt(to.position);
       glowTubeMesh.rotateX(Math.PI / 2);
-      glowTubeMesh.scale.set(1, 0, 1); // Scale Y (length) to 0 for drawing animation
+      glowTubeMesh.scale.set(1, 0, 1);
       scene.add(glowTubeMesh);
 
       const connection: NetworkConnection = {
         from,
         to,
-        line: tubeMesh, // Using tube mesh instead of line
-        glowLine: glowTubeMesh, // Using glow tube mesh
+        line: tubeMesh,
+        glowLine: glowTubeMesh,
         createdAt: Date.now(),
         opacity: 0.8,
         isAnimating: true,
@@ -434,26 +429,21 @@ const NetworkHero = () => {
     };
 
     const getRandomPosition = (): THREE.Vector3 => {
-      // Get full viewport width since we now extend to screen edges
       const viewportWidth = mountRef.current?.clientWidth || window.innerWidth;
-      // Scale horizontal bounds based on full screen width for better coverage
       let horizontalBounds = Math.min(45, (viewportWidth / 1200) * 45);
 
-      // Scale vertical bounds relative to viewport height
-      // Use window.innerHeight to get device viewport height
       const viewportHeight = window.innerHeight;
-      // Base vertical bounds on viewport height with a scaling factor
-      let verticalBounds = (viewportHeight / 1080) * 23.04; // Scale relative to 1080px baseline
+      let verticalBounds = (viewportHeight / 1080) * 23.04;
 
-      // Mobile/tablet adjustments (viewport width < 768px)
+      // Mobile/tablet adjustments
       if (viewportWidth < 768) {
-        horizontalBounds *= 1.1; // 110% wider on mobile
-        verticalBounds *= 1.6; // 130% taller on mobile
+        horizontalBounds *= 1.1;
+        verticalBounds *= 1.6;
       }
 
       return new THREE.Vector3(
-        (Math.random() - 0.5) * horizontalBounds, // Responsive horizontal space with mobile scaling
-        (Math.random() - 0.5) * verticalBounds, // Viewport-relative vertical space with mobile scaling
+        (Math.random() - 0.5) * horizontalBounds,
+        (Math.random() - 0.5) * verticalBounds,
         (Math.random() - 0.5) * 15,
       );
     };
@@ -477,20 +467,19 @@ const NetworkHero = () => {
         (conn) => conn.from === node2 || conn.to === node2,
       );
 
-      // Increase connections per node to 8 for more dense network
       const hasRoomForConnection =
-        node1.connections.length < 8 && node2.connections.length < 8;
+        node1.connections.length < LIMITS.maxConnectionsPerNode &&
+        node2.connections.length < LIMITS.maxConnectionsPerNode;
 
       return !alreadyConnected && hasRoomForConnection;
     };
 
-    // Particle system for visual effects (increased count)
-    const particleCount = 60;
+    // Particle system for visual effects
     const particleGeometry = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-    const particleVelocities = new Float32Array(particleCount * 3);
+    const particlePositions = new Float32Array(LIMITS.particleCount * 3);
+    const particleVelocities = new Float32Array(LIMITS.particleCount * 3);
 
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < LIMITS.particleCount; i++) {
       particlePositions[i * 3] = (Math.random() - 0.5) * 40;
       particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 25;
       particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 20;
@@ -506,8 +495,8 @@ const NetworkHero = () => {
     );
 
     const particleMaterial = new THREE.PointsMaterial({
-      color: fadedTurquoise,
-      size: 0.02,
+      color: new THREE.Color(COLORS.fadedTurquoise),
+      size: SIZES.particleSize,
       transparent: true,
       opacity: 0.6,
       sizeAttenuation: true,
@@ -516,13 +505,10 @@ const NetworkHero = () => {
     const particles = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particles);
 
-    // Animation variables with improved edge management
+    // Animation variables
     let lastNodeCreation = 0;
-    const nodeCreationInterval = 600; // Create nodes faster
     let lastConnectionAttempt = 0;
-    const connectionAttemptInterval = 150; // Try connections more frequently
-    const maxConnections = 160; // Doubled from 80 to 160 (2x more edges)
-    const resumeThreshold = 10; // Resume when 10 less than max
+    const resumeThreshold = 10;
     let isWaitingForEdgeReduction = false;
 
     // Animation loop
@@ -533,14 +519,17 @@ const NetworkHero = () => {
       const currentEdgeCount = connectionsRef.current.length;
 
       // If we've hit max edges, start waiting
-      if (currentEdgeCount >= maxConnections && !isWaitingForEdgeReduction) {
+      if (
+        currentEdgeCount >= LIMITS.maxConnections &&
+        !isWaitingForEdgeReduction
+      ) {
         isWaitingForEdgeReduction = true;
       }
 
       // If we're waiting and edges have reduced enough, resume
       if (
         isWaitingForEdgeReduction &&
-        currentEdgeCount <= maxConnections - resumeThreshold
+        currentEdgeCount <= LIMITS.maxConnections - resumeThreshold
       ) {
         isWaitingForEdgeReduction = false;
       }
@@ -548,7 +537,7 @@ const NetworkHero = () => {
       // Create new nodes only if we're not waiting for edge reduction
       if (
         !isWaitingForEdgeReduction &&
-        currentTime - lastNodeCreation > nodeCreationInterval
+        currentTime - lastNodeCreation > TIMING.nodeCreationInterval
       ) {
         const newPosition = getRandomPosition();
         const newNode = createNode(newPosition);
@@ -556,7 +545,7 @@ const NetworkHero = () => {
         lastNodeCreation = currentTime;
 
         // Try to connect to nearby nodes only if we have room for more connections
-        if (currentEdgeCount < maxConnections) {
+        if (currentEdgeCount < LIMITS.maxConnections) {
           const nearbyNodes = findNearbyNodes(newPosition);
           nearbyNodes.forEach((nearbyNode) => {
             // Don't connect to nodes that are fading out
@@ -564,7 +553,7 @@ const NetworkHero = () => {
               !nearbyNode.isRemoving &&
               shouldCreateConnection(newNode, nearbyNode) &&
               Math.random() < 0.7 &&
-              connectionsRef.current.length < maxConnections
+              connectionsRef.current.length < LIMITS.maxConnections
             ) {
               const connection = createConnection(newNode, nearbyNode);
               connectionsRef.current.push(connection);
@@ -575,9 +564,10 @@ const NetworkHero = () => {
 
       // Try to create additional connections between existing nodes only if we have room
       if (
-        currentTime - lastConnectionAttempt > connectionAttemptInterval &&
+        currentTime - lastConnectionAttempt >
+          TIMING.connectionAttemptInterval &&
         nodesRef.current.length > 1 &&
-        connectionsRef.current.length < maxConnections
+        connectionsRef.current.length < LIMITS.maxConnections
       ) {
         const randomNode1 =
           nodesRef.current[Math.floor(Math.random() * nodesRef.current.length)];
@@ -729,25 +719,30 @@ const NetworkHero = () => {
       // Update node glow based on connection count with pulsing effect
       nodesRef.current.forEach((node) => {
         const connectionCount = node.connections.length;
-        const glowIntensity = Math.min(connectionCount / 8, 1); // Updated for max 8 connections
+        const glowIntensity = Math.min(
+          connectionCount / LIMITS.maxConnectionsPerNode,
+          1,
+        );
 
         // Handle spawn animation with simple 0-100% scale
         let spawnScale = 1;
         if (node.isSpawning) {
           const spawnAge = currentTime - node.spawnStartTime;
-          const coreDuration = 500; // 400ms duration to match CSS
-          const particleDuration = 800; // Twice as long as core duration for particles
-          const totalDuration = Math.max(particleDuration, coreDuration); // Use particle duration for total
+          const totalDuration = Math.max(
+            TIMING.spawnParticleDuration,
+            TIMING.spawnCoreDuration,
+          );
 
           if (spawnAge < totalDuration) {
-            // 0-100% scale using ease-in quadratic
-            if (spawnAge < coreDuration) {
-              const easedT = Math.min(Math.pow(spawnAge / coreDuration, 3), 1);
-
-              spawnScale = easedT; // Simple 0 to 1 scale
+            if (spawnAge < TIMING.spawnCoreDuration) {
+              const easedT = Math.min(
+                Math.pow(spawnAge / TIMING.spawnCoreDuration, 3),
+                1,
+              );
+              spawnScale = easedT;
             }
 
-            // Animate spawn particles with longer duration and slower fade
+            // Animate spawn particles
             if (node.spawnParticles) {
               const positions = node.spawnParticles.geometry.attributes.position
                 .array as Float32Array;
@@ -756,11 +751,12 @@ const NetworkHero = () => {
               const material = node.spawnParticles
                 .material as THREE.PointsMaterial;
 
-              // Fade out particles over particle duration (twice as long, half as fast)
-              const newOpacity = Math.max(0, 1 - spawnAge / particleDuration);
+              const newOpacity = Math.max(
+                0,
+                1 - spawnAge / TIMING.spawnParticleDuration,
+              );
               material.opacity = newOpacity;
 
-              // Delete particles when they reach 0% opacity (fully transparent)
               if (newOpacity <= 0) {
                 scene.remove(node.spawnParticles);
                 node.spawnParticles.geometry.dispose();
@@ -769,9 +765,8 @@ const NetworkHero = () => {
                 ).dispose();
                 node.spawnParticles = undefined;
               } else {
-                // Move particles outward much slower
                 for (let i = 0; i < positions.length / 3; i++) {
-                  positions[i * 3] += velocities[i * 3] * 0.005; // Reduced from 0.02 to 0.005 (4x slower)
+                  positions[i * 3] += velocities[i * 3] * 0.005;
                   positions[i * 3 + 1] += velocities[i * 3 + 1] * 0.005;
                   positions[i * 3 + 2] += velocities[i * 3 + 2] * 0.005;
                 }
@@ -780,11 +775,9 @@ const NetworkHero = () => {
               }
             }
           } else {
-            // Spawn animation complete
             node.isSpawning = false;
             spawnScale = 1;
 
-            // Remove spawn particles
             if (node.spawnParticles) {
               scene.remove(node.spawnParticles);
               node.spawnParticles.geometry.dispose();
@@ -794,8 +787,8 @@ const NetworkHero = () => {
           }
         }
 
-        // Add pulsing effect (very slow and subtle, based on node creation time to prevent restart)
-        const baseTime = currentTime - node.createdAt; // Use node's age for consistent timing
+        // Add pulsing effect based on node creation time
+        const baseTime = currentTime - node.createdAt;
         const pulseSpeed = 0.012;
         const pulse = (Math.sin(baseTime * pulseSpeed) + 1) / 2;
 
@@ -803,45 +796,39 @@ const NetworkHero = () => {
         let nodeFadeMultiplier = 1;
         if (node.isRemoving && node.fadeStartTime) {
           const fadeAge = currentTime - node.fadeStartTime;
-          const fadeDuration = 12500; // 12.5 seconds fade duration
-          const fadeProgress = Math.min(fadeAge / fadeDuration, 1);
+          const fadeProgress = Math.min(fadeAge / TIMING.nodeFadeDuration, 1);
           nodeFadeMultiplier = 1 - fadeProgress;
         }
 
         // Core node material opacity control with subtle brightness and pulse effects
         const nodeMaterial = node.mesh.material as THREE.MeshBasicMaterial;
 
-        // Subtle brightness increase based on connections (8% max increase)
         const brightnessMultiplier = 1 + glowIntensity * 0.08;
-
-        // Very subtle pulse effect (3% max variation)
         const pulseMultiplier = 1 - pulse * 0.05;
 
-        // Combine all effects for opacity
         const finalOpacity =
           0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
-        nodeMaterial.opacity = Math.min(finalOpacity, 1.0); // Clamp to max 1.0
+        nodeMaterial.opacity = Math.min(finalOpacity, 1.0);
 
         // Update opacity of all connected edges based on this node's fade state
         node.connections.forEach((connection) => {
-          // Find the fade multiplier for the other node
           const otherNode =
             connection.from === node ? connection.to : connection.from;
           let otherNodeFadeMultiplier = 1;
           if (otherNode.isRemoving && otherNode.fadeStartTime) {
             const otherFadeAge = currentTime - otherNode.fadeStartTime;
-            const fadeDuration = 12500;
-            const otherFadeProgress = Math.min(otherFadeAge / fadeDuration, 1);
+            const otherFadeProgress = Math.min(
+              otherFadeAge / TIMING.nodeFadeDuration,
+              1,
+            );
             otherNodeFadeMultiplier = 1 - otherFadeProgress;
           }
 
-          // Use the lower opacity (more faded) of the two connected nodes
           const connectionOpacity = Math.min(
             nodeFadeMultiplier,
             otherNodeFadeMultiplier,
           );
 
-          // Apply to tube mesh materials (cast to Mesh to access material)
           const tubeMesh = connection.line as THREE.Mesh;
           const glowTubeMesh = connection.glowLine as THREE.Mesh;
           (tubeMesh.material as THREE.MeshBasicMaterial).opacity =
@@ -850,7 +837,6 @@ const NetworkHero = () => {
             0.15 * connectionOpacity;
         });
 
-        // Simplified scaling - only the main node mesh
         node.mesh.scale.setScalar(spawnScale);
       });
 
@@ -858,24 +844,22 @@ const NetworkHero = () => {
       nodesRef.current.forEach((node) => {
         if (
           !node.isRemoving &&
-          connectionsRef.current.length < maxConnections
+          connectionsRef.current.length < LIMITS.maxConnections
         ) {
           const age = currentTime - node.createdAt;
-          const nodeMaxAge = 25000; // Same as used later
-          const midLifePoint = nodeMaxAge / 3; // 1/3 of lifetime
-          const connectionWindow = 2000; // 2 second window around mid-life point
+          const midLifePoint = TIMING.nodeMaxAge / 3;
+          const connectionWindow = 2000;
 
           // Check if node is in its mid-life connection window
           if (age >= midLifePoint && age <= midLifePoint + connectionWindow) {
-            const nearbyNodes = findNearbyNodes(node.position, 8); // Slightly larger search radius
+            const nearbyNodes = findNearbyNodes(node.position, 8);
             nearbyNodes.forEach((nearbyNode) => {
               if (
                 !nearbyNode.isRemoving &&
                 shouldCreateConnection(node, nearbyNode) &&
                 Math.random() < 0.3 &&
-                connectionsRef.current.length < maxConnections
+                connectionsRef.current.length < LIMITS.maxConnections
               ) {
-                // Lower probability for mid-life connections
                 const connection = createConnection(node, nearbyNode);
                 connectionsRef.current.push(connection);
               }
@@ -884,10 +868,8 @@ const NetworkHero = () => {
         }
       });
 
-      // Handle node fade-out and removal with same process as edges
-      const maxNodes = 50; // Increased from 25 to 50
-      const nodeMaxAge = 25000; // 25 seconds
-      const nodeFadeStartAge = nodeMaxAge / 2; // Start fading at 12.5 seconds
+      // Handle node fade-out and removal
+      const nodeFadeStartAge = TIMING.nodeMaxAge / 2;
 
       // Start fading nodes that are old enough
       nodesRef.current.forEach((node) => {
@@ -900,9 +882,10 @@ const NetworkHero = () => {
       // Check for nodes that need to start fading (old or excess nodes)
       const nodesToStartFading = nodesRef.current.filter((node, index) => {
         const age = currentTime - node.createdAt;
-        const exceedsMaxCount = index < nodesRef.current.length - maxNodes;
+        const exceedsMaxCount =
+          index < nodesRef.current.length - LIMITS.maxNodes;
         const shouldStartFading =
-          !node.isRemoving && (age > nodeMaxAge || exceedsMaxCount);
+          !node.isRemoving && (age > TIMING.nodeMaxAge || exceedsMaxCount);
         return shouldStartFading;
       });
 
@@ -913,9 +896,8 @@ const NetworkHero = () => {
       // Remove nodes that have fully completed their fade animation
       const nodesToRemove = nodesRef.current.filter((node) => {
         if (!node.isRemoving || !node.fadeStartTime) return false;
-        const fadeDuration = 12500; // Must match the fade duration in the render loop
         const fadeAge = currentTime - node.fadeStartTime;
-        return fadeAge > fadeDuration;
+        return fadeAge > TIMING.nodeFadeDuration;
       });
 
       nodesToRemove.forEach((node) => {
@@ -925,12 +907,12 @@ const NetworkHero = () => {
       // Animate particles
       const positions = particles.geometry.attributes.position
         .array as Float32Array;
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < LIMITS.particleCount; i++) {
         positions[i * 3] += particleVelocities[i * 3];
         positions[i * 3 + 1] += particleVelocities[i * 3 + 1];
         positions[i * 3 + 2] += particleVelocities[i * 3 + 2];
 
-        // Wrap particles around the larger scene
+        // Wrap particles around the scene
         if (Math.abs(positions[i * 3]) > 20) particleVelocities[i * 3] *= -1;
         if (Math.abs(positions[i * 3 + 1]) > 12)
           particleVelocities[i * 3 + 1] *= -1;
@@ -940,45 +922,38 @@ const NetworkHero = () => {
       particles.geometry.attributes.position.needsUpdate = true;
 
       // Simplified camera movement with physics-based tracking point
-      const time = currentTime * 0.0003 * 0.25; // Slowed down to 25% speed
+      const time = currentTime * 0.0003 * 0.25;
 
       // Update tracking point physics
       const trackingPoint = trackingPointRef.current;
       const mouse = mouseRef.current;
 
-      // Calculate distance from tracking point to mouse
       const dx = mouse.x - trackingPoint.x;
       const dy = mouse.y - trackingPoint.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      // Acceleration based on distance (farther = faster acceleration) - increased for responsiveness
-      const maxAcceleration = 0.005; // Tripled from 0.004 for faster response
-      const acceleration = Math.min(maxAcceleration, distance * 0.008); // Quadrupled from 0.002 for quicker pickup
+      const maxAcceleration = 0.005;
+      const acceleration = Math.min(maxAcceleration, distance * 0.008);
 
-      // Apply acceleration toward mouse position
       if (distance > 0.01) {
-        // Reduced threshold from 0.01 to 0.005 for earlier response
         trackingPoint.vx += (dx / distance) * acceleration;
         trackingPoint.vy += (dy / distance) * acceleration;
       }
 
-      // Apply friction to velocity - reduced for more responsive movement
-      const friction = 0.9; // Reduced from 0.95 for less dampening
+      const friction = 0.9;
       trackingPoint.vx *= friction;
       trackingPoint.vy *= friction;
 
-      // Update tracking point position
       trackingPoint.x += trackingPoint.vx;
       trackingPoint.y += trackingPoint.vy;
 
-      // Camera movement relative to tracking point (not mouse directly)
+      // Camera movement relative to tracking point
       const cameraInfluence = 5.0;
       const targetX = Math.sin(time) * 3 + -trackingPoint.x * cameraInfluence;
       const targetY =
         Math.cos(time * 0.8) * 2.5 + -trackingPoint.y * cameraInfluence;
 
-      // Smooth camera interpolation - increased for more responsive movement
-      const lerpFactor = 0.03; // Tripled from 0.02 for faster camera response
+      const lerpFactor = 0.03;
       camera.position.x += (targetX - camera.position.x) * lerpFactor;
       camera.position.y += (targetY - camera.position.y) * lerpFactor;
       camera.lookAt(0, 0, 0);
@@ -1062,11 +1037,8 @@ const NetworkHero = () => {
 
     // Cleanup
     return () => {
-      // Store the mount element reference for cleanup to avoid stale closure
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       const mountElement = mountRef.current;
 
-      // Clear any pending initialization timeout
       if (initializationTimeoutRef.current) {
         clearTimeout(initializationTimeoutRef.current);
         initializationTimeoutRef.current = null;
@@ -1083,13 +1055,12 @@ const NetworkHero = () => {
         mountElement.removeEventListener('mousemove', handleMouseMove);
       }
 
-      // Clean up Three.js objects in proper order
+      // Clean up Three.js objects
       if (composerRef.current) {
         composerRef.current.dispose();
         composerRef.current = null;
       }
 
-      // Clean up scene objects
       if (sceneRef.current) {
         scene.remove(particles);
         particles.geometry.dispose();
@@ -1100,7 +1071,6 @@ const NetworkHero = () => {
           node.mesh.geometry.dispose();
           (node.mesh.material as THREE.MeshBasicMaterial).dispose();
 
-          // Clean up spawn particles
           if (node.spawnParticles) {
             scene.remove(node.spawnParticles);
             node.spawnParticles.geometry.dispose();
@@ -1112,7 +1082,6 @@ const NetworkHero = () => {
           scene.remove(connection.line);
           scene.remove(connection.glowLine);
 
-          // Dispose geometry and material for mesh-based connections
           if (connection.line instanceof THREE.Mesh) {
             connection.line.geometry.dispose();
             (connection.line.material as THREE.Material).dispose();
@@ -1124,7 +1093,6 @@ const NetworkHero = () => {
 
           if (connection.leadingParticle) {
             scene.remove(connection.leadingParticle);
-            // Dispose of all child particles
             connection.leadingParticle.children.forEach((child) => {
               if (child instanceof THREE.Points) {
                 child.geometry.dispose();
@@ -1134,7 +1102,6 @@ const NetworkHero = () => {
           }
         });
 
-        // Clear the scene
         while (scene.children.length > 0) {
           scene.remove(scene.children[0]);
         }
@@ -1142,15 +1109,12 @@ const NetworkHero = () => {
         sceneRef.current = null;
       }
 
-      // Clear arrays
       nodesRef.current = [];
       connectionsRef.current = [];
 
-      // Dispose renderer and remove canvas
       if (rendererRef.current) {
         const renderer = rendererRef.current;
 
-        // Remove WebGL context event listeners
         if (contextLossHandlerRef.current) {
           renderer.domElement.removeEventListener(
             'webglcontextlost',
@@ -1164,7 +1128,6 @@ const NetworkHero = () => {
           );
         }
 
-        // Force context loss to prevent WebGL issues on navigation
         const gl = renderer.getContext();
         if (gl && gl.getExtension('WEBGL_lose_context')) {
           gl.getExtension('WEBGL_lose_context')!.loseContext();
@@ -1183,8 +1146,6 @@ const NetworkHero = () => {
       }
 
       cameraRef.current = null;
-
-      // Clear handler refs
       contextLossHandlerRef.current = null;
       contextRestoreHandlerRef.current = null;
     };
