@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
-import { CustomMDX } from 'app/components/mdx';
-import { getMDXData, type MDXMetadata } from 'app/components/mdx-utils';
+import { CustomMDX } from '../../components/mdx';
+import { getMDXData, type MDXMetadata } from '../../components/mdx-utils';
 import path from 'path';
-import { Tag } from 'app/projects/components/tag';
-import ImageWithFallback from 'app/components/image-with-fallback';
-import BackButton from 'app/components/back-button';
+import { Tag } from '../components/tag';
+import ImageWithFallback from '../../components/image-with-fallback';
+import BackButton from '../../components/back-button';
 
 export function generateStaticParams() {
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));

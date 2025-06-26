@@ -16,6 +16,10 @@ jest.mock('../../utils', () => ({
   formatDate: (date: string) => `Formatted: ${date}`,
 }));
 
+// Import the mocked functions
+import * as utilsModule from '../../utils';
+const mockGetBlogPosts = jest.mocked(utilsModule.getBlogPosts);
+
 const mockPosts = [
   {
     slug: 'first-post',
@@ -46,8 +50,7 @@ jest.mock('app/components/mdx', () => ({
 
 describe('Development Blog Reading Experience', () => {
   beforeEach(() => {
-    const { getBlogPosts } = require('../../utils');
-    getBlogPosts.mockReturnValue([...mockPosts]);
+    mockGetBlogPosts.mockReturnValue([...mockPosts]);
   });
 
   describe('when readers want to explore development insights', () => {

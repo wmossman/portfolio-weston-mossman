@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ProjectCard, MoreComingCard } from './project-card';
 import { Tag } from './tag';
-import PageTitle from 'app/components/page-title';
+import PageTitle from '../../components/page-title';
 import { Project } from '../utils';
 
 function getAllTags(projects: Project[]) {

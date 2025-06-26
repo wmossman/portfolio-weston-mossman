@@ -1,9 +1,9 @@
 'use client';
 
-import landingPageContent from 'app/content/landing-page-content';
-import ImageWithFallback from 'app/components/image-with-fallback';
-import Button from 'app/components/button';
-import { NetworkHeroR3F } from 'app/components/network-hero/network-hero-r3f';
+import landingPageContent from './content/landing-page-content';
+import ImageWithFallback from './components/image-with-fallback';
+import Button from './components/button';
+import { NetworkHeroR3F } from './components/network-hero/network-hero-r3f';
 
 export default function Page() {
   return (
