@@ -1,4 +1,4 @@
-import { BlogPosts } from 'app/components/posts';
+import { BlogPosts } from 'app/components/Posts';
 import PageTitle from 'app/components/PageTitle';
 
 export const metadata = {

@@ -22,7 +22,7 @@ export const LIMITS = {
   maxConnectionsPerNode: 8,
   particleCount: 60,
   burstParticleCount: 60,
-  defaultMaxDistance: 7,
+  defaultMaxNodeDistance: 7,
 } as const;
 
 export const SIZES = {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ProjectsGrid from './components/ProjectsGrid';
-import { Project } from './types';
+import { Project } from './utils';
 
 jest.mock('next-mdx-remote/rsc', () => ({
   MDXRemote: ({ children }) => <div>{children}</div>,

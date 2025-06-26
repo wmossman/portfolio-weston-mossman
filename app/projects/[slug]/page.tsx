@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { CustomMDX } from 'app/components/MDX';
-import { getMDXData } from 'app/components/mdx-utils';
+import { getMDXData, type MDXMetadata } from 'app/components/mdx-utils';
 import path from 'path';
 import { Tag } from 'app/projects/components/Tag';
 import ImageWithFallback from 'app/components/ImageWithFallback';
@@ -22,26 +22,30 @@ export default async function ProjectDetailPage({
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
   const project = projects.find((p) => p.slug === resolvedParams.slug);
   if (!project) return notFound();
+
   const { metadata, content } = project;
+  // Type assertion to ensure metadata has the expected project properties
+  const projectMetadata = metadata as MDXMetadata;
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
       <BackButton href="/projects" label="Back to projects" />
 
-      {metadata.image && (
+      {projectMetadata.image && (
         <ImageWithFallback
-          src={metadata.image}
-          alt={metadata.title}
+          src={projectMetadata.image}
+          alt={projectMetadata.title || 'Project image'}
           width={800}
           height={400}
           className="rounded mb-4 w-full h-80 object-contain"
         />
       )}
       <h1 className="text-3xl font-bold mb-4 text-[color:var(--color-text-heading)]">
-        {metadata.title}
+        {projectMetadata.title || 'Untitled Project'}
       </h1>
-      {metadata.tags && metadata.tags.length > 0 && (
+      {projectMetadata.tags && projectMetadata.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-4">
-          {metadata.tags.map((tag: string) => (
+          {projectMetadata.tags.map((tag: string) => (
             <Tag key={tag} tag={tag} />
           ))}
         </div>
