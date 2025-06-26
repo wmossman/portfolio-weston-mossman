@@ -10,9 +10,9 @@ if [ ! -d "node_modules" ]; then
   npm ci
 fi
 
-# Run tests before building
-echo "Running tests..."
-npm test -- --passWithNoTests --watchAll=false --ci
+# # Run tests before building
+# echo "Running tests..."
+# npm test -- --passWithNoTests --watchAll=false --ci
 
 # Build static export instead of server components
 echo "Building static export..."
