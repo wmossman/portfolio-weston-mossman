@@ -3,10 +3,7 @@ import { isValidConnection } from '../utils';
 import { NetworkNode, NetworkConnection } from '../types';
 
 describe('isValidConnection', () => {
-  const createMockNode = (
-    id: string,
-    position: THREE.Vector3,
-  ): NetworkNode => ({
+  const createMockNode = (id: string, position: THREE.Vector3): NetworkNode => ({
     id,
     position,
     connections: [],
@@ -16,10 +13,7 @@ describe('isValidConnection', () => {
     spawnStartTime: Date.now(),
   });
 
-  const createMockConnection = (
-    fromId: string,
-    toId: string,
-  ): NetworkConnection => {
+  const createMockConnection = (fromId: string, toId: string): NetworkConnection => {
     const fromNode = createMockNode(fromId, new THREE.Vector3(0, 0, 0));
     const toNode = createMockNode(toId, new THREE.Vector3(1, 1, 1));
 

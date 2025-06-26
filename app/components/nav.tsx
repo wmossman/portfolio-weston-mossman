@@ -56,10 +56,7 @@ export function Navbar() {
   return (
     <aside className="mb-8 tracking-tight max-w-full">
       <div className="lg:sticky lg:top-20">
-        <nav
-          className="flex flex-row items-center justify-between relative px-0 pb-0 fade w-full"
-          id="nav"
-        >
+        <nav className="flex flex-row items-center justify-between relative px-0 pb-0 fade w-full" id="nav">
           {/* Logo/icon as a link to home - flexes to take available space */}
           <Link
             href="/"

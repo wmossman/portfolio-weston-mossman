@@ -3,9 +3,7 @@ import { COLORS, LIMITS } from './constants';
 import { NetworkNode, NetworkConnection } from './types';
 
 // Alternative name for compatibility with NetworkManager
-export const generateRandomPosition = (
-  existingNodes?: NetworkNode[],
-): THREE.Vector3 => {
+export const generateRandomPosition = (existingNodes?: NetworkNode[]): THREE.Vector3 => {
   const viewportWidth = window.innerWidth;
   let horizontalBounds = Math.min(45, (viewportWidth / 1200) * 45);
 
@@ -93,12 +91,8 @@ export const isValidConnection = (
 
   // Check if already connected by looking at both nodes' connections (bidirectional check)
   const alreadyConnectedInNodes =
-    node1.connections.some(
-      (conn) => conn.from.id === node2.id || conn.to.id === node2.id,
-    ) ||
-    node2.connections.some(
-      (conn) => conn.from.id === node1.id || conn.to.id === node1.id,
-    );
+    node1.connections.some((conn) => conn.from.id === node2.id || conn.to.id === node2.id) ||
+    node2.connections.some((conn) => conn.from.id === node1.id || conn.to.id === node1.id);
 
   // Also check global connections list if provided (for more accurate checking)
   const alreadyConnectedInGlobal = existingConnections
@@ -114,8 +108,7 @@ export const isValidConnection = (
   }
 
   const hasRoomForConnection =
-    node1.connections.length < LIMITS.maxConnectionsPerNode &&
-    node2.connections.length < LIMITS.maxConnectionsPerNode;
+    node1.connections.length < LIMITS.maxConnectionsPerNode && node2.connections.length < LIMITS.maxConnectionsPerNode;
 
   if (!hasRoomForConnection) {
     return false;

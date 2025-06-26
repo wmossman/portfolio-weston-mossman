@@ -103,9 +103,7 @@ describe('Development Blog Reading Experience', () => {
 
       // When: They navigate to an invalid blog post slug
       // Then: The system should handle this gracefully with a 404 response
-      await expect(() =>
-        Blog({ params: Promise.resolve({ slug: 'non-existent' }) }),
-      ).rejects.toThrow('notFound');
+      await expect(() => Blog({ params: Promise.resolve({ slug: 'non-existent' }) })).rejects.toThrow('notFound');
       expect(notFound).toHaveBeenCalled();
     });
   });

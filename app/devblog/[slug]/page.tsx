@@ -23,12 +23,7 @@ export async function generateMetadata(props: { params: Params }) {
     return;
   }
 
-  const {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    image,
-  } = post.metadata;
+  const { title, publishedAt: publishedTime, summary: description, image } = post.metadata;
   // Use image if provided, otherwise use portfolio photo as default
   const ogImage = image ? image : `${baseUrl}/images/portfolio-photo.jpg`;
 
@@ -66,11 +61,8 @@ export default async function Blog({ params }: { params: Params }) {
     }
     return 1;
   });
-  const currentIndex = allBlogs.findIndex(
-    (p) => p.slug === resolvedParams.slug,
-  );
-  const prevPost =
-    currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
+  const currentIndex = allBlogs.findIndex((p) => p.slug === resolvedParams.slug);
+  const prevPost = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
   const post = allBlogs[currentIndex];
 
@@ -120,9 +112,7 @@ export default async function Blog({ params }: { params: Params }) {
             datePublished: post.metadata.publishedAt,
             dateModified: post.metadata.publishedAt,
             description: post.metadata.summary,
-            image: post.metadata.image
-              ? `${baseUrl}${post.metadata.image}`
-              : `${baseUrl}/images/portfolio-photo.jpg`,
+            image: post.metadata.image ? `${baseUrl}${post.metadata.image}` : `${baseUrl}/images/portfolio-photo.jpg`,
             url: `${baseUrl}/devblog/${post.slug}`,
             author: {
               '@type': 'Person',
@@ -135,9 +125,7 @@ export default async function Blog({ params }: { params: Params }) {
         {post.metadata.title}
       </h1>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-[color:var(--color-text-link)]">
-          {formatDate(post.metadata.publishedAt)}
-        </p>
+        <p className="text-sm text-[color:var(--color-text-link)]">{formatDate(post.metadata.publishedAt)}</p>
       </div>
       <article className="prose text-[color:var(--color-text-primary)]">
         <CustomMDX source={post.content} />

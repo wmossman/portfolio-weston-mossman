@@ -6,11 +6,7 @@ interface BackButtonProps {
   className?: string;
 }
 
-export default function BackButton({
-  href,
-  label = 'Back to list',
-  className = '',
-}: BackButtonProps) {
+export default function BackButton({ href, label = 'Back to list', className = '' }: BackButtonProps) {
   return (
     <Link
       href={href}

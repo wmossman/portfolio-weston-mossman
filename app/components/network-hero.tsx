@@ -95,9 +95,7 @@ const NetworkHero = () => {
     // Clean up any existing renderer
     if (rendererRef.current) {
       if (rendererRef.current.domElement.parentNode) {
-        rendererRef.current.domElement.parentNode.removeChild(
-          rendererRef.current.domElement,
-        );
+        rendererRef.current.domElement.parentNode.removeChild(rendererRef.current.domElement);
       }
       rendererRef.current.dispose();
       rendererRef.current = null;
@@ -162,10 +160,7 @@ const NetworkHero = () => {
     contextRestoreHandlerRef.current = handleContextRestore;
 
     renderer.domElement.addEventListener('webglcontextlost', handleContextLoss);
-    renderer.domElement.addEventListener(
-      'webglcontextrestored',
-      handleContextRestore,
-    );
+    renderer.domElement.addEventListener('webglcontextrestored', handleContextRestore);
 
     // Set up bloom post-processing
     const composer = new EffectComposer(renderer);
@@ -253,14 +248,8 @@ const NetworkHero = () => {
         burstVelocities[i * 3 + 2] = Math.cos(phi) * speed;
       }
 
-      burstGeometry.setAttribute(
-        'position',
-        new THREE.BufferAttribute(burstPositions, 3),
-      );
-      burstGeometry.setAttribute(
-        'velocity',
-        new THREE.BufferAttribute(burstVelocities, 3),
-      );
+      burstGeometry.setAttribute('position', new THREE.BufferAttribute(burstPositions, 3));
+      burstGeometry.setAttribute('velocity', new THREE.BufferAttribute(burstVelocities, 3));
 
       const burstMaterial = new THREE.PointsMaterial({
         color: new THREE.Color(COLORS.fadedTurquoise),
@@ -287,17 +276,11 @@ const NetworkHero = () => {
       };
     };
 
-    const createConnection = (
-      from: NetworkNode,
-      to: NetworkNode,
-    ): NetworkConnection => {
+    const createConnection = (from: NetworkNode, to: NetworkNode): NetworkConnection => {
       const distance = from.position.distanceTo(to.position);
       const lineColor = distance < 4 ? COLORS.brightSand : COLORS.warmTan;
 
-      const direction = new THREE.Vector3().subVectors(
-        to.position,
-        from.position,
-      );
+      const direction = new THREE.Vector3().subVectors(to.position, from.position);
       const connectionLength = direction.length();
 
       // Create main connection tube
@@ -316,9 +299,7 @@ const NetworkHero = () => {
       // Position and orient the tube
       const tubeDirection = direction.clone().normalize();
       const halfLength = connectionLength / 2;
-      const tubeStartPosition = from.position
-        .clone()
-        .add(tubeDirection.clone().multiplyScalar(halfLength));
+      const tubeStartPosition = from.position.clone().add(tubeDirection.clone().multiplyScalar(halfLength));
 
       tubeMesh.position.copy(tubeStartPosition);
       tubeMesh.lookAt(to.position);
@@ -400,17 +381,11 @@ const NetworkHero = () => {
         }
 
         // Remove from both nodes' connection arrays
-        connection.from.connections = connection.from.connections.filter(
-          (c) => c !== connection,
-        );
-        connection.to.connections = connection.to.connections.filter(
-          (c) => c !== connection,
-        );
+        connection.from.connections = connection.from.connections.filter((c) => c !== connection);
+        connection.to.connections = connection.to.connections.filter((c) => c !== connection);
 
         // Remove from global connections array
-        connectionsRef.current = connectionsRef.current.filter(
-          (c) => c !== connection,
-        );
+        connectionsRef.current = connectionsRef.current.filter((c) => c !== connection);
       });
 
       // Remove node mesh
@@ -449,24 +424,16 @@ const NetworkHero = () => {
       );
     };
 
-    const findNearbyNodes = (
-      position: THREE.Vector3,
-      maxDistance: number = 7,
-    ): NetworkNode[] => {
+    const findNearbyNodes = (position: THREE.Vector3, maxDistance: number = 7): NetworkNode[] => {
       return nodesRef.current.filter((node) => {
         const distance = position.distanceTo(node.position);
         return distance <= maxDistance && distance > 0;
       });
     };
 
-    const shouldCreateConnection = (
-      node1: NetworkNode,
-      node2: NetworkNode,
-    ): boolean => {
+    const shouldCreateConnection = (node1: NetworkNode, node2: NetworkNode): boolean => {
       // Don't create if already connected
-      const alreadyConnected = node1.connections.some(
-        (conn) => conn.from === node2 || conn.to === node2,
-      );
+      const alreadyConnected = node1.connections.some((conn) => conn.from === node2 || conn.to === node2);
 
       const hasRoomForConnection =
         node1.connections.length < LIMITS.maxConnectionsPerNode &&
@@ -490,10 +457,7 @@ const NetworkHero = () => {
       particleVelocities[i * 3 + 2] = (Math.random() - 0.5) * 0.02;
     }
 
-    particleGeometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(particlePositions, 3),
-    );
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
       color: new THREE.Color(COLORS.fadedTurquoise),
@@ -520,26 +484,17 @@ const NetworkHero = () => {
       const currentEdgeCount = connectionsRef.current.length;
 
       // If we've hit max edges, start waiting
-      if (
-        currentEdgeCount >= LIMITS.maxConnections &&
-        !isWaitingForEdgeReduction
-      ) {
+      if (currentEdgeCount >= LIMITS.maxConnections && !isWaitingForEdgeReduction) {
         isWaitingForEdgeReduction = true;
       }
 
       // If we're waiting and edges have reduced enough, resume
-      if (
-        isWaitingForEdgeReduction &&
-        currentEdgeCount <= LIMITS.maxConnections - resumeThreshold
-      ) {
+      if (isWaitingForEdgeReduction && currentEdgeCount <= LIMITS.maxConnections - resumeThreshold) {
         isWaitingForEdgeReduction = false;
       }
 
       // Create new nodes only if we're not waiting for edge reduction
-      if (
-        !isWaitingForEdgeReduction &&
-        currentTime - lastNodeCreation > TIMING.nodeCreationInterval
-      ) {
+      if (!isWaitingForEdgeReduction && currentTime - lastNodeCreation > TIMING.nodeCreationInterval) {
         const newPosition = getRandomPosition();
         const newNode = createNode(newPosition);
         nodesRef.current.push(newNode);
@@ -565,27 +520,20 @@ const NetworkHero = () => {
 
       // Try to create additional connections between existing nodes only if we have room
       if (
-        currentTime - lastConnectionAttempt >
-          TIMING.connectionAttemptInterval &&
+        currentTime - lastConnectionAttempt > TIMING.connectionAttemptInterval &&
         nodesRef.current.length > 1 &&
         connectionsRef.current.length < LIMITS.maxConnections
       ) {
-        const randomNode1 =
-          nodesRef.current[Math.floor(Math.random() * nodesRef.current.length)];
+        const randomNode1 = nodesRef.current[Math.floor(Math.random() * nodesRef.current.length)];
 
         // Only connect if the source node is not fading
         if (!randomNode1.isRemoving) {
           const nearbyNodes = findNearbyNodes(randomNode1.position, 6);
 
           if (nearbyNodes.length > 0) {
-            const randomNode2 =
-              nearbyNodes[Math.floor(Math.random() * nearbyNodes.length)];
+            const randomNode2 = nearbyNodes[Math.floor(Math.random() * nearbyNodes.length)];
             // Don't connect to fading nodes
-            if (
-              !randomNode2.isRemoving &&
-              shouldCreateConnection(randomNode1, randomNode2) &&
-              Math.random() < 0.5
-            ) {
+            if (!randomNode2.isRemoving && shouldCreateConnection(randomNode1, randomNode2) && Math.random() < 0.5) {
               const connection = createConnection(randomNode1, randomNode2);
               connectionsRef.current.push(connection);
             }
@@ -606,10 +554,7 @@ const NetworkHero = () => {
           // Calculate the current length and position offset
           const startPos = connection.from.position;
           const endPos = connection.to.position;
-          const fullDirection = new THREE.Vector3().subVectors(
-            endPos,
-            startPos,
-          );
+          const fullDirection = new THREE.Vector3().subVectors(endPos, startPos);
           const fullLength = fullDirection.length();
           const normalizedDirection = fullDirection.clone().normalize();
 
@@ -618,9 +563,7 @@ const NetworkHero = () => {
 
           // Position the tube so it starts at source and grows toward destination
           const currentOffset = currentLength / 2; // Half of current length for center positioning
-          const currentPosition = startPos
-            .clone()
-            .add(normalizedDirection.clone().multiplyScalar(currentOffset));
+          const currentPosition = startPos.clone().add(normalizedDirection.clone().multiplyScalar(currentOffset));
 
           // Update position and scale for both tubes
           tubeMesh.position.copy(currentPosition);
@@ -638,10 +581,7 @@ const NetworkHero = () => {
             for (let i = 0; i < 5; i++) {
               const singleParticleGeometry = new THREE.BufferGeometry();
               const singleParticlePosition = new Float32Array([0, 0, 0]); // Single particle position
-              singleParticleGeometry.setAttribute(
-                'position',
-                new THREE.BufferAttribute(singleParticlePosition, 3),
-              );
+              singleParticleGeometry.setAttribute('position', new THREE.BufferAttribute(singleParticlePosition, 3));
 
               // Size gradient: larger at front (0.3), smaller at back (0.1)
               const particleSize = 0.3 - i * 0.05; // 0.3, 0.25, 0.2, 0.15, 0.1
@@ -655,10 +595,7 @@ const NetworkHero = () => {
                 sizeAttenuation: true,
               });
 
-              const singleParticle = new THREE.Points(
-                singleParticleGeometry,
-                singleParticleMaterial,
-              );
+              const singleParticle = new THREE.Points(singleParticleGeometry, singleParticleMaterial);
               leadingParticleGroup.add(singleParticle);
             }
 
@@ -672,24 +609,14 @@ const NetworkHero = () => {
             const endPos = connection.to.position;
 
             // Update each particle in the group
-            for (
-              let i = 0;
-              i < connection.leadingParticle.children.length;
-              i++
-            ) {
-              const particle = connection.leadingParticle.children[
-                i
-              ] as THREE.Points;
-              const particleGeometry =
-                particle.geometry as THREE.BufferGeometry;
+            for (let i = 0; i < connection.leadingParticle.children.length; i++) {
+              const particle = connection.leadingParticle.children[i] as THREE.Points;
+              const particleGeometry = particle.geometry as THREE.BufferGeometry;
               const positionAttribute = particleGeometry.attributes.position;
               const positions = positionAttribute.array as Float32Array;
 
               // Adjust spacing between particles back to original spacing for better visibility
-              const trailProgress = Math.max(
-                0,
-                connection.animationProgress - i * 0.05,
-              );
+              const trailProgress = Math.max(0, connection.animationProgress - i * 0.05);
               const trailPos = startPos.clone().lerp(endPos, trailProgress);
 
               positions[0] = trailPos.x;
@@ -720,50 +647,33 @@ const NetworkHero = () => {
       // Update node glow based on connection count with pulsing effect
       nodesRef.current.forEach((node) => {
         const connectionCount = node.connections.length;
-        const glowIntensity = Math.min(
-          connectionCount / LIMITS.maxConnectionsPerNode,
-          1,
-        );
+        const glowIntensity = Math.min(connectionCount / LIMITS.maxConnectionsPerNode, 1);
 
         // Handle spawn animation with simple 0-100% scale
         let spawnScale = 1;
         if (node.isSpawning) {
           const spawnAge = currentTime - node.spawnStartTime;
-          const totalDuration = Math.max(
-            TIMING.spawnParticleDuration,
-            TIMING.spawnCoreDuration,
-          );
+          const totalDuration = Math.max(TIMING.spawnParticleDuration, TIMING.spawnCoreDuration);
 
           if (spawnAge < totalDuration) {
             if (spawnAge < TIMING.spawnCoreDuration) {
-              const easedT = Math.min(
-                Math.pow(spawnAge / TIMING.spawnCoreDuration, 3),
-                1,
-              );
+              const easedT = Math.min(Math.pow(spawnAge / TIMING.spawnCoreDuration, 3), 1);
               spawnScale = easedT;
             }
 
             // Animate spawn particles
             if (node.spawnParticles) {
-              const positions = node.spawnParticles.geometry.attributes.position
-                .array as Float32Array;
-              const velocities = node.spawnParticles.geometry.attributes
-                .velocity.array as Float32Array;
-              const material = node.spawnParticles
-                .material as THREE.PointsMaterial;
+              const positions = node.spawnParticles.geometry.attributes.position.array as Float32Array;
+              const velocities = node.spawnParticles.geometry.attributes.velocity.array as Float32Array;
+              const material = node.spawnParticles.material as THREE.PointsMaterial;
 
-              const newOpacity = Math.max(
-                0,
-                1 - spawnAge / TIMING.spawnParticleDuration,
-              );
+              const newOpacity = Math.max(0, 1 - spawnAge / TIMING.spawnParticleDuration);
               material.opacity = newOpacity;
 
               if (newOpacity <= 0) {
                 scene.remove(node.spawnParticles);
                 node.spawnParticles.geometry.dispose();
-                (
-                  node.spawnParticles.material as THREE.PointsMaterial
-                ).dispose();
+                (node.spawnParticles.material as THREE.PointsMaterial).dispose();
                 node.spawnParticles = undefined;
               } else {
                 for (let i = 0; i < positions.length / 3; i++) {
@@ -771,8 +681,7 @@ const NetworkHero = () => {
                   positions[i * 3 + 1] += velocities[i * 3 + 1] * 0.005;
                   positions[i * 3 + 2] += velocities[i * 3 + 2] * 0.005;
                 }
-                node.spawnParticles.geometry.attributes.position.needsUpdate =
-                  true;
+                node.spawnParticles.geometry.attributes.position.needsUpdate = true;
               }
             }
           } else {
@@ -807,35 +716,25 @@ const NetworkHero = () => {
         const brightnessMultiplier = 1 + glowIntensity * 0.08;
         const pulseMultiplier = 1 - pulse * 0.05;
 
-        const finalOpacity =
-          0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
+        const finalOpacity = 0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
         nodeMaterial.opacity = Math.min(finalOpacity, 1.0);
 
         // Update opacity of all connected edges based on this node's fade state
         node.connections.forEach((connection) => {
-          const otherNode =
-            connection.from === node ? connection.to : connection.from;
+          const otherNode = connection.from === node ? connection.to : connection.from;
           let otherNodeFadeMultiplier = 1;
           if (otherNode.isRemoving && otherNode.fadeStartTime) {
             const otherFadeAge = currentTime - otherNode.fadeStartTime;
-            const otherFadeProgress = Math.min(
-              otherFadeAge / TIMING.nodeFadeDuration,
-              1,
-            );
+            const otherFadeProgress = Math.min(otherFadeAge / TIMING.nodeFadeDuration, 1);
             otherNodeFadeMultiplier = 1 - otherFadeProgress;
           }
 
-          const connectionOpacity = Math.min(
-            nodeFadeMultiplier,
-            otherNodeFadeMultiplier,
-          );
+          const connectionOpacity = Math.min(nodeFadeMultiplier, otherNodeFadeMultiplier);
 
           const tubeMesh = connection.line as THREE.Mesh;
           const glowTubeMesh = connection.glowLine as THREE.Mesh;
-          (tubeMesh.material as THREE.MeshBasicMaterial).opacity =
-            0.8 * connectionOpacity;
-          (glowTubeMesh.material as THREE.MeshBasicMaterial).opacity =
-            0.15 * connectionOpacity;
+          (tubeMesh.material as THREE.MeshBasicMaterial).opacity = 0.8 * connectionOpacity;
+          (glowTubeMesh.material as THREE.MeshBasicMaterial).opacity = 0.15 * connectionOpacity;
         });
 
         node.mesh.scale.setScalar(spawnScale);
@@ -843,10 +742,7 @@ const NetworkHero = () => {
 
       // Mid-life edge generation: at 1/3 of node lifetime, attempt additional connections
       nodesRef.current.forEach((node) => {
-        if (
-          !node.isRemoving &&
-          connectionsRef.current.length < LIMITS.maxConnections
-        ) {
+        if (!node.isRemoving && connectionsRef.current.length < LIMITS.maxConnections) {
           const age = currentTime - node.createdAt;
           const midLifePoint = TIMING.nodeMaxAge / 3;
           const connectionWindow = 2000;
@@ -883,10 +779,8 @@ const NetworkHero = () => {
       // Check for nodes that need to start fading (old or excess nodes)
       const nodesToStartFading = nodesRef.current.filter((node, index) => {
         const age = currentTime - node.createdAt;
-        const exceedsMaxCount =
-          index < nodesRef.current.length - LIMITS.maxNodes;
-        const shouldStartFading =
-          !node.isRemoving && (age > TIMING.nodeMaxAge || exceedsMaxCount);
+        const exceedsMaxCount = index < nodesRef.current.length - LIMITS.maxNodes;
+        const shouldStartFading = !node.isRemoving && (age > TIMING.nodeMaxAge || exceedsMaxCount);
         return shouldStartFading;
       });
 
@@ -906,8 +800,7 @@ const NetworkHero = () => {
       });
 
       // Animate particles
-      const positions = particles.geometry.attributes.position
-        .array as Float32Array;
+      const positions = particles.geometry.attributes.position.array as Float32Array;
       for (let i = 0; i < LIMITS.particleCount; i++) {
         positions[i * 3] += particleVelocities[i * 3];
         positions[i * 3 + 1] += particleVelocities[i * 3 + 1];
@@ -915,10 +808,8 @@ const NetworkHero = () => {
 
         // Wrap particles around the scene
         if (Math.abs(positions[i * 3]) > 20) particleVelocities[i * 3] *= -1;
-        if (Math.abs(positions[i * 3 + 1]) > 12)
-          particleVelocities[i * 3 + 1] *= -1;
-        if (Math.abs(positions[i * 3 + 2]) > 10)
-          particleVelocities[i * 3 + 2] *= -1;
+        if (Math.abs(positions[i * 3 + 1]) > 12) particleVelocities[i * 3 + 1] *= -1;
+        if (Math.abs(positions[i * 3 + 2]) > 10) particleVelocities[i * 3 + 2] *= -1;
       }
       particles.geometry.attributes.position.needsUpdate = true;
 
@@ -951,8 +842,7 @@ const NetworkHero = () => {
       // Camera movement relative to tracking point
       const cameraInfluence = 5.0;
       const targetX = Math.sin(time) * 3 + -trackingPoint.x * cameraInfluence;
-      const targetY =
-        Math.cos(time * 0.8) * 2.5 + -trackingPoint.y * cameraInfluence;
+      const targetY = Math.cos(time * 0.8) * 2.5 + -trackingPoint.y * cameraInfluence;
 
       const lerpFactor = 0.03;
       camera.position.x += (targetX - camera.position.x) * lerpFactor;
@@ -970,10 +860,7 @@ const NetworkHero = () => {
         try {
           composerRef.current.render();
         } catch (error) {
-          console.warn(
-            'Composer render failed, falling back to basic render:',
-            error,
-          );
+          console.warn('Composer render failed, falling back to basic render:', error);
           // Fallback to basic renderer if composer fails
           rendererRef.current.render(sceneRef.current, cameraRef.current);
         }
@@ -992,16 +879,9 @@ const NetworkHero = () => {
         if (!rendererRef.current) missing.push('renderer');
         if (!sceneRef.current) missing.push('scene');
         if (!cameraRef.current) missing.push('camera');
-        if (
-          rendererRef.current &&
-          rendererRef.current.getContext().isContextLost()
-        )
-          missing.push('context-lost');
+        if (rendererRef.current && rendererRef.current.getContext().isContextLost()) missing.push('context-lost');
         if (missing.length > 0) {
-          console.warn(
-            'NetworkHero: Cannot render, missing:',
-            missing.join(', '),
-          );
+          console.warn('NetworkHero: Cannot render, missing:', missing.join(', '));
         }
       }
       animationIdRef.current = requestAnimationFrame(animate);
@@ -1117,16 +997,10 @@ const NetworkHero = () => {
         const renderer = rendererRef.current;
 
         if (contextLossHandlerRef.current) {
-          renderer.domElement.removeEventListener(
-            'webglcontextlost',
-            contextLossHandlerRef.current,
-          );
+          renderer.domElement.removeEventListener('webglcontextlost', contextLossHandlerRef.current);
         }
         if (contextRestoreHandlerRef.current) {
-          renderer.domElement.removeEventListener(
-            'webglcontextrestored',
-            contextRestoreHandlerRef.current,
-          );
+          renderer.domElement.removeEventListener('webglcontextrestored', contextRestoreHandlerRef.current);
         }
 
         const gl = renderer.getContext();
@@ -1154,11 +1028,7 @@ const NetworkHero = () => {
 
   return (
     <div className="relative w-screen h-[75vh] rounded-lg overflow-hidden bg-background-base mb-8 -mx-2 md:-mx-0 lg:-mx-4 left-1/2 -translate-x-1/2">
-      <div
-        ref={mountRef}
-        className="w-full h-full"
-        style={{ minHeight: '75vh' }}
-      />
+      <div ref={mountRef} className="w-full h-full" style={{ minHeight: '75vh' }} />
       {/* Edge gradient overlay for subtle vignette effect */}
       <div
         className="absolute inset-0 pointer-events-none"

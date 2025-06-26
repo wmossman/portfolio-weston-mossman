@@ -42,11 +42,7 @@ describe('Button Component', () => {
 
   it('should include target and rel attributes for external links', () => {
     render(
-      <Button
-        url="https://external.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Button url="https://external.com" target="_blank" rel="noopener noreferrer">
         External Link
       </Button>,
     );

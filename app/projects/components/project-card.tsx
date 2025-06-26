@@ -48,9 +48,7 @@ export function ProjectCard({
           <Tag key={tag} tag={tag} />
         ))}
       </div>
-      <p className="text-sm text-text-primary mb-2 line-clamp-2 min-h-[58px] max-h-[58px]">
-        {project.summary}
-      </p>
+      <p className="text-sm text-text-primary mb-2 line-clamp-2 min-h-[58px] max-h-[58px]">{project.summary}</p>
     </div>
   );
   return asLink ? <Link href={`/projects/${project.slug}`}>{card}</Link> : card;
@@ -66,9 +64,7 @@ export function MoreComingCard() {
         height={200}
         className="rounded mb-2 object-contain w-full h-40 opacity-50"
       />
-      <h2 className="font-bold text-lg mb-1 text-text-link">
-        More on the way!
-      </h2>
+      <h2 className="font-bold text-lg mb-1 text-text-link">More on the way!</h2>
     </div>
   );
 }

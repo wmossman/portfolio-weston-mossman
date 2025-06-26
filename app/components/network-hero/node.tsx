@@ -71,57 +71,39 @@ export const Node: React.FC<NodeProps> = ({ node }) => {
 
     const currentTime = Date.now();
     const connectionCount = node.connections.length;
-    const glowIntensity = Math.min(
-      connectionCount / LIMITS.maxConnectionsPerNode,
-      1,
-    );
+    const glowIntensity = Math.min(connectionCount / LIMITS.maxConnectionsPerNode, 1);
 
     // Handle spawn animation
     let spawnScale = 1;
     if (node.isSpawning) {
       const spawnAge = currentTime - node.spawnStartTime;
-      const totalDuration = Math.max(
-        TIMING.spawnParticleDuration,
-        TIMING.spawnCoreDuration,
-      );
+      const totalDuration = Math.max(TIMING.spawnParticleDuration, TIMING.spawnCoreDuration);
 
       if (spawnAge < totalDuration) {
         if (spawnAge < TIMING.spawnCoreDuration) {
-          const easedT = Math.min(
-            Math.pow(spawnAge / TIMING.spawnCoreDuration, 3),
-            1,
-          );
+          const easedT = Math.min(Math.pow(spawnAge / TIMING.spawnCoreDuration, 3), 1);
           spawnScale = easedT;
         }
 
         // Animate spawn particles
         if (spawnParticlesRef.current) {
-          const positions = spawnParticlesRef.current.geometry.attributes
-            .position.array as Float32Array;
-          const velocities = spawnParticlesRef.current.geometry.attributes
-            .velocity.array as Float32Array;
-          const material = spawnParticlesRef.current
-            .material as THREE.PointsMaterial;
+          const positions = spawnParticlesRef.current.geometry.attributes.position.array as Float32Array;
+          const velocities = spawnParticlesRef.current.geometry.attributes.velocity.array as Float32Array;
+          const material = spawnParticlesRef.current.material as THREE.PointsMaterial;
 
-          const newOpacity = Math.max(
-            0,
-            1 - spawnAge / TIMING.spawnParticleDuration,
-          );
+          const newOpacity = Math.max(0, 1 - spawnAge / TIMING.spawnParticleDuration);
           material.opacity = newOpacity;
 
           if (newOpacity <= 0) {
             // Remove spawn particles
-            useNetworkStore
-              .getState()
-              .updateNode(node.id, { isSpawning: false });
+            useNetworkStore.getState().updateNode(node.id, { isSpawning: false });
           } else {
             for (let i = 0; i < positions.length / 3; i++) {
               positions[i * 3] += velocities[i * 3] * 0.006; // Reduced from 0.008 to 0.006 (between original 0.005 and previous 0.008)
               positions[i * 3 + 1] += velocities[i * 3 + 1] * 0.006;
               positions[i * 3 + 2] += velocities[i * 3 + 2] * 0.006;
             }
-            spawnParticlesRef.current.geometry.attributes.position.needsUpdate =
-              true;
+            spawnParticlesRef.current.geometry.attributes.position.needsUpdate = true;
           }
         }
       } else {
@@ -151,8 +133,7 @@ export const Node: React.FC<NodeProps> = ({ node }) => {
     // Update material opacity directly on the mesh material
     const brightnessMultiplier = 1 + glowIntensity * 0.08;
     const pulseMultiplier = 1 - pulse * 0.05;
-    const finalOpacity =
-      0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
+    const finalOpacity = 0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
 
     // Apply to the actual mesh material
     const meshMaterial = meshRef.current.material as THREE.MeshBasicMaterial;

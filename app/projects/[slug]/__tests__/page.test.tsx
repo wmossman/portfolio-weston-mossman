@@ -16,13 +16,7 @@ jest.mock('sugar-high', () => ({ highlight: (code) => code }));
 
 // Mock the BackButton component
 jest.mock('app/components/back-button', () => {
-  return function MockBackButton({
-    _href,
-    label,
-  }: {
-    _href: string;
-    label: string;
-  }) {
+  return function MockBackButton({ _href, label }: { _href: string; label: string }) {
     return <div data-testid="back-button">{label}</div>;
   };
 });

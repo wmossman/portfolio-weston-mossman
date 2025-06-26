@@ -23,9 +23,7 @@ function CustomLink(props) {
 }
 
 function RoundedImage(props) {
-  return (
-    <ImageWithFallback alt={props.alt} className="rounded-lg" {...props} />
-  );
+  return <ImageWithFallback alt={props.alt} className="rounded-lg" {...props} />;
 }
 
 function Code({ children, ...props }) {
@@ -93,10 +91,5 @@ const components = {
 };
 
 export function CustomMDX(props) {
-  return (
-    <MDXRemote
-      {...props}
-      components={{ ...components, ...(props.components || {}) }}
-    />
-  );
+  return <MDXRemote {...props} components={{ ...components, ...(props.components || {}) }} />;
 }

@@ -18,16 +18,8 @@ const Scene: React.FC = () => {
       {/* Lighting */}
       {/* eslint-disable react/no-unknown-property */}
       <ambientLight intensity={0.4} />
-      <directionalLight
-        position={[10, 10, 5]}
-        intensity={0.8}
-        color={COLORS.white}
-      />
-      <pointLight
-        position={[0, 0, 10]}
-        intensity={0.6}
-        color={COLORS.fadedTurquoise}
-      />
+      <directionalLight position={[10, 10, 5]} intensity={0.8} color={COLORS.white} />
+      <pointLight position={[0, 0, 10]} intensity={0.6} color={COLORS.fadedTurquoise} />
       {/* eslint-enable react/no-unknown-property */}
 
       {/* Background particles */}
@@ -89,12 +81,7 @@ export const NetworkHeroR3F: React.FC = () => {
 
           {/* Post-processing effects */}
           <EffectComposer multisampling={0}>
-            <Bloom
-              intensity={7.0}
-              luminanceThreshold={0.001}
-              luminanceSmoothing={0.95}
-              height={2048}
-            />
+            <Bloom intensity={7.0} luminanceThreshold={0.001} luminanceSmoothing={0.95} height={2048} />
           </EffectComposer>
         </Suspense>
       </Canvas>

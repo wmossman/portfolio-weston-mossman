@@ -13,11 +13,7 @@ export function generateStaticParams() {
 
 type Params = Promise<{ slug: string }>;
 
-export default async function ProjectDetailPage({
-  params,
-}: {
-  params: Params;
-}) {
+export default async function ProjectDetailPage({ params }: { params: Params }) {
   const resolvedParams = await params;
   const projects = getMDXData(path.join(process.cwd(), 'app/projects/content'));
   const project = projects.find((p) => p.slug === resolvedParams.slug);

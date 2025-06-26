@@ -41,8 +41,7 @@ export const BackgroundParticles: React.FC = () => {
   useFrame(() => {
     if (!pointsRef.current) return;
 
-    const positions = pointsRef.current.geometry.attributes.position
-      .array as Float32Array;
+    const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
 
     for (let i = 0; i < LIMITS.particleCount; i++) {
       positions[i * 3] += velocities[i * 3];

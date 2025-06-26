@@ -5,8 +5,7 @@ import { ANIMATION_CONFIG } from './constants';
 
 export const MouseHandler: React.FC = () => {
   const { gl } = useThree();
-  const { setMouse, setTrackingPoint, trackingPoint, mouse } =
-    useNetworkStore();
+  const { setMouse, setTrackingPoint, trackingPoint, mouse } = useNetworkStore();
 
   // Set up mouse event handling on the canvas directly (like original)
   useEffect(() => {
@@ -33,10 +32,7 @@ export const MouseHandler: React.FC = () => {
     const dy = mouse.y - trackingPoint.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    const acceleration = Math.min(
-      ANIMATION_CONFIG.maxAcceleration,
-      distance * ANIMATION_CONFIG.acceleration,
-    );
+    const acceleration = Math.min(ANIMATION_CONFIG.maxAcceleration, distance * ANIMATION_CONFIG.acceleration);
 
     let newVx = trackingPoint.vx;
     let newVy = trackingPoint.vy;

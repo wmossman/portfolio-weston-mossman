@@ -2,13 +2,7 @@ import React, { useRef, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { TIMING, LIMITS, ANIMATION_CONFIG } from './constants';
 import { useNetworkStore } from './store';
-import {
-  generateRandomPosition,
-  findNearbyNodes,
-  isValidConnection,
-  createNodeId,
-  createConnectionId,
-} from './utils';
+import { generateRandomPosition, findNearbyNodes, isValidConnection, createNodeId, createConnectionId } from './utils';
 import { NetworkNode, NetworkConnection } from './types';
 
 export const NetworkManager: React.FC = () => {
@@ -104,45 +98,25 @@ export const NetworkManager: React.FC = () => {
         }
       }
     }
-  }, [
-    connections.length,
-    nodes,
-    addNode,
-    addConnection,
-    updateNode,
-    isValidConnectionWithFrameTracking,
-  ]);
+  }, [connections.length, nodes, addNode, addConnection, updateNode, isValidConnectionWithFrameTracking]);
 
   const attemptConnections = useCallback(() => {
     const now = Date.now();
-    if (
-      now - lastConnectionAttemptRef.current <
-      TIMING.connectionAttemptInterval
-    )
-      return;
-    if (
-      connections.length >= LIMITS.maxConnections ||
-      isWaitingForEdgeReduction
-    )
-      return;
+    if (now - lastConnectionAttemptRef.current < TIMING.connectionAttemptInterval) return;
+    if (connections.length >= LIMITS.maxConnections || isWaitingForEdgeReduction) return;
 
     const availableNodes = nodes.filter(
-      (node) =>
-        !node.isRemoving &&
-        !node.isSpawning &&
-        node.connections.length < LIMITS.maxConnectionsPerNode,
+      (node) => !node.isRemoving && !node.isSpawning && node.connections.length < LIMITS.maxConnectionsPerNode,
     );
 
     if (availableNodes.length < 2) return;
 
     // Match original: pick random node, find nearby nodes with distance 6, pick random nearby
-    const fromNode =
-      availableNodes[Math.floor(Math.random() * availableNodes.length)];
+    const fromNode = availableNodes[Math.floor(Math.random() * availableNodes.length)];
     const nearbyNodes = findNearbyNodes(fromNode.position, availableNodes, 6);
 
     if (nearbyNodes.length > 0) {
-      const toNode =
-        nearbyNodes[Math.floor(Math.random() * nearbyNodes.length)];
+      const toNode = nearbyNodes[Math.floor(Math.random() * nearbyNodes.length)];
 
       // Match original: 50% probability and additional checks
       if (
@@ -194,8 +168,7 @@ export const NetworkManager: React.FC = () => {
 
       // Handle spawning animation
       if (node.isSpawning) {
-        const spawnProgress =
-          (now - node.spawnStartTime) / TIMING.spawnCoreDuration;
+        const spawnProgress = (now - node.spawnStartTime) / TIMING.spawnCoreDuration;
         if (spawnProgress >= 1) {
           updates.isSpawning = false;
           needsUpdate = true;
@@ -214,8 +187,7 @@ export const NetworkManager: React.FC = () => {
 
       // Handle removal
       if (node.isRemoving && node.fadeStartTime) {
-        const fadeProgress =
-          (now - node.fadeStartTime) / TIMING.nodeFadeDuration;
+        const fadeProgress = (now - node.fadeStartTime) / TIMING.nodeFadeDuration;
         if (fadeProgress >= 1) {
           // Remove all connections for this node
           node.connections.forEach((conn) => {
@@ -303,19 +275,13 @@ export const NetworkManager: React.FC = () => {
       const fromNode = fromNodeExists;
       const toNode = toNodeExists;
 
-      if (
-        (fromNode.isRemoving && fromNode.fadeStartTime) ||
-        (toNode.isRemoving && toNode.fadeStartTime)
-      ) {
+      if ((fromNode.isRemoving && fromNode.fadeStartTime) || (toNode.isRemoving && toNode.fadeStartTime)) {
         let fromFadeMultiplier = 1;
         let toFadeMultiplier = 1;
 
         if (fromNode.isRemoving && fromNode.fadeStartTime) {
           const fadeAge = now - fromNode.fadeStartTime;
-          fromFadeMultiplier = Math.max(
-            0,
-            1 - fadeAge / TIMING.nodeFadeDuration,
-          );
+          fromFadeMultiplier = Math.max(0, 1 - fadeAge / TIMING.nodeFadeDuration);
         }
 
         if (toNode.isRemoving && toNode.fadeStartTime) {
@@ -323,10 +289,7 @@ export const NetworkManager: React.FC = () => {
           toFadeMultiplier = Math.max(0, 1 - fadeAge / TIMING.nodeFadeDuration);
         }
 
-        const connectionOpacity = Math.min(
-          fromFadeMultiplier,
-          toFadeMultiplier,
-        );
+        const connectionOpacity = Math.min(fromFadeMultiplier, toFadeMultiplier);
 
         if (connectionOpacity <= 0) {
           removeConnection(connection.id);
@@ -339,18 +302,12 @@ export const NetworkManager: React.FC = () => {
     const resumeThreshold = 10;
 
     // Check edge count and manage waiting state (matches original)
-    if (
-      currentEdgeCount >= LIMITS.maxConnections &&
-      !isWaitingForEdgeReduction
-    ) {
+    if (currentEdgeCount >= LIMITS.maxConnections && !isWaitingForEdgeReduction) {
       setIsWaitingForEdgeReduction(true);
     }
 
     // If we're waiting and edges have reduced enough, resume
-    if (
-      isWaitingForEdgeReduction &&
-      currentEdgeCount <= LIMITS.maxConnections - resumeThreshold
-    ) {
+    if (isWaitingForEdgeReduction && currentEdgeCount <= LIMITS.maxConnections - resumeThreshold) {
       setIsWaitingForEdgeReduction(false);
     }
   }, [

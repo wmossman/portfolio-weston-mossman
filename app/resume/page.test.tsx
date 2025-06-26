@@ -9,9 +9,7 @@ describe('Professional Resume Access', () => {
 
       // When: The page loads
       // Then: They should see clear identification of the resume content
-      expect(
-        screen.getByRole('heading', { name: /resume/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /resume/i })).toBeInTheDocument();
     });
 
     it('should provide downloadable PDF access for offline viewing', () => {

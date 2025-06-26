@@ -14,8 +14,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
   const tubeRef = useRef<THREE.Mesh>(null);
   const glowTubeRef = useRef<THREE.Mesh>(null);
   const leadingParticlesRef = useRef<THREE.Group>(null);
-  const { updateConnection, nodes, connections, removeConnection } =
-    useNetworkStore();
+  const { updateConnection, nodes, connections, removeConnection } = useNetworkStore();
 
   // Check for duplicate connections and remove this one if it's a duplicate
   useEffect(() => {
@@ -25,10 +24,8 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
 
         // Check if this connection connects the same two nodes (bidirectional)
         const sameNodes =
-          (conn.from.id === connection.from.id &&
-            conn.to.id === connection.to.id) ||
-          (conn.from.id === connection.to.id &&
-            conn.to.id === connection.from.id);
+          (conn.from.id === connection.from.id && conn.to.id === connection.to.id) ||
+          (conn.from.id === connection.to.id && conn.to.id === connection.from.id);
 
         return sameNodes;
       });
@@ -46,30 +43,19 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
     const timeoutId = setTimeout(checkForDuplicates, 100);
 
     return () => clearTimeout(timeoutId);
-  }, [
-    connection.id,
-    connection.from.id,
-    connection.to.id,
-    connections,
-    removeConnection,
-  ]);
+  }, [connection.id, connection.from.id, connection.to.id, connections, removeConnection]);
 
   const distance = connection.from.position.distanceTo(connection.to.position);
   const lineColor = getLineColor(distance);
 
   // Calculate connection properties
   const { connectionLength, tubeSegments, tubeStartPosition } = useMemo(() => {
-    const dir = new THREE.Vector3().subVectors(
-      connection.to.position,
-      connection.from.position,
-    );
+    const dir = new THREE.Vector3().subVectors(connection.to.position, connection.from.position);
     const length = dir.length();
     const segments = Math.max(12, Math.floor(length * 6));
     const tubeDirection = dir.clone().normalize();
     const halfLength = length / 2;
-    const startPos = connection.from.position
-      .clone()
-      .add(tubeDirection.clone().multiplyScalar(halfLength));
+    const startPos = connection.from.position.clone().add(tubeDirection.clone().multiplyScalar(halfLength));
 
     return {
       connectionLength: length,
@@ -82,11 +68,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
   const initialOrientationRef = useRef(false);
 
   React.useEffect(() => {
-    if (
-      tubeRef.current &&
-      glowTubeRef.current &&
-      !initialOrientationRef.current
-    ) {
+    if (tubeRef.current && glowTubeRef.current && !initialOrientationRef.current) {
       // Set initial orientation like the original
       tubeRef.current.lookAt(connection.to.position);
       tubeRef.current.rotateX(Math.PI / 2);
@@ -166,10 +148,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
 
     if (connection.isAnimating && connection.animationProgress < 1) {
       // Update animation progress using constant speed
-      const newProgress = Math.min(
-        connection.animationProgress + ANIMATION_CONFIG.connectionSpeed,
-        1,
-      );
+      const newProgress = Math.min(connection.animationProgress + ANIMATION_CONFIG.connectionSpeed, 1);
 
       // Update the connection progress in the store
       updateConnection(connection.id, { animationProgress: newProgress });
@@ -184,9 +163,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
       // Current length based on animation progress
       const currentLength = fullLength * newProgress;
       const currentOffset = currentLength / 2;
-      const currentPosition = startPos
-        .clone()
-        .add(normalizedDirection.clone().multiplyScalar(currentOffset));
+      const currentPosition = startPos.clone().add(normalizedDirection.clone().multiplyScalar(currentOffset));
 
       // Update tube positions and scales (using setY like original)
       tubeRef.current.position.copy(currentPosition);
@@ -207,10 +184,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
           const positionAttribute = particleGeometry.attributes.position;
           const positions = positionAttribute.array as Float32Array;
 
-          const trailProgress = Math.max(
-            0,
-            newProgress - i * ANIMATION_CONFIG.particleTrailSpacing,
-          );
+          const trailProgress = Math.max(0, newProgress - i * ANIMATION_CONFIG.particleTrailSpacing);
           const trailPos = startPos.clone().lerp(endPos, trailProgress);
 
           positions[0] = trailPos.x;
@@ -233,10 +207,8 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
 
     // Handle connection opacity based on node fade states
     // Get fresh node data from store to ensure we have current fade states
-    const fromNode =
-      nodes.find((n) => n.id === connection.from.id) || connection.from;
-    const toNode =
-      nodes.find((n) => n.id === connection.to.id) || connection.to;
+    const fromNode = nodes.find((n) => n.id === connection.from.id) || connection.from;
+    const toNode = nodes.find((n) => n.id === connection.to.id) || connection.to;
 
     let fromFadeMultiplier = 1;
     let toFadeMultiplier = 1;
@@ -268,15 +240,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
       {/* eslint-disable react/no-unknown-property */}
       {/* Main tube */}
       <mesh ref={tubeRef} position={tubeStartPosition} scale={[1, 0, 1]}>
-        <cylinderGeometry
-          args={[
-            SIZES.tubeRadius,
-            SIZES.tubeRadius,
-            connectionLength,
-            8,
-            tubeSegments,
-          ]}
-        />
+        <cylinderGeometry args={[SIZES.tubeRadius, SIZES.tubeRadius, connectionLength, 8, tubeSegments]} />
         <primitive object={tubeMaterial} />
       </mesh>
 
@@ -295,9 +259,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
       </mesh>
 
       {/* Leading particles */}
-      {connection.isAnimating && (
-        <primitive ref={leadingParticlesRef} object={leadingParticles} />
-      )}
+      {connection.isAnimating && <primitive ref={leadingParticlesRef} object={leadingParticles} />}
       {/* eslint-enable react/no-unknown-property */}
     </group>
   );

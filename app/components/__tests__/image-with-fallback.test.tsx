@@ -13,14 +13,7 @@ describe('Image Display with Graceful Degradation', () => {
   describe('when users browse portfolio content with images', () => {
     it('should display the primary image when it loads successfully', () => {
       // Given: A user views content with a properly working image
-      render(
-        <ImageWithFallback
-          src="/images/test-image.jpg"
-          alt="Test project screenshot"
-          width={400}
-          height={300}
-        />,
-      );
+      render(<ImageWithFallback src="/images/test-image.jpg" alt="Test project screenshot" width={400} height={300} />);
 
       // When: The image loads without issues
       const image = screen.getByRole('img', {
@@ -34,14 +27,7 @@ describe('Image Display with Graceful Degradation', () => {
 
     it('should provide fallback image when primary image fails to load', () => {
       // Given: A user encounters content where the primary image is unavailable
-      render(
-        <ImageWithFallback
-          src="/images/broken-image.jpg"
-          alt="Project showcase"
-          width={400}
-          height={300}
-        />,
-      );
+      render(<ImageWithFallback src="/images/broken-image.jpg" alt="Project showcase" width={400} height={300} />);
 
       const image = screen.getByRole('img', { name: /project showcase/i });
 

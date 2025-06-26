@@ -30,12 +30,8 @@ describe('Portfolio Site Navigation', () => {
 
       // When: They look for navigation options
       // Then: All main sections should be clearly accessible
-      expect(
-        screen.getByRole('link', { name: /devblog/i }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('link', { name: /projects/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /devblog/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /projects/i })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /resume/i })).toBeInTheDocument();
 
       // And the logo should link back to home
@@ -60,9 +56,7 @@ describe('Portfolio Site Navigation', () => {
       // Then: Menu should be marked as expanded and navigation options should become accessible
       expect(menuButton).toHaveAttribute('aria-expanded', 'true');
       expect(screen.getAllByRole('link', { name: /devblog/i })).toHaveLength(2); // Desktop + mobile
-      expect(screen.getAllByRole('link', { name: /projects/i })).toHaveLength(
-        2,
-      ); // Desktop + mobile
+      expect(screen.getAllByRole('link', { name: /projects/i })).toHaveLength(2); // Desktop + mobile
       expect(screen.getAllByRole('link', { name: /resume/i })).toHaveLength(2); // Desktop + mobile
     });
 
@@ -122,9 +116,7 @@ describe('Portfolio Site Navigation', () => {
       const allProjectsLinks = screen.getAllByRole('link', {
         name: /projects/i,
       });
-      const mobileProjectsLink =
-        allProjectsLinks.find((link) => link.closest('.md\\:hidden')) ||
-        allProjectsLinks[1]; // Fallback to second link which should be mobile
+      const mobileProjectsLink = allProjectsLinks.find((link) => link.closest('.md\\:hidden')) || allProjectsLinks[1]; // Fallback to second link which should be mobile
 
       await user.click(mobileProjectsLink);
 
@@ -147,10 +139,7 @@ describe('Portfolio Site Navigation', () => {
         name: /toggle navigation menu/i,
       });
       expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-      expect(menuButton).toHaveAttribute(
-        'aria-label',
-        'Toggle navigation menu',
-      );
+      expect(menuButton).toHaveAttribute('aria-label', 'Toggle navigation menu');
     });
   });
 });

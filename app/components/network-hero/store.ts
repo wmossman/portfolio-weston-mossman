@@ -1,10 +1,5 @@
 import { create } from 'zustand';
-import {
-  NetworkNode,
-  NetworkConnection,
-  MouseData,
-  TrackingPoint,
-} from './types';
+import { NetworkNode, NetworkConnection, MouseData, TrackingPoint } from './types';
 
 interface NetworkState {
   nodes: NetworkNode[];
@@ -20,10 +15,7 @@ interface NetworkState {
 
   addConnection: (connection: NetworkConnection) => void;
   removeConnection: (connectionId: string) => void;
-  updateConnection: (
-    connectionId: string,
-    updates: Partial<NetworkConnection>,
-  ) => void;
+  updateConnection: (connectionId: string, updates: Partial<NetworkConnection>) => void;
 
   setMouse: (mouse: MouseData) => void;
   setTrackingPoint: (trackingPoint: TrackingPoint) => void;
@@ -59,17 +51,13 @@ export const useNetworkStore = create<NetworkState>((set) => ({
     set((state) => {
       return {
         nodes: state.nodes.filter((n) => n.id !== nodeId),
-        connections: state.connections.filter(
-          (conn) => conn.from.id !== nodeId && conn.to.id !== nodeId,
-        ),
+        connections: state.connections.filter((conn) => conn.from.id !== nodeId && conn.to.id !== nodeId),
       };
     }),
 
   updateNode: (nodeId, updates) =>
     set((state) => ({
-      nodes: state.nodes.map((node) =>
-        node.id === nodeId ? { ...node, ...updates } : node,
-      ),
+      nodes: state.nodes.map((node) => (node.id === nodeId ? { ...node, ...updates } : node)),
     })),
 
   addConnection: (connection) =>
@@ -84,15 +72,12 @@ export const useNetworkStore = create<NetworkState>((set) => ({
 
   updateConnection: (connectionId, updates) =>
     set((state) => ({
-      connections: state.connections.map((conn) =>
-        conn.id === connectionId ? { ...conn, ...updates } : conn,
-      ),
+      connections: state.connections.map((conn) => (conn.id === connectionId ? { ...conn, ...updates } : conn)),
     })),
 
   setMouse: (mouse) => set({ mouse }),
   setTrackingPoint: (trackingPoint) => set({ trackingPoint }),
-  setIsWaitingForEdgeReduction: (waiting) =>
-    set({ isWaitingForEdgeReduction: waiting }),
+  setIsWaitingForEdgeReduction: (waiting) => set({ isWaitingForEdgeReduction: waiting }),
 
   clearAll: () =>
     set({
@@ -120,8 +105,7 @@ export const useNetworkStore = create<NetworkState>((set) => ({
       // Also clean connections that reference removed nodes
       const validNodeIds = new Set(cleanedNodes.map((n) => n.id));
       const cleanedConnections = state.connections.filter(
-        (conn) =>
-          validNodeIds.has(conn.from.id) && validNodeIds.has(conn.to.id),
+        (conn) => validNodeIds.has(conn.from.id) && validNodeIds.has(conn.to.id),
       );
 
       return {
