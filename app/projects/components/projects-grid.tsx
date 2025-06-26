@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ProjectCard, MoreComingCard } from './ProjectCard';
-import { Tag } from './Tag';
-import PageTitle from 'app/components/PageTitle';
+import { ProjectCard, MoreComingCard } from './project-card';
+import { Tag } from './tag';
+import PageTitle from 'app/components/page-title';
 import { Project } from '../utils';
 
 function getAllTags(projects: Project[]) {

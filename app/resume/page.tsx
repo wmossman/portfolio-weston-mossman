@@ -1,5 +1,5 @@
-import Button from 'app/components/Button';
-import PageTitle from 'app/components/PageTitle';
+import Button from 'app/components/button';
+import PageTitle from 'app/components/page-title';
 
 export default function ResumePage() {
   return (

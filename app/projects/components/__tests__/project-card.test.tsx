@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ProjectCard, MoreComingCard } from '../ProjectCard';
+import { ProjectCard, MoreComingCard } from '../project-card';
 import { Project } from '../../utils';
 
 // Mock Next.js Link component
@@ -23,7 +23,7 @@ jest.mock('next/link', () => {
 });
 
 // Mock ImageWithFallback component
-jest.mock('app/components/ImageWithFallback', () => {
+jest.mock('app/components/image-with-fallback', () => {
   return function MockImageWithFallback(props: Record<string, unknown>) {
     return <img {...props} />;
   };
@@ -104,9 +104,10 @@ describe('Project Portfolio Browsing Experience', () => {
       );
 
       // When: A visitor clicks the project card
-      const _projectCard = screen.getByTestId(
+      const projectCard = screen.getByTestId(
         'project-card-amazing-portfolio-project',
       );
+      fireEvent.click(projectCard);
 
       // Then: The custom interaction should be triggered
       expect(mockOnClick).toHaveBeenCalled();

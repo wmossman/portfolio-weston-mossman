@@ -15,7 +15,7 @@ jest.mock('next-mdx-remote/rsc', () => ({
 jest.mock('sugar-high', () => ({ highlight: (code) => code }));
 
 // Mock the BackButton component
-jest.mock('app/components/BackButton', () => {
+jest.mock('app/components/back-button', () => {
   return function MockBackButton({
     _href,
     label,

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import PageTitle from '../PageTitle';
+import PageTitle from '../page-title';
 
 describe('PageTitle', () => {
   it('should render as h1 heading with children text', () => {

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { highlight } from 'sugar-high';
 import React from 'react';
-import ImageWithFallback from 'app/components/ImageWithFallback';
+import ImageWithFallback from 'app/components/image-with-fallback';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 function CustomLink(props) {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import BackButton from '../BackButton';
+import BackButton from '../back-button';
 
 describe('BackButton Component', () => {
   it('should render a navigation link with default "Back to list" text', () => {

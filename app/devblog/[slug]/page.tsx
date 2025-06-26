@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
-import { CustomMDX } from 'app/components/MDX';
+import { CustomMDX } from 'app/components/mdx';
 import { formatDate, getBlogPosts } from 'app/devblog/utils';
 import { baseUrl } from 'app/sitemap';
 import Link from 'next/link';
-import BackButton from 'app/components/BackButton';
+import BackButton from 'app/components/back-button';
 
 export function generateStaticParams() {
   const posts = getBlogPosts();

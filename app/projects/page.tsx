@@ -1,5 +1,5 @@
 import { projects } from './utils';
-import ProjectsGrid from './components/ProjectsGrid';
+import ProjectsGrid from './components/projects-grid';
 
 export default function ProjectsPage() {
   return (

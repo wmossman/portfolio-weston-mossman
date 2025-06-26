@@ -46,10 +46,8 @@ jest.mock('app/components/mdx', () => ({
 
 describe('Development Blog Reading Experience', () => {
   beforeEach(() => {
-    const utils = jest.requireActual('../../utils') as {
-      getBlogPosts: jest.Mock;
-    };
-    utils.getBlogPosts.mockReturnValue([...mockPosts]);
+    const { getBlogPosts } = require('../../utils');
+    getBlogPosts.mockReturnValue([...mockPosts]);
   });
 
   describe('when readers want to explore development insights', () => {

@@ -1,5 +1,5 @@
-import ExampleContracts from 'app/components/playground/ExampleContracts';
-import ExampleDashboard from 'app/components/playground/ExampleDashboard';
+import ExampleContracts from 'app/components/playground/example-contracts';
+import ExampleDashboard from 'app/components/playground/example-dashboard';
 
 export default function PlaygroundPage() {
   return (

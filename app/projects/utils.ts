@@ -1,6 +1,6 @@
 // Project data model and loader for MDX content
 import path from 'path';
-import { getMDXData, type MDXMetadata } from 'app/components/mdx-utils';
+import { getMDXData, type MDXMetadata } from '../components/mdx-utils';
 
 export type Project = {
   slug: string;

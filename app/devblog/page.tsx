@@ -1,5 +1,5 @@
-import { BlogPosts } from 'app/components/Posts';
-import PageTitle from 'app/components/PageTitle';
+import { BlogPosts } from 'app/components/posts';
+import PageTitle from 'app/components/page-title';
 
 export const metadata = {
   title: 'Devblog',

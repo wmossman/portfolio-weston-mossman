@@ -3,12 +3,12 @@ import { Canvas } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { COLORS, CAMERA_CONFIG } from './constants';
 import { useNetworkStore } from './store';
-import { BackgroundParticles } from './BackgroundParticles';
-import { CameraController } from './CameraController';
-import { NetworkManager } from './NetworkManager';
-import { MouseHandler } from './MouseHandler';
-import { Node } from './Node';
-import { Connection } from './Connection';
+import { BackgroundParticles } from './background-particles';
+import { CameraController } from './camera-controller';
+import { NetworkManager } from './network-manager';
+import { MouseHandler } from './mouse-handler';
+import { Node } from './node';
+import { Connection } from './connections';
 
 const Scene: React.FC = () => {
   const { nodes, connections } = useNetworkStore();
