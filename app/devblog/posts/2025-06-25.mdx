@@ -1,0 +1,31 @@
+---
+title: "React Three Fiber Refactor"
+publishedAt: "2025-06-25"
+summary: "Migrated the landing page 3D network animation to React Three Fiber for cleaner, modular, and future-proofed component structure."
+---
+
+## Time Spent
+4 hours
+
+## Outcomes & Reflections
+- Rewrote Three.js hero animation using React Three Fiber.
+- Achieved better modularity and cleaner code via component-based structure.
+- Improved collaboration with Copilot to accelerate refactor process.
+- Learned fundamentals of React Three Fiber and Three.js integration.
+
+## Unfinished Tasks
+- None for this project right now!
+
+## Field Journal
+
+After getting the Three.js-based hero animation up and running - a glowing network of dynamically connecting nodes — the huge Three.js implementation file felt less readable or maintainable that I would like. So, I decided to migrate the implementation to [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), the idiomatic React renderer for Three.js.  
+
+This move paid off immediately. Using React’s functional paradigm made the scene easier to reason about. Breaking the logic into components—like `<Node />`, `<Connection />`, `<CameraController />`, etc. gave me natural separation of concerns, without spaghetti code or global variables flying around.
+
+The code went from being a big chunk of setup + loop + teardown, to a composed tree of rendered components, all using common React hooks like `useFrame`, `useMemo`, and `useRef`. It made debugging and iterating easier, and also makes it possible to reuse certain parts of the scene logic in other contexts down the line without doing a bunch of copy-pasting or restructuring.
+
+Working through this with Copilot was fun as always. I guided it with architectural goals in mind and it delivered solid foundations I could iterate on. I’m getting better at nudging it toward code that’s not just functional but elegant and extensible.
+
+And I’m learning a ton. Three.js is complex, but seeing how Fiber wraps it so gracefully in React really helped me grok the structure. I’m stoked to explore more complex post-processing, animation, and physics with this stack.
+
+React Three Fiber is going to be a central part of my creative dev toolkit moving forward.

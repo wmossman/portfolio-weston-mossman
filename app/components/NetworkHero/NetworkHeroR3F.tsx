@@ -1,0 +1,114 @@
+import React, { Suspense, useEffect } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { COLORS, CAMERA_CONFIG } from './constants';
+import { useNetworkStore } from './store';
+import { BackgroundParticles } from './BackgroundParticles';
+import { CameraController } from './CameraController';
+import { NetworkManager } from './NetworkManager';
+import { MouseHandler } from './MouseHandler';
+import { Node } from './Node';
+import { Connection } from './Connection';
+
+const Scene: React.FC = () => {
+  const { nodes, connections } = useNetworkStore();
+
+  return (
+    <>
+      {/* Lighting */}
+      {/* eslint-disable react/no-unknown-property */}
+      <ambientLight intensity={0.4} />
+      <directionalLight
+        position={[10, 10, 5]}
+        intensity={0.8}
+        color={COLORS.white}
+      />
+      <pointLight
+        position={[0, 0, 10]}
+        intensity={0.6}
+        color={COLORS.fadedTurquoise}
+      />
+      {/* eslint-enable react/no-unknown-property */}
+
+      {/* Background particles */}
+      <BackgroundParticles />
+
+      {/* Network connections (render first so nodes appear on top) */}
+      {connections.map((connection) => (
+        <Connection key={connection.id} connection={connection} />
+      ))}
+
+      {/* Network nodes (render after connections) */}
+      {nodes.map((node) => (
+        <Node key={node.id} node={node} />
+      ))}
+
+      {/* Controllers */}
+      <CameraController />
+      <NetworkManager />
+      <MouseHandler />
+    </>
+  );
+};
+
+const Fallback: React.FC = () => (
+  <div className="flex items-center justify-center h-full">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-300 mx-auto mb-4"></div>
+      <p className="text-gray-500">Loading network visualization...</p>
+    </div>
+  </div>
+);
+
+export const NetworkHeroR3F: React.FC = () => {
+  const { clearAll } = useNetworkStore();
+
+  // Clear all state when component unmounts (e.g., page navigation)
+  useEffect(() => {
+    return () => {
+      clearAll();
+    };
+  }, [clearAll]);
+
+  return (
+    <div className="relative w-screen h-[75vh] rounded-lg overflow-hidden bg-background-base mb-8 -mx-2 md:-mx-0 lg:-mx-4 left-1/2 -translate-x-1/2">
+      <Canvas
+        camera={{
+          fov: CAMERA_CONFIG.fov,
+          near: CAMERA_CONFIG.near,
+          far: CAMERA_CONFIG.far,
+          position: CAMERA_CONFIG.position,
+        }}
+        dpr={[2, 3]}
+        performance={{ min: 0.5 }}
+        style={{ background: COLORS.background, minHeight: '75vh' }}
+        fallback={<Fallback />}
+      >
+        <Suspense fallback={null}>
+          <Scene />
+
+          {/* Post-processing effects */}
+          <EffectComposer multisampling={0}>
+            <Bloom
+              intensity={7.0}
+              luminanceThreshold={0.001}
+              luminanceSmoothing={0.95}
+              height={2048}
+            />
+          </EffectComposer>
+        </Suspense>
+      </Canvas>
+
+      {/* Edge gradient overlay for subtle vignette effect */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            linear-gradient(to right, var(--color-background-base) 0%, transparent 32px, transparent calc(100% - 32px), var(--color-background-base) 100%),
+            linear-gradient(to bottom, var(--color-background-base) 0%, transparent 32px, transparent calc(100% - 32px), var(--color-background-base) 100%)
+          `,
+        }}
+      />
+    </div>
+  );
+};
