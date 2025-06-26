@@ -75,7 +75,7 @@ export const findNearestNodes = (
 export const findNearbyNodes = (
   position: THREE.Vector3,
   nodes: NetworkNode[],
-  maxDistance: number = 7,
+  maxDistance: number = LIMITS.defaultMaxNodeDistance,
 ): NetworkNode[] => {
   return nodes.filter((node) => {
     const distance = position.distanceTo(node.position);

@@ -242,7 +242,7 @@ export const NetworkManager: React.FC = () => {
 
         // Check if node is in its mid-life connection window
         if (age >= midLifePoint && age <= midLifePoint + connectionWindow) {
-          const nearbyNodes = findNearbyNodes(node.position, nodes, 8);
+          const nearbyNodes = findNearbyNodes(node.position, nodes, 10);
 
           // Process connections one at a time to avoid race conditions
           for (const nearbyNode of nearbyNodes) {

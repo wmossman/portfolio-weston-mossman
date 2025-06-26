@@ -852,7 +852,7 @@ const NetworkHero = () => {
 
           // Check if node is in its mid-life connection window
           if (age >= midLifePoint && age <= midLifePoint + connectionWindow) {
-            const nearbyNodes = findNearbyNodes(node.position, 8);
+            const nearbyNodes = findNearbyNodes(node.position, 10);
             nearbyNodes.forEach((nearbyNode) => {
               if (
                 !nearbyNode.isRemoving &&
