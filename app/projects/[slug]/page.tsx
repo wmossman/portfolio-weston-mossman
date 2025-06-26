@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { CustomMDX } from '../../components/mdx';
 import { getMDXData, type MDXMetadata } from '../../components/mdx-utils';
 import path from 'path';
-import { Tag } from '../components/tag';
+import { Tag } from '../components/tag-component';
 import ImageWithFallback from '../../components/image-with-fallback';
 import BackButton from '../../components/back-button';
 

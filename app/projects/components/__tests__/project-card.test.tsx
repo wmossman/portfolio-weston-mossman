@@ -30,7 +30,7 @@ jest.mock('app/components/image-with-fallback', () => {
 });
 
 // Mock Tag component
-jest.mock('../Tag', () => {
+jest.mock('../tag-component', () => {
   return {
     Tag: function MockTag({ tag }: { tag: string }) {
       return <span data-testid={`tag-${tag}`}>{tag}</span>;

@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { ProjectCard, MoreComingCard } from './project-card';
-import { Tag } from './tag';
-import PageTitle from '../../components/page-title';
+import { Tag } from './tag-component';
+import PageTitle from 'app/components/page-title';
 import { Project } from '../utils';
 
 function getAllTags(projects: Project[]) {

@@ -2,7 +2,7 @@
 
 import landingPageContent from './content/landing-page-content';
 import ImageWithFallback from './components/image-with-fallback';
-import Button from './components/button';
+import Button from './components/button-component';
 import { NetworkHeroR3F } from './components/network-hero/network-hero-r3f';
 
 export default function Page() {

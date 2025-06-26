@@ -1,24 +1,27 @@
 ---
-title: "React Three Fiber Refactor"
-publishedAt: "2025-06-25"
-summary: "Migrated the landing page 3D network animation to React Three Fiber for cleaner, modular, and future-proofed component structure."
+title: 'React Three Fiber Refactor'
+publishedAt: '2025-06-25'
+summary: 'Migrated the landing page 3D network animation to React Three Fiber for cleaner, modular, and future-proofed component structure.'
 ---
 
 ## Time Spent
+
 4 hours
 
 ## Outcomes & Reflections
+
 - Rewrote Three.js hero animation using React Three Fiber.
 - Achieved better modularity and cleaner code via component-based structure.
 - Improved collaboration with Copilot to accelerate refactor process.
 - Learned fundamentals of React Three Fiber and Three.js integration.
 
 ## Unfinished Tasks
+
 - None for this project right now!
 
 ## Field Journal
 
-After getting the Three.js-based hero animation up and running - a glowing network of dynamically connecting nodes — the huge Three.js implementation file felt less readable or maintainable that I would like. So, I decided to migrate the implementation to [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), the idiomatic React renderer for Three.js.  
+After getting the Three.js-based hero animation up and running - a glowing network of dynamically connecting nodes — the huge Three.js implementation file felt less readable or maintainable that I would like. So, I decided to migrate the implementation to [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), the idiomatic React renderer for Three.js.
 
 This move paid off immediately. Using React’s functional paradigm made the scene easier to reason about. Breaking the logic into components—like `<Node />`, `<Connection />`, `<CameraController />`, etc. gave me natural separation of concerns, without spaghetti code or global variables flying around.
 

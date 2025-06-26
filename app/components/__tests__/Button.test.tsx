@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Button from '../button';
+import Button from '../button-component';
 
 describe('Button Component', () => {
   it('should render as a button with children when no URL is provided', () => {

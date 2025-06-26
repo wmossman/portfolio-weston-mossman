@@ -3,7 +3,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default [
   js.configs.recommended,
@@ -15,9 +15,9 @@ export default [
       'react-hooks': pluginReactHooks,
     },
     languageOptions: {
-      globals: { 
-        ...globals.browser, 
-        ...globals.node 
+      globals: {
+        ...globals.browser,
+        ...globals.node,
       },
       parserOptions: {
         ecmaFeatures: {
@@ -43,10 +43,13 @@ export default [
       'react/prop-types': 'off',
       'react/no-unknown-property': ['error', { ignore: ['tw'] }],
       'react/no-unescaped-entities': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { 
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_'
-      }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-require-imports': 'warn',

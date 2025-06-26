@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Project } from '../utils';
-import { Tag } from './tag';
-import ImageWithFallback from '../../components/image-with-fallback';
+import { Tag } from './tag-component';
+import ImageWithFallback from 'app/components/image-with-fallback';
 
 function _stringToColor(str: string) {
   // Simple hash to HSL color
