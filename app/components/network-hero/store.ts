@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { subscribeWithSelector } from 'zustand/middleware';
 import { NetworkNode, NetworkConnection, MouseData, TrackingPoint } from './types';
 
 interface NetworkState {
@@ -27,90 +28,126 @@ interface NetworkState {
   removeDuplicateNodes: () => void;
 }
 
-export const useNetworkStore = create<NetworkState>((set) => ({
-  nodes: [],
-  connections: [],
-  mouse: { x: 0, y: 0 },
-  trackingPoint: { x: 0, y: 0, vx: 0, vy: 0 },
-  isWaitingForEdgeReduction: false,
+export const useNetworkStore = create<NetworkState>()(
+  subscribeWithSelector((set, _get) => ({
+    nodes: [],
+    connections: [],
+    mouse: { x: 0, y: 0 },
+    trackingPoint: { x: 0, y: 0, vx: 0, vy: 0 },
+    isWaitingForEdgeReduction: false,
 
-  addNode: (node) =>
-    set((state) => {
-      // Check for duplicate nodes before adding
-      const existingNode = state.nodes.find((n) => n.id === node.id);
-      if (existingNode) {
-        return state; // Don't add duplicate
-      }
-
-      return {
-        nodes: [...state.nodes, node],
-      };
-    }),
-
-  removeNode: (nodeId) =>
-    set((state) => {
-      return {
-        nodes: state.nodes.filter((n) => n.id !== nodeId),
-        connections: state.connections.filter((conn) => conn.from.id !== nodeId && conn.to.id !== nodeId),
-      };
-    }),
-
-  updateNode: (nodeId, updates) =>
-    set((state) => ({
-      nodes: state.nodes.map((node) => (node.id === nodeId ? { ...node, ...updates } : node)),
-    })),
-
-  addConnection: (connection) =>
-    set((state) => ({
-      connections: [...state.connections, connection],
-    })),
-
-  removeConnection: (connectionId) =>
-    set((state) => ({
-      connections: state.connections.filter((c) => c.id !== connectionId),
-    })),
-
-  updateConnection: (connectionId, updates) =>
-    set((state) => ({
-      connections: state.connections.map((conn) => (conn.id === connectionId ? { ...conn, ...updates } : conn)),
-    })),
-
-  setMouse: (mouse) => set({ mouse }),
-  setTrackingPoint: (trackingPoint) => set({ trackingPoint }),
-  setIsWaitingForEdgeReduction: (waiting) => set({ isWaitingForEdgeReduction: waiting }),
-
-  clearAll: () =>
-    set({
-      nodes: [],
-      connections: [],
-      isWaitingForEdgeReduction: false,
-    }),
-
-  // Cleanup method to remove duplicate nodes
-  removeDuplicateNodes: () =>
-    set((state) => {
-      const uniqueNodes = new Map<string, NetworkNode>();
-      const duplicatesRemoved: string[] = [];
-
-      state.nodes.forEach((node) => {
-        if (uniqueNodes.has(node.id)) {
-          duplicatesRemoved.push(node.id);
-        } else {
-          uniqueNodes.set(node.id, node);
+    addNode: (node) =>
+      set((state) => {
+        // Check for duplicate nodes before adding - performance optimized
+        const existingNodeIndex = state.nodes.findIndex((n) => n.id === node.id);
+        if (existingNodeIndex !== -1) {
+          return state; // Don't add duplicate
         }
-      });
 
-      const cleanedNodes = Array.from(uniqueNodes.values());
+        return {
+          nodes: [...state.nodes, node],
+        };
+      }),
 
-      // Also clean connections that reference removed nodes
-      const validNodeIds = new Set(cleanedNodes.map((n) => n.id));
-      const cleanedConnections = state.connections.filter(
-        (conn) => validNodeIds.has(conn.from.id) && validNodeIds.has(conn.to.id),
-      );
+    removeNode: (nodeId) =>
+      set((state) => {
+        // Use more efficient filtering
+        const nodeIndex = state.nodes.findIndex((n) => n.id === nodeId);
+        if (nodeIndex === -1) return state;
 
-      return {
-        nodes: cleanedNodes,
-        connections: cleanedConnections,
-      };
-    }),
-}));
+        const newNodes = state.nodes.filter((n) => n.id !== nodeId);
+        const newConnections = state.connections.filter((conn) => conn.from.id !== nodeId && conn.to.id !== nodeId);
+
+        return {
+          nodes: newNodes,
+          connections: newConnections,
+        };
+      }),
+
+    updateNode: (nodeId, updates) =>
+      set((state) => {
+        // Use map with early return for better performance
+        const nodeIndex = state.nodes.findIndex((node) => node.id === nodeId);
+        if (nodeIndex === -1) return state;
+
+        const newNodes = [...state.nodes];
+        newNodes[nodeIndex] = { ...newNodes[nodeIndex], ...updates };
+
+        return {
+          nodes: newNodes,
+        };
+      }),
+
+    addConnection: (connection) =>
+      set((state) => ({
+        connections: [...state.connections, connection],
+      })),
+
+    removeConnection: (connectionId) =>
+      set((state) => {
+        const connectionIndex = state.connections.findIndex((c) => c.id === connectionId);
+        if (connectionIndex === -1) return state;
+
+        return {
+          connections: state.connections.filter((c) => c.id !== connectionId),
+        };
+      }),
+
+    updateConnection: (connectionId, updates) =>
+      set((state) => {
+        const connectionIndex = state.connections.findIndex((conn) => conn.id === connectionId);
+        if (connectionIndex === -1) return state;
+
+        const newConnections = [...state.connections];
+        newConnections[connectionIndex] = { ...newConnections[connectionIndex], ...updates };
+
+        return {
+          connections: newConnections,
+        };
+      }),
+
+    setMouse: (mouse) => set({ mouse }),
+    setTrackingPoint: (trackingPoint) => set({ trackingPoint }),
+    setIsWaitingForEdgeReduction: (waiting) => set({ isWaitingForEdgeReduction: waiting }),
+
+    clearAll: () =>
+      set({
+        nodes: [],
+        connections: [],
+        isWaitingForEdgeReduction: false,
+      }),
+
+    // Cleanup method to remove duplicate nodes - optimized for performance
+    removeDuplicateNodes: () =>
+      set((state) => {
+        const uniqueNodes = new Map<string, NetworkNode>();
+        const duplicatesRemoved: string[] = [];
+
+        state.nodes.forEach((node) => {
+          if (uniqueNodes.has(node.id)) {
+            duplicatesRemoved.push(node.id);
+          } else {
+            uniqueNodes.set(node.id, node);
+          }
+        });
+
+        const cleanedNodes = Array.from(uniqueNodes.values());
+
+        // Also clean connections that reference removed nodes - optimized
+        const validNodeIds = new Set(cleanedNodes.map((n) => n.id));
+        const cleanedConnections = state.connections.filter(
+          (conn) => validNodeIds.has(conn.from.id) && validNodeIds.has(conn.to.id),
+        );
+
+        // Only update if changes were made
+        if (duplicatesRemoved.length === 0 && cleanedConnections.length === state.connections.length) {
+          return state;
+        }
+
+        return {
+          nodes: cleanedNodes,
+          connections: cleanedConnections,
+        };
+      }),
+  })),
+);

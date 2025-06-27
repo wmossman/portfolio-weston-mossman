@@ -164,3 +164,97 @@ export const getOptimizedDPR = (): [number, number] => {
     return [Math.min(1.5, baseDevicePixelRatio * 0.75), Math.min(2.25, baseDevicePixelRatio * 1.125)];
   }
 };
+
+// Calculate optimized bloom resolution
+export const getOptimizedBloomHeight = (): number => {
+  if (typeof window === 'undefined') return 1536;
+
+  if (isMobileDevice()) {
+    // For mobile: reduce to 1/2 of current resolution
+    // Current is 2048, so mobile gets 1024
+    return 1024;
+  } else {
+    // For desktop: reduce to 3/4 of current resolution
+    // Current is 2048, so desktop gets 1536
+    return 1536;
+  }
+};
+
+// Performance monitoring utilities
+export const performanceMonitor = {
+  frameCount: 0,
+  lastTime: 0,
+  fps: 0,
+
+  update: () => {
+    const now = performance.now();
+    if (performanceMonitor.lastTime === 0) {
+      performanceMonitor.lastTime = now;
+      return;
+    }
+
+    performanceMonitor.frameCount++;
+    const delta = now - performanceMonitor.lastTime;
+
+    if (delta >= 1000) {
+      // Update every second
+      performanceMonitor.fps = Math.round((performanceMonitor.frameCount * 1000) / delta);
+      performanceMonitor.frameCount = 0;
+      performanceMonitor.lastTime = now;
+
+      // Log performance issues
+      if (performanceMonitor.fps < 30) {
+        console.warn(`Low FPS detected: ${performanceMonitor.fps}fps`);
+      }
+    }
+  },
+
+  getFPS: () => performanceMonitor.fps,
+};
+
+// Object pooling for frequently created objects
+export class ObjectPool<T> {
+  private pool: T[] = [];
+  private createFn: () => T;
+  private resetFn: (obj: T) => void;
+
+  constructor(createFn: () => T, resetFn: (obj: T) => void, initialSize = 10) {
+    this.createFn = createFn;
+    this.resetFn = resetFn;
+
+    // Pre-populate pool
+    for (let i = 0; i < initialSize; i++) {
+      this.pool.push(this.createFn());
+    }
+  }
+
+  acquire(): T {
+    const obj = this.pool.pop();
+    if (obj) {
+      this.resetFn(obj);
+      return obj;
+    }
+    return this.createFn();
+  }
+
+  release(obj: T): void {
+    this.pool.push(obj);
+  }
+
+  getPoolSize(): number {
+    return this.pool.length;
+  }
+}
+
+// Pre-created object pools for common operations
+export const vector3Pool = new ObjectPool(
+  () => new THREE.Vector3(),
+  (v) => v.set(0, 0, 0),
+  50,
+);
+
+export const colorPool = new ObjectPool(
+  () => new THREE.Color(),
+  (c) => c.set(0, 0, 0),
+  20,
+);

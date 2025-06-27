@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { COLORS, SIZES, TIMING, ANIMATION_CONFIG } from './constants';
@@ -6,15 +6,33 @@ import { NetworkConnection } from './types';
 import { getLineColor } from './utils';
 import { useNetworkStore } from './store';
 
+// Reusable vectors to avoid GC pressure
+const tempVector1 = new THREE.Vector3();
+const tempVector2 = new THREE.Vector3();
+const tempDirection = new THREE.Vector3();
+
 interface ConnectionProps {
   connection: NetworkConnection;
 }
 
-export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
+export const Connection: React.FC<ConnectionProps> = React.memo(({ connection }) => {
   const tubeRef = useRef<THREE.Mesh>(null);
   const glowTubeRef = useRef<THREE.Mesh>(null);
   const leadingParticlesRef = useRef<THREE.Group>(null);
-  const { updateConnection, nodes, connections, removeConnection } = useNetworkStore();
+  const { nodes, connections } = useNetworkStore();
+
+  // Store stable references to avoid closure issues
+  const connectionIdRef = useRef(connection.id);
+  connectionIdRef.current = connection.id;
+
+  // Memoized update functions
+  const updateConnectionStore = useCallback((updates: Partial<NetworkConnection>) => {
+    useNetworkStore.getState().updateConnection(connectionIdRef.current, updates);
+  }, []);
+
+  const removeConnectionStore = useCallback(() => {
+    useNetworkStore.getState().removeConnection(connectionIdRef.current);
+  }, []);
 
   // Check for duplicate connections and remove this one if it's a duplicate
   useEffect(() => {
@@ -32,7 +50,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
 
       if (duplicates.length > 0) {
         // This connection is a duplicate, remove it
-        removeConnection(connection.id);
+        removeConnectionStore();
         return true; // Indicate this connection was removed
       }
 
@@ -43,31 +61,41 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
     const timeoutId = setTimeout(checkForDuplicates, 100);
 
     return () => clearTimeout(timeoutId);
-  }, [connection.id, connection.from.id, connection.to.id, connections, removeConnection]);
+  }, [connection.id, connection.from.id, connection.to.id, connections, removeConnectionStore]);
 
   const distance = connection.from.position.distanceTo(connection.to.position);
   const lineColor = getLineColor(distance);
 
-  // Calculate connection properties
-  const { connectionLength, tubeSegments, tubeStartPosition } = useMemo(() => {
-    const dir = new THREE.Vector3().subVectors(connection.to.position, connection.from.position);
-    const length = dir.length();
+  // Calculate connection properties - memoized for performance
+  const { tubeStartPosition, tubeGeometry, glowTubeGeometry } = useMemo(() => {
+    tempDirection.subVectors(connection.to.position, connection.from.position);
+    const length = tempDirection.length();
     const segments = Math.max(12, Math.floor(length * 6));
-    const tubeDirection = dir.clone().normalize();
+    tempDirection.normalize();
     const halfLength = length / 2;
-    const startPos = connection.from.position.clone().add(tubeDirection.clone().multiplyScalar(halfLength));
+    tempVector1.copy(connection.from.position).add(tempDirection.clone().multiplyScalar(halfLength));
+
+    // Create shared geometries for this connection
+    const tubeGeo = new THREE.CylinderGeometry(SIZES.tubeRadius, SIZES.tubeRadius, length, 8, segments);
+    const glowTubeGeo = new THREE.CylinderGeometry(
+      SIZES.tubeRadius * SIZES.glowTubeMultiplier,
+      SIZES.tubeRadius * SIZES.glowTubeMultiplier,
+      length,
+      8,
+      segments,
+    );
 
     return {
-      connectionLength: length,
-      tubeSegments: segments,
-      tubeStartPosition: startPos,
+      tubeStartPosition: tempVector1.clone(),
+      tubeGeometry: tubeGeo,
+      glowTubeGeometry: glowTubeGeo,
     };
   }, [connection.from.position, connection.to.position]);
 
   // Set initial orientation when component mounts
   const initialOrientationRef = useRef(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (tubeRef.current && glowTubeRef.current && !initialOrientationRef.current) {
       // Set initial orientation like the original
       tubeRef.current.lookAt(connection.to.position);
@@ -80,7 +108,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
     }
   }, [connection.to.position]);
 
-  // Create materials
+  // Create materials - memoized to prevent recreation
   const tubeMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -116,7 +144,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
     [lineColor],
   );
 
-  // Create leading particles
+  // Create leading particles - memoized for performance
   const leadingParticles = useMemo(() => {
     const group = new THREE.Group();
 
@@ -147,31 +175,31 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
     if (!tubeRef.current || !glowTubeRef.current) return;
 
     if (connection.isAnimating && connection.animationProgress < 1) {
-      // Update animation progress using constant speed
+      // Update animation progress using constant speed - direct mutation for performance
       const newProgress = Math.min(connection.animationProgress + ANIMATION_CONFIG.connectionSpeed, 1);
 
       // Update the connection progress in the store
-      updateConnection(connection.id, { animationProgress: newProgress });
+      updateConnectionStore({ animationProgress: newProgress });
 
-      // Calculate current position and scale based on progress
-      const startPos = connection.from.position;
-      const endPos = connection.to.position;
-      const fullDirection = new THREE.Vector3().subVectors(endPos, startPos);
-      const fullLength = fullDirection.length();
-      const normalizedDirection = fullDirection.clone().normalize();
+      // Calculate current position and scale based on progress - reuse temp vectors
+      tempVector1.copy(connection.from.position);
+      tempVector2.copy(connection.to.position);
+      tempDirection.subVectors(tempVector2, tempVector1);
+      const fullLength = tempDirection.length();
+      tempDirection.normalize();
 
       // Current length based on animation progress
       const currentLength = fullLength * newProgress;
       const currentOffset = currentLength / 2;
-      const currentPosition = startPos.clone().add(normalizedDirection.clone().multiplyScalar(currentOffset));
+      tempVector1.add(tempDirection.clone().multiplyScalar(currentOffset));
 
-      // Update tube positions and scales (using setY like original)
-      tubeRef.current.position.copy(currentPosition);
+      // Update tube positions and scales (using setY like original) - direct mutations
+      tubeRef.current.position.copy(tempVector1);
       tubeRef.current.lookAt(connection.to.position);
       tubeRef.current.rotateX(Math.PI / 2);
       tubeRef.current.scale.setY(newProgress);
 
-      glowTubeRef.current.position.copy(currentPosition);
+      glowTubeRef.current.position.copy(tempVector1);
       glowTubeRef.current.lookAt(connection.to.position);
       glowTubeRef.current.rotateX(Math.PI / 2);
       glowTubeRef.current.scale.setY(newProgress);
@@ -185,11 +213,12 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
           const positions = positionAttribute.array as Float32Array;
 
           const trailProgress = Math.max(0, newProgress - i * ANIMATION_CONFIG.particleTrailSpacing);
-          const trailPos = startPos.clone().lerp(endPos, trailProgress);
+          // Reuse temp vector for trail position calculation
+          tempVector2.copy(connection.from.position).lerp(connection.to.position, trailProgress);
 
-          positions[0] = trailPos.x;
-          positions[1] = trailPos.y;
-          positions[2] = trailPos.z;
+          positions[0] = tempVector2.x;
+          positions[1] = tempVector2.y;
+          positions[2] = tempVector2.z;
 
           positionAttribute.needsUpdate = true;
         });
@@ -201,7 +230,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
           leadingParticlesRef.current.visible = false;
         }
         // Update the connection to mark animation as complete
-        updateConnection(connection.id, { isAnimating: false });
+        updateConnectionStore({ isAnimating: false });
       }
     }
 
@@ -226,6 +255,7 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
     // Use the minimum (most faded) opacity to match the oldest node
     const connectionOpacity = Math.min(fromFadeMultiplier, toFadeMultiplier);
 
+    // Direct material mutations for performance
     tubeMaterial.opacity = 0.8 * connectionOpacity;
     glowTubeMaterial.opacity = 0.15 * connectionOpacity;
 
@@ -240,21 +270,13 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
       {/* eslint-disable react/no-unknown-property */}
       {/* Main tube */}
       <mesh ref={tubeRef} position={tubeStartPosition} scale={[1, 0, 1]}>
-        <cylinderGeometry args={[SIZES.tubeRadius, SIZES.tubeRadius, connectionLength, 8, tubeSegments]} />
+        <primitive object={tubeGeometry} />
         <primitive object={tubeMaterial} />
       </mesh>
 
       {/* Glow tube */}
       <mesh ref={glowTubeRef} position={tubeStartPosition} scale={[1, 0, 1]}>
-        <cylinderGeometry
-          args={[
-            SIZES.tubeRadius * SIZES.glowTubeMultiplier,
-            SIZES.tubeRadius * SIZES.glowTubeMultiplier,
-            connectionLength,
-            8,
-            tubeSegments,
-          ]}
-        />
+        <primitive object={glowTubeGeometry} />
         <primitive object={glowTubeMaterial} />
       </mesh>
 
@@ -263,4 +285,4 @@ export const Connection: React.FC<ConnectionProps> = ({ connection }) => {
       {/* eslint-enable react/no-unknown-property */}
     </group>
   );
-};
+});

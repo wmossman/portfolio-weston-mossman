@@ -1,45 +1,47 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { COLORS, SIZES, LIMITS, TIMING, ANIMATION_CONFIG } from './constants';
 import { NetworkNode } from './types';
 import { useNetworkStore } from './store';
 
+// Global shared materials and geometries for better performance
+const sharedNodeGeometry = new THREE.SphereGeometry(SIZES.nodeRadius, 12, 12);
+const sharedNodeMaterial = new THREE.MeshBasicMaterial({
+  color: new THREE.Color(COLORS.fadedTurquoise),
+  transparent: true,
+  opacity: 0.9,
+  toneMapped: false, // Allow bloom effect
+});
+
+const sharedBurstMaterial = new THREE.PointsMaterial({
+  color: new THREE.Color(COLORS.fadedTurquoise),
+  size: SIZES.burstParticleSize,
+  transparent: true,
+  opacity: 1.0,
+  blending: THREE.AdditiveBlending,
+  sizeAttenuation: true,
+  toneMapped: false, // Allow bloom effect
+});
+
 interface NodeProps {
   node: NetworkNode;
 }
 
-export const Node: React.FC<NodeProps> = ({ node }) => {
+export const Node: React.FC<NodeProps> = React.memo(({ node }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const spawnParticlesRef = useRef<THREE.Points>(null);
 
-  // Create materials
-  const nodeMaterial = useMemo(
-    () =>
-      new THREE.MeshBasicMaterial({
-        color: new THREE.Color(COLORS.fadedTurquoise),
-        transparent: true,
-        opacity: 0.9,
-        toneMapped: false, // Allow bloom effect
-      }),
-    [],
-  );
+  // Store reference to avoid closure issues in useFrame
+  const nodeIdRef = useRef(node.id);
+  nodeIdRef.current = node.id;
 
-  const burstMaterial = useMemo(
-    () =>
-      new THREE.PointsMaterial({
-        color: new THREE.Color(COLORS.fadedTurquoise),
-        size: SIZES.burstParticleSize,
-        transparent: true,
-        opacity: 1.0,
-        blending: THREE.AdditiveBlending,
-        sizeAttenuation: true,
-        toneMapped: false, // Allow bloom effect
-      }),
-    [],
-  );
+  // Memoized update function to avoid recreating on every render
+  const updateNodeStore = useCallback((updates: Partial<NetworkNode>) => {
+    useNetworkStore.getState().updateNode(nodeIdRef.current, updates);
+  }, []);
 
-  // Create spawn particles geometry
+  // Create spawn particles geometry only once per node
   const spawnParticlesGeometry = useMemo(() => {
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(LIMITS.burstParticleCount * 3);
@@ -95,9 +97,10 @@ export const Node: React.FC<NodeProps> = ({ node }) => {
           material.opacity = newOpacity;
 
           if (newOpacity <= 0) {
-            // Remove spawn particles
-            useNetworkStore.getState().updateNode(node.id, { isSpawning: false });
+            // Remove spawn particles - use direct mutation instead of setState
+            updateNodeStore({ isSpawning: false });
           } else {
+            // Update particle positions - direct mutation for performance
             for (let i = 0; i < positions.length / 3; i++) {
               positions[i * 3] += velocities[i * 3] * 0.006; // Reduced from 0.008 to 0.006 (between original 0.005 and previous 0.008)
               positions[i * 3 + 1] += velocities[i * 3 + 1] * 0.006;
@@ -107,7 +110,7 @@ export const Node: React.FC<NodeProps> = ({ node }) => {
           }
         }
       } else {
-        useNetworkStore.getState().updateNode(node.id, { isSpawning: false });
+        updateNodeStore({ isSpawning: false });
         spawnScale = 1;
       }
     }
@@ -130,7 +133,7 @@ export const Node: React.FC<NodeProps> = ({ node }) => {
       }
     }
 
-    // Update material opacity directly on the mesh material
+    // Update material opacity directly on the shared material (cloned per instance)
     const brightnessMultiplier = 1 + glowIntensity * 0.08;
     const pulseMultiplier = 1 - pulse * 0.05;
     const finalOpacity = 0.9 * nodeFadeMultiplier * brightnessMultiplier * pulseMultiplier;
@@ -139,7 +142,7 @@ export const Node: React.FC<NodeProps> = ({ node }) => {
     const meshMaterial = meshRef.current.material as THREE.MeshBasicMaterial;
     meshMaterial.opacity = Math.min(finalOpacity, 1.0);
 
-    // Update scale
+    // Update scale - direct mutation for performance
     meshRef.current.scale.setScalar(spawnScale);
   });
 
@@ -148,17 +151,17 @@ export const Node: React.FC<NodeProps> = ({ node }) => {
     <group position={node.position}>
       {/* eslint-disable react/no-unknown-property */}
       <mesh ref={meshRef}>
-        <sphereGeometry args={[SIZES.nodeRadius, 12, 12]} />
-        <primitive object={nodeMaterial} />
+        <primitive object={sharedNodeGeometry} />
+        <primitive object={sharedNodeMaterial.clone()} />
       </mesh>
 
       {node.isSpawning && (
         <points ref={spawnParticlesRef}>
           <primitive object={spawnParticlesGeometry} />
-          <primitive object={burstMaterial} />
+          <primitive object={sharedBurstMaterial.clone()} />
         </points>
       )}
       {/* eslint-enable react/no-unknown-property */}
     </group>
   );
-};
+});
