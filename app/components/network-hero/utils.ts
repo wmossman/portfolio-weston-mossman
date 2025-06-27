@@ -157,25 +157,10 @@ export const getOptimizedDPR = (): [number, number] => {
   if (isMobileDevice()) {
     // For mobile: reduce to 1/2 of current resolution
     // Current is [2, 3], so mobile gets [1, 1.5]
-    return [Math.min(1, baseDevicePixelRatio * 0.5), Math.min(1.5, baseDevicePixelRatio * 0.75)];
+    return [Math.min(1.4, baseDevicePixelRatio * 0.7), Math.min(1.6, baseDevicePixelRatio * 0.8)];
   } else {
     // For desktop: reduce to 3/4 of current resolution
     // Current is [2, 3], so desktop gets [1.5, 2.25]
     return [Math.min(1.5, baseDevicePixelRatio * 0.75), Math.min(2.25, baseDevicePixelRatio * 1.125)];
-  }
-};
-
-// Calculate optimized bloom resolution
-export const getOptimizedBloomHeight = (): number => {
-  if (typeof window === 'undefined') return 1536;
-
-  if (isMobileDevice()) {
-    // For mobile: reduce to 1/2 of current resolution
-    // Current is 2048, so mobile gets 1024
-    return 1024;
-  } else {
-    // For desktop: reduce to 3/4 of current resolution
-    // Current is 2048, so desktop gets 1536
-    return 1536;
   }
 };

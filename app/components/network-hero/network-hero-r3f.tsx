@@ -9,7 +9,7 @@ import { NetworkManager } from './network-manager';
 import { MouseHandler } from './mouse-handler';
 import { Node } from './node';
 import { Connection } from './connections';
-import { getOptimizedDPR, getOptimizedBloomHeight } from './utils';
+import { getOptimizedDPR } from './utils';
 
 const Scene: React.FC = () => {
   const { nodes, connections } = useNetworkStore();
@@ -82,12 +82,7 @@ export const NetworkHeroR3F: React.FC = () => {
 
           {/* Post-processing effects */}
           <EffectComposer multisampling={0}>
-            <Bloom
-              intensity={7.0}
-              luminanceThreshold={0.001}
-              luminanceSmoothing={0.95}
-              height={getOptimizedBloomHeight()}
-            />
+            <Bloom intensity={7.0} luminanceThreshold={0.001} luminanceSmoothing={0.95} />
           </EffectComposer>
         </Suspense>
       </Canvas>
