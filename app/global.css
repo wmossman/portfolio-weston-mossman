@@ -281,5 +281,6 @@ table {
     drop-shadow(-1px -1px 2px var(--color-light-charcoal))
     drop-shadow(1px -1px 2px var(--color-light-charcoal))
     drop-shadow(-1px 1px 2px var(--color-light-charcoal))
-    drop-shadow(0 0 4px var(--color-light-charcoal));
+    drop-shadow(0 0 4px var(--color-light-charcoal))
+    drop-shadow(0 0 6px var(--color-light-charcoal));
 }

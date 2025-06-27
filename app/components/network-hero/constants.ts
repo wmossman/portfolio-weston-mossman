@@ -37,7 +37,7 @@ export const CAMERA_CONFIG = {
   fov: 66.5,
   near: 0.1,
   far: 1000,
-  position: [0, 0, 30] as [number, number, number],
+  position: [0, 0, 28] as [number, number, number],
 } as const;
 
 export const ANIMATION_CONFIG = {

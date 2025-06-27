@@ -9,6 +9,7 @@ import { NetworkManager } from './network-manager';
 import { MouseHandler } from './mouse-handler';
 import { Node } from './node';
 import { Connection } from './connections';
+import { getOptimizedDPR, getOptimizedBloomHeight } from './utils';
 
 const Scene: React.FC = () => {
   const { nodes, connections } = useNetworkStore();
@@ -71,7 +72,7 @@ export const NetworkHeroR3F: React.FC = () => {
           far: CAMERA_CONFIG.far,
           position: CAMERA_CONFIG.position,
         }}
-        dpr={[2, 3]}
+        dpr={getOptimizedDPR()}
         performance={{ min: 0.5 }}
         style={{ background: COLORS.background, minHeight: '75vh' }}
         fallback={<Fallback />}
@@ -81,7 +82,12 @@ export const NetworkHeroR3F: React.FC = () => {
 
           {/* Post-processing effects */}
           <EffectComposer multisampling={0}>
-            <Bloom intensity={7.0} luminanceThreshold={0.001} luminanceSmoothing={0.95} height={2048} />
+            <Bloom
+              intensity={7.0}
+              luminanceThreshold={0.001}
+              luminanceSmoothing={0.95}
+              height={getOptimizedBloomHeight()}
+            />
           </EffectComposer>
         </Suspense>
       </Canvas>
