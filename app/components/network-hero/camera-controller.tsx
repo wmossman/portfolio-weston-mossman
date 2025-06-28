@@ -2,10 +2,6 @@ import React, { useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useNetworkStore } from './store';
 import { ANIMATION_CONFIG } from './constants';
-import * as THREE from 'three';
-
-// Reusable vector to avoid GC pressure
-const _tempVector = new THREE.Vector3();
 
 export const CameraController: React.FC = React.memo(() => {
   const { camera } = useThree();

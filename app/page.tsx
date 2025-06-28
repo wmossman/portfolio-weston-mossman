@@ -30,6 +30,9 @@ export default function Page() {
         </div>
       </div>
       <div className="flex flex-col items-center">
+        <Button url="https://calendly.com/weston-limi/30min" color="primary" size="lg" className="mt-8 mb-32">
+          {landingPageContent.landingCTA}
+        </Button>
         <ImageWithFallback
           className="mb-8 mt-8 rounded-full"
           src="/images/portfolio-photo.jpg"
@@ -39,9 +42,6 @@ export default function Page() {
         />
         <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.landingHook}</h2>
         <p className="mb-4 text-text-primary">{landingPageContent.landingBlurb}</p>
-        <Button url="https://calendly.com/weston-limi/30min" color="primary" size="lg" className="my-8">
-          {landingPageContent.landingCTA}
-        </Button>
       </div>
     </section>
   );

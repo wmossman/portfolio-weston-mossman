@@ -12,7 +12,7 @@ export default function ResumePage() {
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold text-text-heading mb-2">Weston Mossman</h1>
           <h2 className="mb-4 text-xl text-light-faded-turquoise">
-            Senior Full Stack Software Engineer & Creative Consultant
+            Senior Full-Stack Software Engineer & Creative Consultant
           </h2>
           <div className="mb-4 flex flex-wrap justify-center items-center gap-4 text-sm text-text-primary">
             Santa Cruz, CA
@@ -48,7 +48,7 @@ export default function ResumePage() {
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h4 className="text-lg font-bold text-text-heading">
-                  Software, Sales, Partnerships & Creative Consultant
+                  Sales Engineering & Creative Software Consultant
                 </h4>
                 <p className="text-light-faded-turquoise font-medium">Freelance</p>
               </div>
@@ -56,18 +56,18 @@ export default function ResumePage() {
             </div>
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
-                Provided creative direction and technical consulting for digital & physical art and media projects in
-                the sustainability space
+                Led web strategy, growth & sales engineering, marketing design for new vertical at climate tech startup.
               </li>
               <li>
-                Identified and built relationships with key partners and clients to drive mission-aligned business
-                growth
+                Designed Autodesk PAAS integration → web prototyping, genAI toolchain, automated complexity/eco
+                analysis.
               </li>
               <li>
-                Collaborated with organizations, engineers and artists to bring innovative products, experiences, and
-                manufacturing projects to life
+                Developed custom interactive media solutions using Python, TouchDesigner, Three.js & DMX scripting.
               </li>
-              <li>Managed end-to-end project delivery from conception to sale to deployment</li>
+              <li>
+                Integrated real-time Nvidia computer vision to enhance live performance visuals for top-10 musicians.
+              </li>
             </ul>
           </div>
 
@@ -82,17 +82,12 @@ export default function ResumePage() {
             </div>
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
-                Launched & scaled social & sustainability focused interactive art co-op delivering immersive art-tech
-                experiences by 200+ multimedia creators, thousands of participants.
+                Launched & scaled creative co-op delivering immersive art‑tech experiences by 200+ multimedia creators.
               </li>
+              <li>Enabled interactive productions & innovation incubators for 12,000+ participants.</li>
               <li>
-                Secured sales, grants, partnerships, enabled dynamic sustainable interactive projects & innovation
-                incubators.
-              </li>
-              <li>~$80k in event, membership, sponsorship, and grant income, spread through the creative community.</li>
-              <li>
-                Managed team of 13 division leaders and ~50 builders, producers and coordinators, now passed on to
-                general management team.
+                Managed team of 13 division leaders and ~50 designers, builders, producers and coordinators, now passed
+                on to general management team.
               </li>
             </ul>
           </div>

@@ -13,6 +13,7 @@ const footerItems = [
   { label: 'LinkedIn', url: 'https://linkedin.com/in/westonmossman' },
   { label: 'GitHub', url: 'https://github.com/wmossman' },
   { label: 'Liminal', url: 'https://limi.space' },
+  { label: 'Swayor Music', url: 'https://open.spotify.com/album/2Jnza2Gw0XMbHqy8C6RjyB' },
   { label: 'Email Me', url: 'mailto:weston@westonmossman.com' },
   { label: 'Schedule a Chat', url: 'https://calendly.com/westonmossman' },
 ];
