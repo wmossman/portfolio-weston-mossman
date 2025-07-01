@@ -46,7 +46,7 @@ export default function Page() {
       </div>
 
       {/* Contact Form Section */}
-      <div id="contact" className="mt-32 mb-16 px-4">
+      <div id="contact" className="mt-32 mb-16">
         <ContactForm />
       </div>
     </section>
