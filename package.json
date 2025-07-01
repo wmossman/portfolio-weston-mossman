@@ -17,6 +17,7 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.12.0",
     "@next/mdx": "^15.3.4",
     "@react-three/drei": "^10.3.0",
     "@react-three/fiber": "^9.1.2",

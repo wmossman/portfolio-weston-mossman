@@ -4,6 +4,7 @@ import landingPageContent from './content/landing-page-content';
 import ImageWithFallback from './components/image-with-fallback';
 import Button from './components/button-component';
 import { NetworkHeroR3F } from './components/network-hero/network-hero-r3f';
+import ContactForm from './components/contact-form';
 
 export default function Page() {
   return (
@@ -42,6 +43,11 @@ export default function Page() {
         />
         <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.landingHook}</h2>
         <p className="mb-4 text-text-primary">{landingPageContent.landingBlurb}</p>
+      </div>
+
+      {/* Contact Form Section */}
+      <div id="contact" className="mt-32 mb-16 px-4">
+        <ContactForm />
       </div>
     </section>
   );

@@ -20,8 +20,8 @@ export default function ResumePage() {
 
           {/* Contact Info */}
           <div className="flex flex-wrap justify-center gap-4 text-sm text-text-primary">
-            <a href="mailto:weston@westonmossman.com" className="text-faded-turquoise hover:text-light-faded-turquoise">
-              weston@westonmossman.com
+            <a href="/#contact" className="text-faded-turquoise hover:text-light-faded-turquoise">
+              Contact Form
             </a>
             <span>•</span>
             <a

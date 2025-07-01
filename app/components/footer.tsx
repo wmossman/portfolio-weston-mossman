@@ -14,24 +14,23 @@ const footerItems = [
   { label: 'GitHub', url: 'https://github.com/wmossman' },
   { label: 'Liminal', url: 'https://limi.space' },
   { label: 'Swayor Music', url: 'https://open.spotify.com/album/2Jnza2Gw0XMbHqy8C6RjyB' },
-  { label: 'Email Me', url: 'mailto:weston@westonmossman.com' },
-  { label: 'Schedule a Chat', url: 'https://calendly.com/westonmossman' },
+  { label: 'Contact', url: '/contact', samePage: true },
 ];
 
 export default function Footer() {
   return (
     <footer className="my-16">
       <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-text-link md:flex-row md:space-x-4 md:space-y-0">
-        {footerItems.map((footerItem) => (
-          <li key={footerItem.url}>
+        {footerItems.map(({ url, label, samePage }) => (
+          <li key={url}>
             <a
               className="flex items-center transition-all hover:text-accent-secondary"
               rel="noopener noreferrer"
-              target="_blank"
-              href={footerItem.url}
+              target={!samePage ? '_blank' : ''}
+              href={url}
             >
               <ArrowIcon />
-              <p className="ml-2 h-7">{footerItem.label}</p>
+              <p className="ml-2 h-7">{label}</p>
             </a>
           </li>
         ))}
