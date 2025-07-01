@@ -48,15 +48,17 @@ This proof-of-concept adds a sortable, filterable Projects feature at `/projects
 Run all tests:
 
 ```bash
-npm test
+pnpm test
 ```
 
 ### Lint & Build
 
 ```bash
-npm run lint
-npm run build
+pnpm run lint:fix
+pnpm run build
 ```
+
+**Note:** The build process automatically runs `lint:fix` first via the `prebuild` script.
 
 ### Clone and Deploy
 

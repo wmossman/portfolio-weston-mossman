@@ -28,14 +28,8 @@ const Scene: React.FC = React.memo(() => {
   const { nodes, connections } = useNetworkStore();
 
   // Memoize the nodes and connections arrays to prevent unnecessary re-renders
-  const memoizedNodes = useMemo(
-    () => nodes,
-    [nodes.length, nodes.map((n) => n.id + n.isSpawning + n.isRemoving).join('')],
-  );
-  const memoizedConnections = useMemo(
-    () => connections,
-    [connections.length, connections.map((c) => c.id + c.isAnimating + c.animationProgress).join('')],
-  );
+  const memoizedNodes = useMemo(() => nodes, [nodes]);
+  const memoizedConnections = useMemo(() => connections, [connections]);
 
   return (
     <>

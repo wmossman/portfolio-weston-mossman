@@ -1,0 +1,78 @@
+---
+title: 'Wait did I just put my email on the internet?'
+publishedAt: '2025-06-30'
+summary: 'AKA "How quickly I set up a free Web3Forms email submission on my portfolio"'
+---
+
+## Time Spent
+
+4 hours
+
+## Outcomes & Reflections
+
+- Web3Forms is awesome and free
+- What am I doing putting my email on the internet?
+- Don't I know that is a terrible idea?
+- The answer: I love spam emails.
+
+## Unfinished Tasks
+
+- None for this project right now!
+
+## Field Journal
+
+The irony wasn't lost on me. Here I was, literally asking an AI agent to help me remove my email address from the internet because I'd finally realized what a terrible idea it was to have it sitting there in plain text. Classic developer move: solve the problem I created by building a more complex solution.
+
+The whole thing started when I looked at my portfolio and thought, "Wait, do I really want every bot and scraper on the internet to have my email?" The answer was a resounding no. But I still wanted people to be able to reach me easily.
+
+### Enter Web3Forms
+
+I researched contact form solutions that would work with my Next.js app on Cloudflare without requiring a backend, tapping on Copilot for some options. Web3Forms emerged as the clear winner - completely free, no registration required, just drop in an access key and you're golden.
+
+The implementation was surprisingly smooth. Copilot and I built a full ContactForm component with:
+- Name, Email, Subject, and "Questions & Ideas" fields
+- Custom subject line formatting (`"Portfolio Form - [user subject]"`)
+- Proper TypeScript interfaces and state management
+- Error handling and success states
+- A reusable Label component with red asterisks for required fields
+- Used my existing Button component for consistency
+
+### Web3Forms is amazing
+Grabbed the key from Web3Forms, dropped it in `.env.local`, and boom - garbage test submissions sent from myself landed right in my inbox - with clean non-garbage formatting. Thank you to all of the paid Web3Forms customers for subsidizing the free version for me.
+
+![Contact form with hCaptcha integration](/images/blogs/form-submit-code.png)
+
+Simple as that.
+
+### hCaptcha Integration
+
+So if I have learned anything, it's that spam is not the most good thing there is in the array of things there are in the world. So let's add hCaptcha. `@hcaptcha/react-hcaptcha` ftw:
+- Free with Web3Forms' shared site key
+- Privacy-focused
+- Dark mode React component that fits the `aesthetic`
+- Client-side validation for great justice
+
+And voila:
+![Contact form with hCaptcha integration](/images/blogs/submit-form.png)
+
+### Navigation and UX Polish
+
+So now to get it on the app:
+- Tossed it at the bottom of the landing page
+- Created a dedicated `/contact` page with both the form and a Calendly scheduling section
+- Added "Contact" to the main navigation (both desktop and mobile) and footer
+
+The contact page flow makes sense: quick questions via form, complex discussions via scheduled call.
+
+### Turtles All The Way Down
+
+There's something intriguingly recursive about collaborating with an AI agent to help me build a contact form so people can reach me about potentially working with AI agents to build and tune AI agents. The future is weird. 
+
+With regards to Copilot's recent Agent Mode updates, I'm pretty stoked about having more time to focus on the vision and design. When I get down to coding it's mostly a PRD and software architecture exercise: how well can I convey what I want to get the best output in the shortest time, while learning in the process? Hit enter, oversee some super fast implementation, fix Copilot's mistakes, then work alongside Copilot for a quick refactor to make the code as good, if not better, than if I had written it alone. I'm still learning, but instead of memorizing, cheat-sheeting, and frantically searching when I forget, I'm letting Copliot write most of the boilerplate and reviewing to make sure the patterns are high quality.
+
+The whole implementation took about 3 hours from conception to deployment-ready. That includes research, component-building, implementation, testing, and polish. Not bad for a complete contact solution with spam protection.
+
+Now instead of feeding my email to the spam bots, I have a professional contact flow that is about 10x UX points above a mailto link.
+
+Sometimes the best creations come from admitting you made a mistake and building something better.
+

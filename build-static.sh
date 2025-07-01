@@ -7,16 +7,20 @@ echo "Node.js version: $(node -v)"
 # Install dependencies if needed
 if [ ! -d "node_modules" ]; then
   echo "Installing dependencies..."
-  npm ci
+  pnpm install --frozen-lockfile
 fi
 
 # # Run tests before building
 # echo "Running tests..."
-# npm test -- --passWithNoTests --watchAll=false --ci
+# pnpm test -- --passWithNoTests --watchAll=false --ci
+
+# Run linting before build
+echo "Running linter..."
+pnpm run lint
 
 # Build static export instead of server components
 echo "Building static export..."
-npx next build
+pnpm exec next build
 
 # Copy necessary files to the output directory
 echo "Copying static files..."

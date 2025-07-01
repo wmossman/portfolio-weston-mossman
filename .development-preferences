@@ -1,0 +1,28 @@
+# Development Preferences for AI Assistants
+
+This file contains key development preferences to be followed by AI assistants when working on this project.
+
+## Design Aesthetics
+- NEVER create colored borders around any elements
+- Use alternative visual separators: shadows, background changes, spacing, subtle dividers
+
+## Package Management
+- ALWAYS use pnpm instead of npm
+- Never suggest or use npm commands
+
+## Build Process
+- ALWAYS run lint:fix before build
+- The prebuild script automatically handles this: `pnpm run build` will run `pnpm run lint:fix` first
+
+## Code Quality
+- Create high quality, reusable TypeScript types
+- Never use 'any' type
+- Follow existing architectural patterns
+
+## Commands Reference
+- Development: `pnpm dev`
+- Testing: `pnpm test`
+- Linting: `pnpm run lint:fix`
+- Building: `pnpm run build` (includes automatic lint:fix)
+
+See DEVELOPMENT_GUIDELINES.md for detailed guidelines.

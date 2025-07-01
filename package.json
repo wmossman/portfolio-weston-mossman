@@ -5,6 +5,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "pnpm run lint:fix",
     "build": "next build",
     "cloudflare-build": "bash ./build.sh",
     "static": "bash ./build-static.sh",

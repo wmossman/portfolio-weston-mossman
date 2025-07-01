@@ -918,6 +918,7 @@ const NetworkHero = () => {
 
     // Cleanup
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       const mountElement = mountRef.current;
 
       if (initializationTimeoutRef.current) {

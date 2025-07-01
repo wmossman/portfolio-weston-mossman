@@ -33,27 +33,31 @@ if [ "$NODE_VERSION" -lt 20 ]; then
     fi
 fi
 
-# Make sure we're using npm from the correct Node version
-echo "Using npm from: $(which npm)"
-echo "npm version: $(npm -v)"
+# Make sure we're using pnpm from the correct Node version
+echo "Using pnpm from: $(which pnpm)"
+echo "pnpm version: $(pnpm -v)"
 
 # Verify Next.js installation
 echo "Checking for next command..."
-npx next --version || echo "Next.js not found in path"
+pnpm exec next --version || echo "Next.js not found in path"
 
 # Install dependencies if needed
 if [ ! -d "node_modules" ]; then
     echo "Installing dependencies..."
-    npm ci
+    pnpm install --frozen-lockfile
 fi
 
 # # Run tests before building
 # echo "Running tests..."
-# npm test -- --passWithNoTests --watchAll=false --ci
+# pnpm test -- --passWithNoTests --watchAll=false --ci
+
+# Run linting before build
+echo "Running linter..."
+pnpm run lint
 
 # Run the build
 echo "Running Next.js build..."
-npx --no-install next build
+pnpm exec next build
 
 # Copy necessary files for Cloudflare Pages deployment
 echo "Preparing files for Cloudflare Pages..."
