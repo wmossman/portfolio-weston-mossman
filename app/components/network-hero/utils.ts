@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { COLORS, LIMITS } from './constants';
 import { NetworkNode, NetworkConnection } from './types';
+import { isMobileDevice } from '../utils';
 
 // Alternative name for compatibility with NetworkManager
 export const generateRandomPosition = (existingNodes?: NetworkNode[]): THREE.Vector3 => {
@@ -141,12 +142,6 @@ export const getLineColor = (distance: number): string => {
 };
 
 // Utility functions for the NetworkHero component
-
-// Mobile device detection utility
-export const isMobileDevice = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return window.innerWidth < 768;
-};
 
 // Calculate optimized DPR based on device type and performance requirements
 export const getOptimizedDPR = (): [number, number] => {

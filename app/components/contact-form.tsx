@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import Button from './button-component';
 import Label from './label';
+import { isMobileDevice } from './utils';
 
 interface ContactFormData {
   from_name: string;
@@ -198,6 +199,7 @@ const ContactForm: React.FC = () => {
         <div className="flex justify-center">
           <HCaptcha
             theme={'dark'}
+            size={isMobileDevice() ? 'compact' : 'normal'}
             sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
             onVerify={onHCaptchaChange}
             reCaptchaCompat={false}
