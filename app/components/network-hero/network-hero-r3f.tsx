@@ -27,14 +27,25 @@ const PerformanceMonitor: React.FC = React.memo(() => {
 const Scene: React.FC = React.memo(() => {
   const { nodes, connections } = useNetworkStore();
 
+  // Memoize expensive signature calculations to prevent re-computation on every render
+  const nodesLength = nodes.length;
+  const nodesSignature = useMemo(() => nodes.map((n) => n.id + n.isSpawning + n.isRemoving).join(''), [nodes]);
+  const connectionsLength = connections.length;
+  const connectionsSignature = useMemo(
+    () => connections.map((c) => c.id + c.isAnimating + c.animationProgress).join(''),
+    [connections],
+  );
+
   // Memoize the nodes and connections arrays to prevent unnecessary re-renders
-  const memoizedNodes = useMemo(() => nodes, [nodes]);
-  const memoizedConnections = useMemo(() => connections, [connections]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedNodes = useMemo(() => nodes, [nodes, nodesLength, nodesSignature]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedConnections = useMemo(() => connections, [connections, connectionsLength, connectionsSignature]);
 
   return (
     <>
-      {/* Performance monitoring */}
-      <PerformanceMonitor />
+      {/* Performance monitoring - only in development */}
+      {process.env.NODE_ENV === 'development' && <PerformanceMonitor />}
 
       {/* Lighting - use shared light instances */}
       {/* eslint-disable react/no-unknown-property */}
