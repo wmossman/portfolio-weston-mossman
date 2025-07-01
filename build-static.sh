@@ -12,7 +12,7 @@ fi
 
 # # Run tests before building
 # echo "Running tests..."
-# pnpm test -- --passWithNoTests --watchAll=false --ci
+pnpm test -- --passWithNoTests --watchAll=false --ci
 
 # Run linting before build
 echo "Running linter..."
