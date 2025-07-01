@@ -5,6 +5,7 @@ import yaml from 'js-yaml';
 export type MDXMetadata = {
   title: string;
   publishedAt?: string;
+  date?: string;
   summary?: string;
   tags?: string[];
   image?: string;

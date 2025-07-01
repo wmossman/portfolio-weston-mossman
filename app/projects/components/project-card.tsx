@@ -25,7 +25,7 @@ export function ProjectCard({
   const card = (
     <div
       className="bg-background-content rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
-      style={{ height: 420 }}
+      style={{ height: 450 }}
       onClick={onClick}
       data-testid={`project-card-${project.slug}`}
     >
@@ -40,6 +40,15 @@ export function ProjectCard({
       <h2 className="font-bold text-lg mb-1 line-clamp-2 min-h-[58px] max-h-[58px] text-text-heading">
         {project.title}
       </h2>
+      {project.date && (
+        <p className="text-sm font-medium mb-2" style={{ color: 'var(--color-accent-primary)' }}>
+          {new Date(project.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </p>
+      )}
       <div
         className="flex flex-wrap gap-1 mb-2 min-h-[58px] max-h-[58px] overflow-hidden"
         style={{ WebkitLineClamp: 2 }}

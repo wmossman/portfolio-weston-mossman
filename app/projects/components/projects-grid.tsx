@@ -24,6 +24,8 @@ function _stringToColor(str: string) {
 export default function ProjectsGrid({ projects }: { projects: Project[] }) {
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const tags = getAllTags(projects);
+
+  // Filter projects and maintain the original sort order from utils.ts
   const filtered =
     activeTags.length === 0 ? projects : projects.filter((p) => activeTags.every((tag) => p.tags.includes(tag)));
 

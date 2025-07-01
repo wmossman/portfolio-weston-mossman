@@ -25,7 +25,7 @@ export const projects: Project[] = getProjectData()
       tags: metadata.tags || [],
       summary: metadata.summary || '',
       image: metadata.image || '',
-      date: metadata.publishedAt || '',
+      date: metadata.date || metadata.publishedAt || '',
     };
   })
   .sort((a, b) => {
