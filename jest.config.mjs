@@ -17,7 +17,28 @@ const customJestConfig = {
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+    '^.+\\.(js|jsx|ts|tsx)$': [
+      'babel-jest',
+      {
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                node: 'current',
+              },
+            },
+          ],
+          [
+            '@babel/preset-react',
+            {
+              runtime: 'automatic',
+            },
+          ],
+          '@babel/preset-typescript',
+        ],
+      },
+    ],
   },
   transformIgnorePatterns: ['node_modules/(?!(.*\\.mjs$))'],
 };
