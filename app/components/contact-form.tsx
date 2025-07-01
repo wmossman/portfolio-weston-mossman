@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import Button from './button-component';
-import Label from './label';
+import FormInput from './form-input';
+import FormTextarea from './form-textarea';
 import { isMobileDevice } from './utils';
 
 interface ContactFormData {
@@ -131,70 +132,50 @@ const ContactForm: React.FC = () => {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <Label htmlFor="from_name" required>
-              Name
-            </Label>
-            <input
-              type="text"
-              id="from_name"
-              name="from_name"
-              value={formData.from_name}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
-              placeholder="Your name"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="email" required>
-              Email
-            </Label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
-              placeholder="your.email@example.com"
-            />
-          </div>
-        </div>
-
-        <div>
-          <Label htmlFor="subject" required>
-            Subject
-          </Label>
-          <input
+          <FormInput
+            id="from_name"
+            name="from_name"
             type="text"
-            id="subject"
-            name="subject"
-            value={formData.subject}
+            value={formData.from_name}
             onChange={handleChange}
+            label="Name"
+            placeholder="Your name"
             required
-            className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
-            placeholder="What are we talking about here?"
+          />
+
+          <FormInput
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            label="Email"
+            placeholder="your.email@example.com"
+            required
           />
         </div>
 
-        <div>
-          <Label htmlFor="message" required>
-            Questions & Ideas
-          </Label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            rows={6}
-            className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors resize-vertical"
-            placeholder="Tell me about your project, ask a question, or share your ideas..."
-          />
-        </div>
+        <FormInput
+          id="subject"
+          name="subject"
+          type="text"
+          value={formData.subject}
+          onChange={handleChange}
+          label="Subject"
+          placeholder="What are we talking about here?"
+          required
+        />
+
+        <FormTextarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          label="Questions & Ideas"
+          placeholder="Tell me about your project, ask a question, or share your ideas..."
+          required
+          rows={6}
+        />
 
         <div className="flex justify-center">
           <HCaptcha
