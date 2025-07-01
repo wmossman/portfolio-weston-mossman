@@ -142,7 +142,7 @@ const ContactForm: React.FC = () => {
               value={formData.from_name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
+              className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
               placeholder="Your name"
             />
           </div>
@@ -158,7 +158,7 @@ const ContactForm: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
+              className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
               placeholder="your.email@example.com"
             />
           </div>
@@ -175,7 +175,7 @@ const ContactForm: React.FC = () => {
             value={formData.subject}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
+            className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors"
             placeholder="What are we talking about here?"
           />
         </div>
@@ -191,7 +191,7 @@ const ContactForm: React.FC = () => {
             onChange={handleChange}
             required
             rows={6}
-            className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors resize-vertical"
+            className="w-full px-4 py-3 border-none border-border-subtle rounded-lg bg-background-base text-text-primary placeholder-text-tertiary placeholder:text-sm md:placeholder:text-base focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-colors resize-vertical"
             placeholder="Tell me about your project, ask a question, or share your ideas..."
           />
         </div>

@@ -10,6 +10,7 @@ global.window.URL.createObjectURL = jest.fn();
 // Suppress JSDom navigation errors
 const originalError = console.error;
 beforeAll(() => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   console.error = (...args: any[]) => {
     if (
       args[0] &&
