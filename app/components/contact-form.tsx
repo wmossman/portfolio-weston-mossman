@@ -113,7 +113,9 @@ const ContactForm: React.FC = () => {
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-text-primary mb-4">Get In Touch</h2>
         <p className="text-text-secondary">
-          Have questions or ideas? I'd love to hear from you. Send me a message and I'll respond as soon as possible.
+          Got questions or ideas? I'd love to hear from you.
+          <br />
+          Send me a message and I'll respond as soon as possible.
         </p>
       </div>
 
