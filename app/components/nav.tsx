@@ -114,13 +114,13 @@ export function Navbar() {
             aria-expanded={isMobileMenuOpen}
           >
             <div
-              className={`w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+              className={`w-8 h-1.5 bg-black border-1.5 border-pale-clay-white rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}
             />
             <div
-              className={`w-6 h-0.5 bg-current transition-all duration-300 mt-1 ${isMobileMenuOpen ? 'opacity-0' : ''}`}
+              className={`w-8 h-1.5 bg-black border-1.5 border-pale-clay-white rounded-full transition-all duration-300 mt-0.5 ${isMobileMenuOpen ? 'opacity-0' : ''}`}
             />
             <div
-              className={`w-6 h-0.5 bg-current transition-all duration-300 mt-1 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+              className={`w-8 h-1.5 bg-black border-1.5 border-pale-clay-white rounded-full transition-all duration-300 mt-0.5 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}
             />
           </button>
 
