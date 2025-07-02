@@ -1,0 +1,90 @@
+---
+title: 'Deep Dive: Building the Three.js Hero Animation'
+publishedAt: '2025-07-02'
+summary: 'The design process, technical implementation, and lessons learned from creating an interactive 3D network hero for my portfolio landing page'
+---
+
+Want to learn more about how I implemented the landing page 3D hero?
+
+### The Inspiration
+
+Ria Chockalingam, who was an audience member at the Adobe Creative Cafe where I was a panelist, inspired me to create a Three.js hero after I saw the interactive 3D hero she made for another art collective. She just became a Liminal Space member, and when I showed her my portfolio and told her how she inspired me, she asked how I made it. I wrote this up for her, so I figured I might as well turn it into a devblog for everyone!
+
+### The Design Process
+
+This project was mostly a design, creative direction, and product requirements exercise. The key questions were:
+- **Why?** What does this hero need to communicate about me?
+- **How?** How does the visual design convey those messages?
+
+The answers led to a network visualization - something that feels technical, interconnected, and alive. Perfect for showcasing both technical skill and creative vision.
+
+### Technical Implementation Journey
+
+The implementation involved **very quickly relearning Three.js** while collaborating with Copilot to iteratively work through the PRD. This meant lots of learning about:
+- Meshes and geometries
+- Trigonometry for 3D space
+- Performance optimizations
+- React Three Fiber patterns
+
+Copilot helped tremendously with learning and general bugfixes, while I provided guidance, caught when Copilot generated questionable code, and made my own changes when I had specific creative vision. Knowing the general best practices for architecture really helped prevent Copilot from generating complete garbage.
+
+### The Core Architecture
+
+#### Node System
+The foundation is a 3D volume that scales roughly to screen size. Within this volume, nodes are generated at random XYZ coordinates. These nodes are represented visually by green spheres that **POP** into existence with particle effects.
+
+Each node has:
+- A lifetime with multiple stages
+- A dictionary of connected nodes
+- Connection-seeking behavior at specific life stages
+
+#### Connection Algorithm
+When nodes try to connect to others, they:
+1. Check all existing nodes using `threejs.distance()`
+2. Use randomness and statistics based on existing connections
+3. Form connections to 1-5 nodes at a time
+
+Connections are separate visual entities that render between connected nodes. They don't have independent lifetimes - they fade out and die with their oldest connected node.
+
+#### Visual Effects
+Connections start as cylinders with zero height and scale based on distance between nodes at a static speed. They include particles at the leading edge, and the direction goes from the connecting node **toward** the target node.
+
+### The Mouse Magic
+
+The camera system uses mouse position to move the camera in Y and Z directions while always looking at (0,0,0). The creative part was solving the jarring snap when moving the mouse out of the canvas and back in.
+
+I implemented an invisible "physics pixel" that accelerates and decelerates toward the mouse position, creating smooth tweening. Much more pleasant than instant snapping.
+
+### Post-Processing Beauty
+
+I added an Unreal Engine-style bloom plugin that scales luminosity for nodes based on their connection count. This creates some really beautiful visuals where highly connected nodes become bright focal points in the network.
+
+### React Three Fiber Conversion
+
+The final step was converting everything to React Three Fiber, which is **fucking awesome** because it's all just React hooks. This made it easy to:
+- Componentize the entire system
+- Optimize with `useMemo` and other React patterns
+- Maintain clean, declarative code
+- Leverage the React ecosystem
+
+### Performance Philosophy
+
+Being a good little engineer, I frst implemented dynamic resolution scaling for mobile. But it was kinda ugly, so I said "fuck it - give them max resolution, and if it's slow on their device, that's a skill issue." Beauty over lowest common denominator FPS for this bad boy.
+
+Sometimes the right choice for a portfolio piece is to prioritize visual impact over universal performance. This hero is meant to showcase technical and creative capability, not run at 144fps on a potato.
+
+### The Result
+
+A nice 3D interactive landing page hero that is:
+- **Pretty** - Visual appeal draws people in
+- **Intriguing** - Interactive elements encourage exploration  
+- **Personal** - Conveys vital elements of my personality and mission
+
+## Lessons Learned
+
+1. **Architecture First**: Having a clear mental model prevented Copilot from generating architectural disasters
+2. **React Three Fiber**: Modern composable, memoizeable React system makes 3D development, organization and optimization much more approachable
+3. **Performance Trade-offs**: Sometimes beauty over small performance gains is the right call for portfolio pieces
+4. **Collaboration**: Human guidance + AI assistance is incredibly powerful for learning new domains
+
+And there you have it! A nice 3D interactive landing page hero that captures attention and interest while showcasing capability. Hope you like it!
