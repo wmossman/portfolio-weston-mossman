@@ -179,7 +179,7 @@ export default function ResumePage() {
                   <span className="font-medium text-text-heading">Frontend:</span>
                   <span className="text-text-primary ml-2">
                     React, Hooks, TypeScript, Next.js, JavaScript, ES6/ESM, HTML5, CSS3, Tailwind CSS, Storybook, Redux,
-                    Zustand, D3.js
+                    Zustand, D3.js, Three.js, ESlint, Jest
                   </span>
                 </div>
                 <div>
@@ -192,15 +192,12 @@ export default function ResumePage() {
                 </div>
                 <div>
                   <span className="font-medium text-text-heading">Tools:</span>
-                  <span className="text-text-primary ml-2">
-                    Git, Docker, AWS, Jenkins, Jest, Webpack, ESlint, Lighthouse
-                  </span>
+                  <span className="text-text-primary ml-2">Git, Docker, AWS, Jenkins, Webpack, Lighthouse</span>
                 </div>
                 <div>
                   <span className="font-medium text-text-heading">Structural:</span>
                   <span className="text-text-primary ml-2">
-                    Front End Architecture, Miro ERD Design, Technical Writing & Documentation, Best Practices &
-                    Conventions
+                    Front End Architecture, Miro ERD Design, Technical Writing, Documentation, Best Practices
                   </span>
                 </div>
               </div>
@@ -224,7 +221,7 @@ export default function ResumePage() {
                 <div>
                   <span className="font-medium text-text-heading">Design:</span>
                   <span className="text-text-primary ml-2">
-                    UI/UX Design, Adobe Creative Suite, Figma, Creative Direction
+                    UI/UX Design, Adobe Creative Suite, Figma, Creative Direction, Experience Design
                   </span>
                 </div>
                 <div>
@@ -233,9 +230,7 @@ export default function ResumePage() {
                 </div>
                 <div>
                   <span className="font-medium text-text-heading">Interactive:</span>
-                  <span className="text-text-primary ml-2">
-                    TouchDesigner, Three.js, Creative Coding, Installation Art
-                  </span>
+                  <span className="text-text-primary ml-2">TouchDesigner, Installation Art</span>
                 </div>
               </div>
             </div>
