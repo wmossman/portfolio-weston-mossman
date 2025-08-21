@@ -31,18 +31,23 @@ export default function Page() {
         </div>
       </div>
       <div className="flex flex-col items-center">
-        <Button url="https://calendly.com/weston-limi/30min" color="primary" size="lg" className="mt-8 mb-32">
+        <Button url="https://calendly.com/westonmossman" color="primary" size="lg" className="mt-8 mb-32">
           {landingPageContent.landingCTA}
         </Button>
         <ImageWithFallback
           className="mb-8 mt-8 rounded-full"
-          src="/images/portfolio-photo.jpg"
+          src="/images/portfolio-photo-2.webp"
           alt="Weston Mossman Portoflio Photo"
           width={500}
           height={500}
         />
         <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.landingHook}</h2>
         <p className="mb-4 text-text-primary">{landingPageContent.landingBlurb}</p>
+        <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.offeringsHeading}</h2>
+        <p className="mb-4 text-text-primary">{landingPageContent.offeringsBlurb}</p>
+        {/* <Button url="https://convergence.courses/" color="primary" size="lg" className="mt-8 mb-32">
+          {landingPageContent.convergenceCTA}
+        </Button> */}
       </div>
 
       {/* Contact Form Section */}

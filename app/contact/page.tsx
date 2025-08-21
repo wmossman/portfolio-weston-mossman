@@ -20,7 +20,7 @@ export default function ContactPage() {
           Schedule a time on my calendar for a free 30 minute consultation.
         </p>
 
-        <Button url="https://calendly.com/weston-limi/30min" color="primary" size="lg">
+        <Button url="https://calendly.com/westonmossman" color="primary" size="lg">
           Schedule a Call
         </Button>
       </div>

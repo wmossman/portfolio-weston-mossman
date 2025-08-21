@@ -11,7 +11,7 @@ function ArrowIcon() {
 
 const footerItems = [
   { label: 'LinkedIn', url: 'https://linkedin.com/in/westonmossman' },
-  { label: 'GitHub', url: 'https://github.com/wmossman' },
+  { label: 'Convergence Courses', url: 'https://convergence.courses/' },
   { label: 'Liminal', url: 'https://limi.space' },
   { label: 'Swayor Music', url: 'https://open.spotify.com/album/2Jnza2Gw0XMbHqy8C6RjyB' },
   { label: 'Contact', url: '/contact', samePage: true },
