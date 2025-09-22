@@ -103,6 +103,10 @@ export default function ResumePage() {
             </div>
             <ul className="list-disc list-inside text-text-primary space-y-1 ml-4">
               <li>
+                Led FE engineering guild, coaching junior to senior engineers on technical plans, life-work balance &
+                career growth.
+              </li>
+              <li>
                 Led Angular monolith → modern React/TypeScript/GraphQL micro-FE/BFF architecture, reducing TTI by 90%
               </li>
               <li>
