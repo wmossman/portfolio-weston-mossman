@@ -42,7 +42,15 @@ export default function Page() {
           height={500}
         />
         <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.landingHook}</h2>
-        <p className="mb-4 text-text-primary">{landingPageContent.landingBlurb}</p>
+        <p className="mb-4 text-text-primary">
+          I build human systems that work for all. Staff-level <strong>UX engineer, game designer, </strong>and{' '}
+          <strong>sustainability advocate,</strong> turned <strong>founder, innovator, strategist, coach,</strong> and
+          <strong> facilitator</strong>.
+        </p>
+        <p className="mb-4 text-text-primary">
+          I help teams and networks align fast, innovate with intention, and grow communities of practice that make
+          change take root, for <strong>adaptable people, resilient orgs,</strong> and <strong>thriving planet</strong>.
+        </p>
         <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.offeringsHeading}</h2>
         <p className="mb-4 text-text-primary">{landingPageContent.offeringsBlurb}</p>
         <Button url="https://convergence.courses/" color="primary" size="lg" className="mt-8 mb-32">
