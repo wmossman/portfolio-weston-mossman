@@ -36,7 +36,7 @@ export default function Page() {
         </Button>
         <ImageWithFallback
           className="mb-8 mt-8 rounded-full"
-          src="/images/portfolio-photo-2.webp"
+          src="/images/portfolio-photo-3.webp"
           alt="Weston Mossman Portoflio Photo"
           width={500}
           height={500}

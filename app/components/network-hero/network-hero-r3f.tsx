@@ -9,7 +9,7 @@ import { NetworkManager } from './network-manager';
 import { MouseHandler } from './mouse-handler';
 import { Node } from './node';
 import { Connection } from './connections';
-import { getOptimizedDPR, performanceMonitor, getOptimizedBloomHeight } from './utils';
+import { getOptimizedDPR, performanceMonitor } from './utils';
 
 // Performance monitoring component
 const PerformanceMonitor: React.FC = React.memo(() => {
@@ -84,6 +84,14 @@ const Fallback: React.FC = React.memo(() => (
   </div>
 ));
 
+type BloomConfig = {
+  intensity: number;
+  luminanceThreshold: number;
+  luminanceSmoothing: number;
+  radius: number;
+  height?: number;
+};
+
 export const NetworkHeroR3F: React.FC = React.memo(() => {
   const { clearAll } = useNetworkStore();
 
@@ -116,20 +124,44 @@ export const NetworkHeroR3F: React.FC = React.memo(() => {
     [],
   );
 
+  const bloomConfig: BloomConfig = useMemo(() => {
+    const baseConfig: BloomConfig = {
+      intensity: 1.88,
+      luminanceThreshold: 0.05,
+      luminanceSmoothing: 0.9,
+      radius: 0.46,
+    };
+
+    if (typeof window === 'undefined') {
+      return baseConfig;
+    }
+
+    if (window.innerWidth < 768) {
+      return {
+        ...baseConfig,
+        intensity: 1.41,
+        radius: 0.35,
+      };
+    }
+
+    if (window.innerWidth > 1920) {
+      return {
+        ...baseConfig,
+        intensity: 2.34,
+        radius: 0.58,
+      };
+    }
+
+    return baseConfig;
+  }, []);
+
   return (
     <div className="relative w-screen h-[75vh] rounded-lg overflow-hidden bg-background-base mb-8 -mx-2 md:-mx-0 lg:-mx-4 left-1/2 -translate-x-1/2">
       <Canvas {...canvasConfig}>
         <Suspense fallback={null}>
           <Scene />
-
-          {/* Post-processing effects */}
           <EffectComposer multisampling={0}>
-            <Bloom
-              intensity={7.0}
-              luminanceThreshold={0.01}
-              luminanceSmoothing={0.95}
-              height={getOptimizedBloomHeight()}
-            />
+            <Bloom {...bloomConfig} />
           </EffectComposer>
         </Suspense>
       </Canvas>
