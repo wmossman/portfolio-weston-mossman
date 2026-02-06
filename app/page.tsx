@@ -45,9 +45,9 @@ export default function Page() {
         <p className="mb-4 text-text-primary">{landingPageContent.landingBlurb}</p>
         <h2 className="my-8 text-2xl text-text-heading">{landingPageContent.offeringsHeading}</h2>
         <p className="mb-4 text-text-primary">{landingPageContent.offeringsBlurb}</p>
-        {/* <Button url="https://convergence.courses/" color="primary" size="lg" className="mt-8 mb-32">
+        <Button url="https://convergence.courses/" color="primary" size="lg" className="mt-8 mb-32">
           {landingPageContent.convergenceCTA}
-        </Button> */}
+        </Button>
       </div>
 
       {/* Contact Form Section */}
