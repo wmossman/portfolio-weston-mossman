@@ -12,21 +12,21 @@ describe('Professional Resume Access', () => {
       expect(screen.getByRole('heading', { name: /resume/i })).toBeInTheDocument();
     });
 
-    it('should provide downloadable PDF access for offline viewing', () => {
-      // Given: A visitor wants to download the resume for offline use
-      render(<ResumePage />);
+    // it('should provide downloadable PDF access for offline viewing', () => {
+    //   // Given: A visitor wants to download the resume for offline use
+    //   render(<ResumePage />);
 
-      // When: They look for download options
-      const downloadLink = screen.getByRole('link', { name: /download/i });
+    //   // When: They look for download options
+    //   const downloadLink = screen.getByRole('link', { name: /download/i });
 
-      // Then: A properly configured download link should be available
-      expect(downloadLink).toBeInTheDocument();
-      expect(downloadLink).toHaveAttribute(
-        'href',
-        '/pdf/Weston%20Mossman%20Resume%20-%20Senior%20Full%20Stack%20Software%20Engineer%20%26%20Creative%20Consultant.pdf',
-      );
-      expect(downloadLink).toHaveAttribute('download');
-      expect(downloadLink.textContent).toMatch(/↓/);
-    });
+    //   // Then: A properly configured download link should be available
+    //   expect(downloadLink).toBeInTheDocument();
+    //   expect(downloadLink).toHaveAttribute(
+    //     'href',
+    //     '/pdf/Weston%20Mossman%20Resume%20-%20Senior%20Full%20Stack%20Software%20Engineer%20%26%20Creative%20Consultant.pdf',
+    //   );
+    //   expect(downloadLink).toHaveAttribute('download');
+    //   expect(downloadLink.textContent).toMatch(/↓/);
+    // });
   });
 });

@@ -1,4 +1,3 @@
-import Button from '../components/button-component';
 import PageTitle from '../components/page-title';
 
 export default function ResumePage() {
@@ -441,14 +440,14 @@ export default function ResumePage() {
       </div>
 
       {/* Download Button */}
-      <div className="text-center">
+      {/* <div className="text-center">
         <Button url="/pdf/Weston%20Mossman%20Resume.pdf" download={true} color="primary" size="lg">
           Download PDF
           <span aria-hidden="true" style={{ marginLeft: '0.5em', fontSize: '1.2em' }}>
             ↓
           </span>
         </Button>
-      </div>
+      </div> */}
     </section>
   );
 }
